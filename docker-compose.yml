@@ -11,11 +11,16 @@ services:
     ports:
       - "5432:5432"
     restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
 
   airflow-init:
     build: .
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
@@ -24,8 +29,7 @@ services:
       - ./dags:/opt/airflow/dags
       - ./scrapers:/opt/airflow/scrapers
       - ./data:/opt/airflow/data
-    command: db init
-
+    command: bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"
   airflow-webserver:
     build: .
     depends_on:
