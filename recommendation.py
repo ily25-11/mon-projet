@@ -9,11 +9,14 @@
 
 import pandas as pd
 import numpy as np
-import psycopg2
 import os
 import pickle
+import warnings
+warnings.filterwarnings("ignore")
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sqlalchemy import create_engine
 
 # ─────────────────────────────────────────
 # CONFIG
@@ -30,22 +33,50 @@ DB_CONFIG = {
 MODEL_PATH = "/opt/airflow/models/tfidf_model.pkl"
 os.makedirs("/opt/airflow/models", exist_ok=True)
 
+NLP_MODEL_NAME = "paraphrase-multilingual-mpnet-base-v2"
+
+# Seuils de similarité minimum
+SEUIL_TFIDF = 0.05
+SEUIL_NLP   = 0.30
+
+# ✅ Bonus de score par source (arbeitnow = offres souvent hors-sujet)
+SOURCE_WEIGHTS = {
+    "jsearch":    1.20,   # +20% : offres FR data/tech ciblées
+    "glassdoor":  1.15,   # +15% : offres FR vérifiées
+    "arbeitnow":  0.75,   # -25% : beaucoup d'offres DE/EN non data
+}
+
+# ✅ Mots-clés qui signalent une offre hors-domaine data/tech
+MOTS_HORS_DOMAINE = [
+    "maçon", "plombier", "électricien", "chauffeur", "cuisinier",
+    "serveur", "caissier", "infirmier", "aide-soignant", "boulanger",
+    "fachplaner", "datenbankentwickler", "ingenieur gmbh", "beratende",
+    "wordpress", "wix", "shopify designer", "community manager",
+]
+
 
 # ─────────────────────────────────────────
 # 1. CHARGEMENT DES DONNÉES
 # ─────────────────────────────────────────
 
+def get_engine():
+    cfg = DB_CONFIG
+    url = (
+        f"postgresql+psycopg2://{cfg['user']}:{cfg['password']}"
+        f"@{cfg['host']}:{cfg['port']}/{cfg['database']}"
+    )
+    return create_engine(url)
+
+
 def charger_offres_db():
-    """Charge les offres depuis PostgreSQL."""
     try:
-        conn = psycopg2.connect(**DB_CONFIG)
+        engine = get_engine()
         df = pd.read_sql("""
             SELECT id, titre, entreprise, lieu, salaire_min, salaire_max,
                    remote, description, lien, tags, source, date_scraping
             FROM offres_emploi
             ORDER BY date_scraping DESC
-        """, conn)
-        conn.close()
+        """, engine)
         print(f"✅ {len(df)} offres chargées depuis PostgreSQL")
         return df
     except Exception as e:
@@ -54,31 +85,109 @@ def charger_offres_db():
 
 
 def charger_offres_csv():
-    """Fallback : charge depuis le CSV fusionné."""
     chemin = "/opt/airflow/data/offres_all.csv"
     if os.path.exists(chemin):
         df = pd.read_csv(chemin)
         print(f"✅ {len(df)} offres chargées depuis CSV")
         return df
-    else:
-        raise FileNotFoundError("❌ Aucune source de données disponible !")
+    raise FileNotFoundError("❌ Aucune source de données disponible !")
+
+
+def dedoublonner(df):
+    avant = len(df)
+    df = df.drop_duplicates(subset=["lien"], keep="first")
+    df = df.drop_duplicates(subset=["titre", "entreprise"], keep="first")
+    apres = len(df)
+    if avant != apres:
+        print(f"🧹 {avant - apres} doublons supprimés ({apres} offres uniques)")
+    return df.reset_index(drop=True)
+
+
+def normaliser_remote(df):
+    def to_bool(val):
+        if pd.isna(val):
+            return False
+        if isinstance(val, bool):
+            return val
+        if isinstance(val, (int, float)):
+            return bool(val)
+        return str(val).strip().lower() in ("true", "1", "t", "yes", "oui")
+
+    df = df.copy()
+    df["remote"] = df["remote"].apply(to_bool)
+    nb_remote = df["remote"].sum()
+    print(f"📊 {nb_remote} offres remote | {len(df) - nb_remote} présentiel")
+    return df
+
+
+def filtrer_hors_domaine(df):
+    """
+    ✅ NOUVEAU : supprime les offres clairement hors-domaine data/tech.
+    Vérifie dans le titre ET la description.
+    """
+    avant = len(df)
+    texte_check = (df["titre"].fillna("") + " " + df["description"].fillna("")).str.lower()
+
+    masque_hors = texte_check.apply(
+        lambda t: any(mot in t for mot in MOTS_HORS_DOMAINE)
+    )
+    df = df[~masque_hors].reset_index(drop=True)
+    apres = len(df)
+    if avant != apres:
+        print(f"🚫 {avant - apres} offres hors-domaine exclues ({apres} restantes)")
+    return df
 
 
 def preparer_texte(df):
-    """Crée un champ texte combiné pour le matching."""
+    """
+    Crée texte_complet pour le matching.
+    Titre x3, description x2, tags x1 + tag remote textuel.
+    """
     df = df.copy()
     df["titre"]       = df["titre"].fillna("")
     df["description"] = df["description"].fillna("")
     df["tags"]        = df["tags"].fillna("")
     df["lieu"]        = df["lieu"].fillna("")
 
-    # Titre a plus de poids (répété 3x)
-    df["texte_complet"] = (
-        df["titre"] + " " + df["titre"] + " " + df["titre"] + " " +
-        df["description"] + " " +
-        df["tags"]
+    df["remote_tag"] = df["remote"].apply(
+        lambda r: "remote télétravail full-remote" if r else ""
     )
+
+    df["texte_complet"] = (
+        (df["titre"] + " ") * 3 +
+        (df["description"] + " ") * 2 +
+        df["tags"] + " " +
+        df["remote_tag"]
+    ).str.strip()
+
     return df
+
+
+def diagnostiquer(df):
+    print("\n📋 Diagnostique des données :")
+    print(f"   Total offres uniques        : {len(df)}")
+    print(f"   Lieu renseigné              : {df['lieu'].ne('').sum()} ({df['lieu'].ne('').mean():.0%})")
+    print(f"   Description > 100 caractères: {(df['description'].str.len() > 100).sum()}")
+    print(f"   Tags renseignés             : {df['tags'].ne('').sum()}")
+    print(f"   Offres remote               : {df['remote'].sum()}")
+    print(f"   Sources                     : {df['source'].value_counts().to_dict()}\n")
+
+
+def appliquer_bonus_source(df_result):
+    """
+    ✅ NOUVEAU : ajuste le score selon la source.
+    Pénalise arbeitnow, booste jsearch/glassdoor.
+    """
+    def bonus(row):
+        poids = SOURCE_WEIGHTS.get(row["source"], 1.0)
+        return row["score_similarite"] * poids
+
+    df_result = df_result.copy()
+    df_result["score_brut"]      = df_result["score_similarite"]
+    df_result["score_similarite"] = df_result.apply(bonus, axis=1)
+    # Re-trier après ajustement
+    df_result = df_result.sort_values("score_similarite", ascending=False)
+    return df_result
 
 
 # ─────────────────────────────────────────
@@ -86,7 +195,6 @@ def preparer_texte(df):
 # ─────────────────────────────────────────
 
 def construire_modele_tfidf(df, forcer=False):
-    """Construit ou charge le modèle TF-IDF."""
     if os.path.exists(MODEL_PATH) and not forcer:
         with open(MODEL_PATH, "rb") as f:
             data = pickle.load(f)
@@ -95,10 +203,11 @@ def construire_modele_tfidf(df, forcer=False):
 
     print("🔧 Construction du modèle TF-IDF...")
     vectorizer = TfidfVectorizer(
-        max_features=10000,
-        ngram_range=(1, 2),
-        stop_words=None,  # garder les mots français
-        min_df=1
+        max_features=15000,
+        ngram_range=(1, 3),
+        stop_words=None,
+        min_df=1,
+        sublinear_tf=True
     )
     matrice = vectorizer.fit_transform(df["texte_complet"])
 
@@ -110,19 +219,16 @@ def construire_modele_tfidf(df, forcer=False):
 
 
 def recommander_tfidf(profil_texte, df, vectorizer, matrice, top_n=10,
-                      filtre_lieu=None, filtre_remote=None, filtre_source=None):
-    """Recommande des offres par TF-IDF + cosine similarity."""
-
-    # Vectoriser le profil utilisateur
+                      filtre_lieu=None, filtre_remote=None, filtre_source=None,
+                      appliquer_poids_source=True):
     vecteur_profil = vectorizer.transform([profil_texte])
     scores = cosine_similarity(vecteur_profil, matrice).flatten()
 
-    # Trier par score décroissant
     indices = np.argsort(scores)[::-1]
     df_result = df.iloc[indices].copy()
     df_result["score_similarite"] = scores[indices]
 
-    # Filtres optionnels
+    # Filtres
     if filtre_lieu:
         df_result = df_result[
             df_result["lieu"].str.contains(filtre_lieu, case=False, na=False)
@@ -132,8 +238,18 @@ def recommander_tfidf(profil_texte, df, vectorizer, matrice, top_n=10,
     if filtre_source:
         df_result = df_result[df_result["source"] == filtre_source]
 
-    # Garder uniquement les scores > 0
-    df_result = df_result[df_result["score_similarite"] > 0]
+    # Seuil minimum
+    df_result = df_result[df_result["score_similarite"] >= SEUIL_TFIDF]
+
+    # Bonus/malus source
+    if appliquer_poids_source:
+        df_result = appliquer_bonus_source(df_result)
+
+    if df_result.empty:
+        print(f"⚠️  Aucune offre trouvée (seuil={SEUIL_TFIDF}).")
+        if filtre_remote:
+            print("    → Les offres remote data/NLP sont absentes de la base actuelle.")
+            print("    → Conseil : scraper plus de sources avec filtre 'remote' activé.\n")
 
     return df_result.head(top_n)
 
@@ -143,31 +259,28 @@ def recommander_tfidf(profil_texte, df, vectorizer, matrice, top_n=10,
 # ─────────────────────────────────────────
 
 def recommander_nlp(profil_texte, df, top_n=10,
-                    filtre_lieu=None, filtre_remote=None, filtre_source=None):
-    """Recommande des offres avec Sentence Transformers (plus précis)."""
+                    filtre_lieu=None, filtre_remote=None, filtre_source=None,
+                    appliquer_poids_source=True):
     try:
         from sentence_transformers import SentenceTransformer
     except ImportError:
-        print("⚠️  sentence-transformers non installé.")
-        print("    Installe avec : pip install sentence-transformers")
+        print("⚠️  sentence-transformers non installé : pip install sentence-transformers")
         return pd.DataFrame()
 
-    print("🧠 Chargement du modèle NLP (première fois = ~30 secondes)...")
-    model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+    print(f"🧠 Chargement du modèle NLP : {NLP_MODEL_NAME}\n")
+    model = SentenceTransformer(NLP_MODEL_NAME)
 
-    # Encoder les offres et le profil
-    textes_offres  = df["texte_complet"].tolist()
-    embeddings_offres = model.encode(textes_offres, show_progress_bar=True, batch_size=64)
+    textes_offres     = df["texte_complet"].tolist()
+    embeddings_offres = model.encode(textes_offres, show_progress_bar=True, batch_size=32)
     embedding_profil  = model.encode([profil_texte])
 
-    # Cosine similarity
-    scores = cosine_similarity(embedding_profil, embeddings_offres).flatten()
+    scores  = cosine_similarity(embedding_profil, embeddings_offres).flatten()
     indices = np.argsort(scores)[::-1]
 
     df_result = df.iloc[indices].copy()
     df_result["score_similarite"] = scores[indices]
 
-    # Filtres optionnels
+    # Filtres
     if filtre_lieu:
         df_result = df_result[
             df_result["lieu"].str.contains(filtre_lieu, case=False, na=False)
@@ -177,6 +290,17 @@ def recommander_nlp(profil_texte, df, top_n=10,
     if filtre_source:
         df_result = df_result[df_result["source"] == filtre_source]
 
+    # Seuil minimum
+    df_result = df_result[df_result["score_similarite"] >= SEUIL_NLP]
+
+    # Bonus/malus source
+    if appliquer_poids_source:
+        df_result = appliquer_bonus_source(df_result)
+
+    if df_result.empty:
+        print(f"⚠️  Aucune offre au-dessus du seuil NLP ({SEUIL_NLP}).")
+        print("    → Conseil : réduire SEUIL_NLP ou enrichir les descriptions.\n")
+
     return df_result.head(top_n)
 
 
@@ -185,7 +309,6 @@ def recommander_nlp(profil_texte, df, top_n=10,
 # ─────────────────────────────────────────
 
 def afficher_resultats(df_result, mode="tfidf"):
-    """Affiche les offres recommandées de façon lisible."""
     if df_result.empty:
         print("❌ Aucune offre trouvée.")
         return
@@ -195,8 +318,10 @@ def afficher_resultats(df_result, mode="tfidf"):
     print(f"{'═'*60}\n")
 
     for i, (_, row) in enumerate(df_result.iterrows(), 1):
-        score = row.get("score_similarite", 0)
+        score        = row.get("score_similarite", 0)
+        score_brut   = row.get("score_brut", score)
         remote_label = "🏠 Remote" if row.get("remote") else "🏢 Présentiel"
+        lieu         = row.get("lieu") or "Non précisé"
 
         sal_min = row.get("salaire_min")
         sal_max = row.get("salaire_max")
@@ -206,10 +331,17 @@ def afficher_resultats(df_result, mode="tfidf"):
         elif pd.notna(sal_min):
             salaire = f"💶 À partir de {int(sal_min)}€"
 
-        print(f"  [{i:02d}] {'⭐'*min(5, int(score*10))} ({score:.3f})")
+        etoiles = "⭐" * min(5, int(score * 10)) if score >= 0.05 else "·"
+
+        # Affiche score ajusté + score brut si différents
+        score_str = f"{score:.3f}"
+        if abs(score - score_brut) > 0.001:
+            score_str += f" (brut: {score_brut:.3f})"
+
+        print(f"  [{i:02d}] {etoiles} ({score_str})")
         print(f"       📌 {row.get('titre', 'N/A')}")
         print(f"       🏦 {row.get('entreprise', 'N/A')}")
-        print(f"       📍 {row.get('lieu', 'N/A')} | {remote_label}")
+        print(f"       📍 {lieu} | {remote_label}")
         if salaire:
             print(f"       {salaire}")
         print(f"       🔗 {row.get('lien', 'N/A')}")
@@ -229,7 +361,9 @@ def recommander(
     filtre_lieu=None,
     filtre_remote=None,
     filtre_source=None,
-    forcer_rebuild=False
+    forcer_rebuild=False,
+    diagnostic=False,
+    poids_source=True
 ):
     """
     Fonction principale de recommandation.
@@ -242,35 +376,37 @@ def recommander(
     top_n         : int  — nombre d'offres à retourner
     filtre_lieu   : str  — ex: "Paris", "Lyon"
     filtre_remote : bool — True = remote uniquement
-    filtre_source : str  — "jsearch", "arbeitnow"
+    filtre_source : str  — forcer une source : "jsearch", "arbeitnow", "glassdoor"
     forcer_rebuild: bool — reconstruire le modèle TF-IDF
-
-    Exemple :
-    ---------
-    recommander("Data Engineer Python Spark", mode="tfidf", filtre_lieu="Paris")
-    recommander(cv_text, mode="nlp", type_profil="cv", top_n=5)
+    diagnostic    : bool — afficher les stats de qualité des données
+    poids_source  : bool — appliquer bonus/malus par source (défaut: True)
     """
 
     print(f"\n🚀 Recommandation [{mode.upper()}] | Profil: {type_profil}")
     print(f"   Recherche : {profil[:100]}{'...' if len(profil) > 100 else ''}\n")
 
-    # Charger et préparer les données
     df = charger_offres_db()
+    df = dedoublonner(df)
+    df = normaliser_remote(df)
+    df = filtrer_hors_domaine(df)   # ✅ filtre les offres hors-domaine
     df = preparer_texte(df)
+
+    if diagnostic:
+        diagnostiquer(df)
 
     if mode == "tfidf":
         vectorizer, matrice = construire_modele_tfidf(df, forcer=forcer_rebuild)
         resultats = recommander_tfidf(
             profil, df, vectorizer, matrice, top_n,
-            filtre_lieu, filtre_remote, filtre_source
+            filtre_lieu, filtre_remote, filtre_source,
+            appliquer_poids_source=poids_source
         )
-
     elif mode == "nlp":
         resultats = recommander_nlp(
             profil, df, top_n,
-            filtre_lieu, filtre_remote, filtre_source
+            filtre_lieu, filtre_remote, filtre_source,
+            appliquer_poids_source=poids_source
         )
-
     else:
         raise ValueError("mode doit être 'tfidf' ou 'nlp'")
 
@@ -290,9 +426,10 @@ if __name__ == "__main__":
     recommander(
         profil="Data Engineer Python Spark AWS",
         mode="tfidf",
+        forcer_rebuild=True,
         type_profil="titre",
         top_n=5,
-        filtre_lieu=None,
+        diagnostic=True
     )
 
     # ── Exemple 2 : Par titre de poste (NLP) ──
