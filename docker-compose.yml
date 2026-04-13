@@ -25,11 +25,18 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__SECRET_KEY: "une_cle_secrete_fixe_123456"
+      FT_CLIENT_ID: "PAR_jobintelligentscraper_9956363f698c2946de8dfce9b01a76186c873864bbfdf99407dc0fa49de62f93"
+      FT_CLIENT_SECRET: "7847044a559c4b235419feef6cda2310fde2fc0716dbd4eeb2283479fa24b1a3"
+      RAPIDAPI_KEY: "8ade4281d2msh542f283bb88cd93p1ce916jsn8589dbf9385d"
+      ADZUNA_APP_ID: "9a409379"
+      ADZUNA_APP_KEY: "06ee531ba1197cc41e4778a12a090977"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./scrapers:/opt/airflow/scrapers
       - ./data:/opt/airflow/data
     command: bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"
+
   airflow-webserver:
     build: .
     depends_on:
@@ -38,6 +45,12 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__SECRET_KEY: "une_cle_secrete_fixe_123456"
+      FT_CLIENT_ID: "PAR_jobintelligentscraper_9956363f698c2946de8dfce9b01a76186c873864bbfdf99407dc0fa49de62f93"
+      FT_CLIENT_SECRET: "7847044a559c4b235419feef6cda2310fde2fc0716dbd4eeb2283479fa24b1a3"
+      RAPIDAPI_KEY: "8ade4281d2msh542f283bb88cd93p1ce916jsn8589dbf9385d"
+      ADZUNA_APP_ID: "9a409379"
+      ADZUNA_APP_KEY: "06ee531ba1197cc41e4778a12a090977"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./scrapers:/opt/airflow/scrapers
@@ -55,6 +68,12 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__SECRET_KEY: "une_cle_secrete_fixe_123456"
+      FT_CLIENT_ID: "PAR_jobintelligentscraper_9956363f698c2946de8dfce9b01a76186c873864bbfdf99407dc0fa49de62f93"
+      FT_CLIENT_SECRET: "7847044a559c4b235419feef6cda2310fde2fc0716dbd4eeb2283479fa24b1a3"
+      RAPIDAPI_KEY: "8ade4281d2msh542f283bb88cd93p1ce916jsn8589dbf9385d"
+      ADZUNA_APP_ID: "9a409379"
+      ADZUNA_APP_KEY: "06ee531ba1197cc41e4778a12a090977"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./scrapers:/opt/airflow/scrapers
