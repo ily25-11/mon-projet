@@ -1,5 +1,209 @@
-titre,entreprise,lieu,salaire_min,salaire_max,remote,description,lien,date_scraping,source
-Technical leader Data scientist F/H,Safran,,,,False,"Description du poste
+titre,entreprise,lieu,pays,salaire_min,salaire_max,salaire_devise,remote,contrat,description,lien,date_offre,date_scraping,source
+DATA SCIENTIST (H/F),France Travail,Colombes,FR,,,EUR,False,À plein temps,"Nous recherchons une personne ouverte d'esprit, dynamique et capable de sortir des sentiers battus. Vous devez savoir vous organiser et remplir vos objectifs en toute autonomie, en respectant le cahier des charges technique, les coûts et délais. Vous devrez faire preuve de curiosité et être capable de travailler en dehors de votre zone de confort. Une attitude positive et un bon état d'esprit sont des qualités indispensables pour réussir à ce poste. Vos projets concerneront plusieurs thèmes liés",https://candidat.francetravail.fr/offres/recherche/detail/207JPXY,2026-04-23,2026-04-24,jsearch
+Data Scientist,Altametris,Saint-Denis,FR,,,EUR,False,À plein temps,"Dans le cadre du développement de ses activités autour de la donnée et de l’intelligence artificielle, Altametris (filiale de SNCF Réseau) renforce son équipe Data Science.
+Le poste s’inscrit au cœur des enjeux de transformation numérique liés à l’analyse de données complexes issues de capteurs embarqués (images, LiDAR, nuages de points 3D). L’objectif est de concevoir et déployer des solutions innovantes permettant d’automatiser l’analyse, d’améliorer la détection d’anomalies et de valoriser le",https://fr.linkedin.com/jobs/view/data-scientist-at-altametris-4405099141,2026-04-24,2026-04-24,jsearch
+Data Scientist – Optimisation Marchés France - CDI,NW,Paris,FR,,,EUR,False,À plein temps,"• Concevoir des stratégies de certification innovantes en lien avec les gestionnaires de réseaux afin de valoriser nos unités de stockage sur les marchés de l’électricité.
+
+• Développer des outils et fonctionnalités techniques permettant d’automatiser nos procédés existants.
+
+• Adapter les stratégies de valorisation existantes aux transformations à venir sur les marchés de l’électricité via la recherche opérationnelle.
+
+Tech Stack :
+• Pandas, Numpy
+
+• ML: Scikit-learn, Pytorch, Xgboost,
+
+• Pytho",https://www.welcometothejungle.com/fr/companies/le-groupe-nw/jobs/data-scientist-optimisation-marches-france-cdi_paris,2026-04-21,2026-04-24,jsearch
+Data Scientist | Machine Learning,SoTalent,Réau,FR,,,EUR,False,Prestataire,"Data Scientist (Machine Learning & Industrial Analytics)
+📍 Réau, France
+📅 Contract: 8-month contract (full-time)
+💼 Industry: Aerospace / Industrial Engineering / High-Tech Manufacturing
+🏢 Work Setting: On-site (day shift)
+About the Role
+Join a high-tech industrial environment where data directly drives engineering and operational decisions. As a Data Scientist, you will support technical teams in developing and deploying advanced analytics and machine learning solutions to optimise complex syste",https://fr.linkedin.com/jobs/view/data-scientist-machine-learning-at-sotalent-4403700901,2026-04-24,2026-04-24,jsearch
+Chargé(e) de mission Développeur - développeuse / Data scientist confirmé(e) -Peren 237 H/F,Direction générale des entreprises (DGE),Paris,FR,,,EUR,False,À plein temps,"Intégré(e) au sein d’une équipe de plus de 20 expert(e)s en développement logiciel, IA et sciences des données, vous contribuerez et porterez directement certains projets inscrits à la feuille de route annuelle du PEReN. Vous pourrez ainsi contribuer à :- Auditer le fonctionnement d’algorithmes en production déployés par des grandes plateformes (modération de contenus, recommandation, classement, tarification, etc.) en mettant en place des méthodes de collecte et d’analyse de données adaptées ; ",https://choisirleservicepublic.gouv.fr/offre-emploi/chargee-de-mission-developpeur---developpeuse--data-scientist-confirmee--peren-237-hf-reference-MEF_2026-29708/,2026-04-20,2026-04-24,jsearch
+Data Scientist H/F,SIMMT,Versailles,FR,,,EUR,False,À plein temps et Stage,"Détail du poste
+
+Au sein du BMD, la section d'analyse et de recherche opérationnelle (SARO) est composée de et qui ont pour missions de :data scientistsdata engineers- réaliser des analyses de données et des modélisation mathématiques (statistiques, ) au profit des différents experts de la SIMMT ;machine learning- répondre aux besoins et problématiques « métiers » en définissant les modèles mathématiques ou d'IA les mieux adaptés ;- intégrer les modèles réalisés afin d'automatiser l'exécution de",https://www.hellowork.com/fr-fr/emplois/78303352.html,2026-04-23,2026-04-24,jsearch
+Consultant.e Confirmé.e - data science et IA,Groupe Talents Handicap,FR,FR,,,EUR,False,À plein temps,"Description du poste
+En tant qu'organisateur de forums de recrutement, Talents Handicap accompagne de très nombreuses entreprises & organisations en France dans leurs recrutements de collaborateurs en situation de handicap. Participant actuellement à l'un de nos forums.
+
+L'entreprise Wavestone recherche actuellement des profils :
+
+Description de l'entreprise
+
+Rejoignez un cabinet de conseil international qui accompagne les grandes transformations stratégiques.
+
+Nous sommes Wavestone : des expert",https://www.meteojob.com/jobs/53558484,2026-04-24,2026-04-24,jsearch
+Data Scientist (H/F),IKOS CONSULTING,Levallois-Perret,FR,,,EUR,False,À plein temps,Ikos recherche un Data Scientist (F/H) pour renforcer ses équipes. Le travail consiste à réaliser pour l'un de nos clients les activités suivantes : - Automatisation de banc de test - Planification - Développement des tableaux de bord Les prérequis indispensables pour la réalisation de ce projet sont : - Posséder un diplôme d'ingénieur dans le domaine des mathématiques - Témoigner d'une première expérience dans le secteur du ferroviaire - Maitriser Python,https://candidat.francetravail.fr/offres/recherche/detail/207GKQK,2026-04-21,2026-04-24,jsearch
+Alternance - Data Scientist - Master 2 H/F,EDF,Colombes,FR,,,EUR,False,À plein temps et Stage,"Les missions du poste
+Au croisement d'enjeux essentiels et captivants, rejoignez un groupe à la dimension internationale, champion de la croissance bas carbone et activement engagé dans la lutte contre le réchauffement climatique ! Rejoindre EDF, c'est également travailler dans un Groupe porteur de valeurs fortes, qui innove avec de solides actifs industriels et vous confie des missions qui ont du sens. Vous avez le goût du service client, un esprit d'équipe et avez envie de relever des défis co",https://www.hellowork.com/fr-fr/emplois/78303740.html,2026-04-23,2026-04-24,jsearch
+DGEF 75 - Data scientist - Chargé(e) de valorisation des données sur les demandeurs d'Asile en France,Ministere de l'Interieur,Paris,FR,,,EUR,False,À plein temps,"Description du poste
+
+Versant
+
+Fonction publique d'Etat
+
+Catégorie
+
+Catégorie A (cadre)
+
+Nature de l'emploi
+
+Emploi ouvert aux fonctionnaires et/ou contractuels
+
+Domaine et métier
+
+Numérique - Data Scientist
+
+Type de poste
+
+Technique et spécialisé
+
+Statut du poste
+
+Vacant
+
+Intitulé du poste
+
+DGEF 75 - Data scientist - Chargé(e) de valorisation des données sur les demandeurs d'Asile en France
+
+Description du poste
+
+Groupe RIFSEEP : 3
+
+Votre environnement professionnel :
+
+La direction générale des",https://lesjeudis.com/fr/job/dgef-75-data-scientist-chargee-de-valorisation-des-donnees-sur-les-demandeurs-dasile-en-france-420870,2026-04-19,2026-04-24,jsearch
+Offre n° 1720971 Data scientist (H/F),France Travail,Toulouse,FR,,,EUR,False,À plein temps,"Description du poste : En tant qu'organisateur de forums de recrutement, Talents Handicap accompagne de très nombreuses entreprises & organisations en France dans leurs recrutements de collaborateurs en situation de handicap. Participant actuellement à l'un de nos forums. L'entreprise EDF recherche actuellement des profils Choisir l'alternance chez Dalkia, c'est intégrer une filière d'avenir et apprendre un métier en conditions réelles, sur le terrain.
+
+C'est aussi acquérir des savoir-faire reco",https://bebee.com/fr/jobs/offre-n-1720971-data-scientist-france-travail-toulouse--techmap_fr_1720971,2026-04-21,2026-04-24,jsearch
+Ingénieur.e de recherche Data Science & Recherche Opérationnelle (H/F),SAINT GOBAIN RECHERCHE,Aubervilliers,FR,,,EUR,False,À plein temps,"Le Datalab de Saint-Gobain regroupe une vingtaine de chercheurs en mathématiques et data science travaillant pour l'ensemble des activités du Groupe Saint-Gobain. Il intervient sur les grands enjeux de transformation digitale du Groupe, en s'attaquant à une grande variété de problématiques allant de l'amélioration de la production industrielle à l'optimisation de la supply chain. Notre objectif est toujours, au-delà de la minimisation des coûts, de réduire au maximum notre consommation d'énergie",https://candidat.francetravail.fr/offres/recherche/detail/207DGKC,2026-04-20,2026-04-24,jsearch
+DGEF 75 - Data scientist – Chargé(e) de valorisation des données sur les demandeurs d'Asile en France,Direction générale des étrangers en France,Paris,FR,,,EUR,False,À plein temps,"Groupe RIFSEEP : 3Votre environnement professionnel :La direction générale des étrangers en France (DGEF) est chargée au sein du ministère de l’Intérieur de la politique d’immigration, d’asile, d’intégration et d’accès à la nationalité française.Le département des statistiques, des études et de la documentation (DSED) assure la collecte, l’analyse et la diffusion des données statistiques et études relatives aux politiques publiques de la DGEF.Activités du service :Le DSED comporte deux divisions",https://choisirleservicepublic.gouv.fr/offre-emploi/dgef-75---data-scientist--chargee-de-valorisation-des-donnees-sur-les-demandeurs-d-asile-en-france-reference-MINT_BS075ACA-119425/,2026-04-17,2026-04-24,jsearch
+Lead Data Scientist Senior (GenAI) F/H,Orange SA,Lyon,FR,,,EUR,False,À plein temps,"Publication date : Apr 21, 2026, 10:22AM
+Votre mission :
+En tant queréférent·eGenAI, vous aidez Orange Wholesale à passer du prototype à la production, en garantissant la qualité technique, la sécurité et la création de valeur.
+Définir et porter les bonnes pratiques Data Science /GenAI(RAG, agents, évaluation,LLMOps).
+Concevoir et challenger les architectures des solutionsGenAI(cloud etonpremise) avec les équipes IT et produit.
+Industrialiser des composants réutilisables (moteur RAG, orchestrati",https://orange.jobs/gb/en/job/CTS-2026-52140/Lead-Data-Scientist-Senior-GenAI-F-H,2026-04-23,2026-04-24,jsearch
+"Data Scientist H/F | Saint-Quentin, FR",Crédit Agricole CIB,Saint-Quentin,FR,,,EUR,False,À plein temps,"Data Scientist H/F
+
+{""description"": "" Description du poste 
+
+Type de m\u00e9tier 
+
+Types de m\u00e9tiers Cr\u00e9dit Agricole S.A. - Gestion des op\u00e9rations 
+
+Types de m\u00e9tier compl\u00e9mentaires 
+
+Types de m\u00e9tiers Cr\u00e9dit Agricole S.A. - IT, Digital et Data 
+
+Intitul\u00e9 du poste 
+
+Data Scientist H/F 
+
+Type de contrat 
+
+Alternance / Apprentissage 
+
+Dur\u00e9e (en mois) 
+
+24 mois 
+
+Date pr\u00e9vue de prise de fonction 
+
+31/08/2026 
+
+Missions 
+
+V",https://www.efinancialcareers.fr/emploi-France-Saint-Quentin-Data_Scientist_HF.id24142447,2026-04-18,2026-04-24,jsearch
+"Offre n° 1633667 Data scientist F/H - Système, réseaux, données (H/F)",AD'MISSIONS ETUDES ET PROJETS,Pau,FR,,,EUR,False,À plein temps,"Descriptif du poste
+
+Concevoir et améliorer des solutions basées sur l'intelligence artificielle appliquées aux données géophysiques Apporter un appui technique aux équipes d'exploration dans l'analyse et la préparation des données Évaluer et comparer différentes approches méthodologiques existantes Optimiser et automatiser certaines étapes des processus de traitement Participer à la structuration, à la standardisation et au déploiement des solutions développées Contribuer à l'intégration des ou",https://bebee.com/fr/jobs/offre-n-1633667-data-scientist-systeme-reseaux-donnees-admissions-etudes-et-projets-pau--techmap_fr_1633667,2026-04-20,2026-04-24,jsearch
+Alternant(e) - Data Scientist H/F,CAL&F – DCCR,Montrouge,FR,,,EUR,False,À plein temps,"Au sein du service Modèles, Analyse et Intelligence Artificielle le/la chargé(e) Data Scientist Alternant conçoit, optimise et développe des outils d’intelligence artificielle. Votre périmètre couvre à fois le Machine Learning et le Deep Learning (NLP, Computer Vision).
+Dans une démarche d’amélioration continue de la performance opérationnelle, vos principales missions sont les suivantes :
+• Développement et optimisation de modèles d’octroi de financements ;
+• Développement et optimisation de mo",https://groupecreditagricole.jobs/fr/nos-offres-emploi/1292-170477-270-alternante---data-scientist-hf-reference--2026-109493--/,2026-04-14,2026-04-24,jsearch
+Stage Data Scientist IA LLM H/F,BNP Paribas Asset Management,Puteaux,FR,,,EUR,False,Stage,"Stage Data Scientist IA LLM H/F
+Stage de 5 ou 6 mois, à pourvoir à compter de Mars / Avril 2026
+BNP Paribas Asset Management (BNPP AM) est la division de gestion d’actifs du groupe BNP Paribas. Depuis le 1er juillet 2025, les activités d’AXA Investment Managers (AXA IM) ont été intégralement rattachées à BNPP AM, créant ainsi une plateforme mondiale unifiée et renforcée.
+BNPP AM est un leader mondial de la gestion d’actifs, bénéficiant de la taille, de la stabilité et de l’expertise du Groupe. N",https://group.bnpparibas/emploi-carriere/offre-emploi/stage-data-scientist-ia-llm-h-f,2026-04-22,2026-04-24,jsearch
+Data Scientist,Allianz France,La Boissière-des-Landes,FR,,,EUR,False,À plein temps,"Participez à la transformation numérique de la réassurance et boostez votre carrière en développant des solutions innovantes pour optimiser nos processus au cœur de l'assurance de biens et responsabilités.
+
+Rejoignez Allianz France pour un stage en tant que Data Scientist, où vous aurez l'opportunité de contribuer à l'automatisation et à l'optimisation des processus de réassurance.
+
+Vous jouerez ainsi un rôle clé dans la correcte application des traités et facultatives, la comptabilisation des é",https://fr.trabajo.org/offre-4112-4834814e37f474dfff665ee15195fc8e,2026-04-22,2026-04-24,jsearch
+Ingénieur(e) Data Scientist confirmé(e) - Industrie - Toulouse,Sopra Steria France,Toulouse,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+CS, filiale du groupe Sopra Steria, est un acteur technologique de référence dans la conception, l’intégration et l’exploitation de systèmes critiques. Présents dans 7 pays avec plus de 2 600 collaborateurs passionnés, nous intervenons au cœur des enjeux de souveraineté, de sécurité et de performance, dans des secteurs stratégiques tels que la défense, le spatial, l’énergie, l’industrie, le transport, l’aéronautique et la cybersécurité.
+Notre différence ? Une experti",https://careers.soprasteria.fr/job/ingenieur-e-data-scientist-confirme-e-industrie-toulouse-in-toulouse-france-jid-8219,2026-04-15,2026-04-24,jsearch
+Alternance - Data Scientist F/H,Bouygues Travaux Publics (703),Guyancourt,FR,,,EUR,False,À plein temps,"Spécialisé dans le génie civil et les ouvrages d'art, Bouygues Travaux Publics est l'un des leaders mondiaux dans les domaines de l'aménagement du territoire et de la construction d'infrastructures durables. Nous sommes engagés en faveur de la diversité et ouverts à tous les talents.
+
+Au sein de LabTP, le service Innovation et Data de Bouygues Travaux Publics, vous ferez partie d'une équipe dynamique et pluridisciplinaire dédiée à révolutionner le secteur de la construction et des travaux public",https://joining.bouygues.com/global/fr/job/23601/Alternance-Data-Scientist-F-H,2026-04-16,2026-04-24,jsearch
+Ingénieur Data Science (F/H/X),Publicis Groupe Holdings B.V,Paris,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+Description de l'entreprise EPSILON France est l'entité Datamarketing de Publicis Groupe avec 650 experts data, marketing et technologiques et plus de 40 métiers représentés. Avec pour claim « Every Interaction Counts », la mission d'EPSILON est de conjuguer les pouvoirs de la data, du marketing et de la technologie pour rendre les interactions entre les marques et leurs clients toujours plus justes et pertinentes. EPSILON intervient sur l'ensemble des étapes-clé d'u",https://lesjeudis.com/fr/job/ingenieur-data-science-fhx-405702,2026-03-28,2026-04-24,jsearch
+Offre n° 1621673 Data Scientist F/H,France Travail,Nanterre,FR,,,EUR,False,À plein temps,"Description VINCI est un leader mondial des concessions, de l’énergie et de la construction, présent dans près de 120 pays. Son ambition, face à l’urgence environnementale, est d’accélérer la transformation du cadre de vie, des infrastructures et de la mobilité. Elle est aussi de contribuer au progrès social en agissant en entreprise humaniste, inclusive et solidaire.
+
+VINCI mobilise ainsi sa performance économique et l’engagement de ses 294 000 collaboratrices et collaborateurs au service d’un ",https://bebee.com/fr/jobs/offre-n-1621673-data-scientist-france-travail-nanterre--techmap_fr_1621673,2026-04-19,2026-04-24,jsearch
+Data Scientist F/H,Crédit Agricole Assurances,Fresnes,FR,,,EUR,False,À plein temps,"SPIRICA, jeune société d'assurance, est une filiale du groupe Crédit Agricole Assurances qui conçoit, gère et commercialise des produits d'assurance vie épargne (contrats d'assurance vie multi supports / Euros, PERin, contrats de capitalisation).
+SPIRICA a réalisé en 2024, plus de 3 milliards d'Euros de collecte et détient 15 milliards d'Euros d'encours. En pleine croissance, elle compte aujourd'hui plus de 130 collaborateurs à Paris et Lyon.
+Dans le cadre de son développement, SPIRICA recherche",https://fr.trabajo.org/offre-4112-4f7a20bab88b309006f5e6919a04a177,2026-04-22,2026-04-24,jsearch
+Data Scientist (F/H),AXA,Suresnes,FR,,,EUR,False,À plein temps,"Leader français de l’assurance auto en ligne depuis 1992, Direct Assurance, entité du Groupe AXA, propose également des offres d’assurance habitation, moto et santé.
+Aujourd'hui, plus de deux millions de clients nous font confiance grâce à un tarif adapté et une gestion des sinistres personnalisée.
+
+Dans un marché assurantiel très compétitif, Direct Assurance conçoit des solutions adaptées aux besoins de ses clients en défendant leur pouvoir d’achat.
+Nous faisons de l'expérience client une prior",https://careers.axa.com/careers-home/jobs/19390?lang=fr-fr,2026-04-15,2026-04-24,jsearch
+Data Scientist - Senior Consultant,JAKALA,Paris,FR,,,EUR,False,À plein temps,"En tant que Data Scientist Senior Consultant au sein de notre Practice Data, AI & Technology, tu interviens auprès d’acteurs majeurs (Retail, Luxe, Media, Industrie, Finance, …) afin de concevoir, optimiser et déployer des modèles avancés de prévision, tout en jouant un rôle clé dans le cadrage des besoins, l’accompagnement méthodologique et la valeur business.
+Particulièrement sur des projets de modélisation prédictive et prévisions (Forecasting) pour accompagner nos clients dans leurs projets ",https://www.welcometothejungle.com/fr/companies/jakala/jobs/data-scientist-senior-consultant_paris,2026-04-07,2026-04-24,jsearch
+"STAGE DATA SCIENTIST 03 MOIS H/F | Issy-les-Moulineaux, FR",CNP Assurances,Issy-les-Moulineaux,FR,,,EUR,False,À plein temps,"STAGE DATA SCIENTIST 03 MOIS H/F
+
+{""description"": "" Description du poste 
+
+M\u00e9tier 
+
+DATA - DATA SCIENCE 
+
+Intitul\u00e9 du poste 
+
+STAGE DATA SCIENTIST 03 MOIS H/F 
+
+Type de Contrat 
+
+STAGIAIRE 
+
+Statut 
+
+Non Cadre 
+
+Temps de travail 
+
+Temps complet 
+
+Description de la mission 
+
+Au sein de la Direction de la Transformation Op\u00e9rationnelle, le DataLab de CNP Assurances con\u00e7oit et d\u00e9ploie des solutions d'intelligence artificielle au service des directio",https://www.efinancialcareers.fr/emploi-France-Issy-les-Moulineaux-STAGE_DATA_SCIENTIST_03_MOIS_HF.id24083415,2026-04-04,2026-04-24,jsearch
+Offre n° 1627256 ALTERNANT(E) DATA SCIENTIST - H/F,COMPAGNIE DES ALPES,Chambéry,FR,,,EUR,False,,"Description : CONTEXTE : La Compagnie des Alpes Business Unit « Domaines Skiables et Activités Outdoor » a construit depuis 2019 un DATALAKE ÉVOLUTIF qui centralise principalement des DONNÉES MARKETING ET FINANCIÈRES. Celui-ci est progressivement enrichi avec de nouvelles sources (exploitation, énergie, météo) afin d’élargir la vision globale de l’activité et améliorer l’analyse et la prise de décision. Initialement centrée sur le marketing, l’équipe data s’oriente désormais vers des ENJEUX PLUS",https://bebee.com/fr/jobs/offre-n-1627256-alternante-data-scientist-compagnie-des-alpes-chambery--techmap_fr_1627256,2026-04-19,2026-04-24,jsearch
+Data Scientist Climate Analytics and Alignment  H/F,BNP Paribas,Paris,FR,,,EUR,False,À plein temps,"BNP Paribas est un leader européen des services bancaires et financiers, présent dans 65 pays avec plus de 190 000 collaborateurs et collaboratrices. Engagé pour une croissance durable et responsable, le Groupe accompagne au quotidien ses clients particuliers, entreprises et institutionnels dans la réalisation de leurs projets, tout en plaçant l’innovation, la diversité et la finance durable au cœur de sa stratégie. Rejoindre BNP Paribas, c’est intégrer une entreprise qui agit concrètement pour ",https://group.bnpparibas/emploi-carriere/offre-emploi/data-scientist-climate-analytics-and-alignment-h-f,2026-04-09,2026-04-24,jsearch
+Stage data scientist F/H,Valiuz,Lille,FR,,,EUR,False,Stage,"Stage data scientist F/H
+📍 Lille
+👉 Stage
+📅 Entre avril et mai 2026
+VALIUZ : QUI SOMMES-NOUS ?
+Valiuz a pour mission d’accélérer la transformation des retailers grâce à la data et à l’IA afin de répondre aux enjeux des nouveaux codes du commerce. Fort d'une alliance de 18 entreprises prestigieuses et d'une connaissance client inégalée en France, Valiuz propose des solutions et services dédiés au retail. Ces solutions permettent aux équipes métiers de valoriser leurs données et d'adopter une appro",https://www.welcometothejungle.com/fr/companies/valiuz/jobs/stage-data-scientist-f-h_lille,2026-03-28,2026-04-24,jsearch
+Data Scientist / Data Marketing (F/H) en Alternance,AXA en France,Nanterre,FR,,,EUR,False,Stage,"Notre raison d’être chez AXA ? Chaque jour, nous agissons ensemble pour le progrès humain en protégeant ce qui compte dans + de 50 pays. Accompagner près de 95 millions de clients à chaque étape de leur vie, une mission qui donne le sourire et envie de se lever le matin à nos employés et agents (+ de 145 000 dans le monde !)
+Chez AXA, nous sommes riches de nos singularités et accueillons tous les profils dans leur diversité. Au-delà de mener une politique inclusive engagée, nous agissons au quot",https://jobs.hugodecrypte.com/entreprises/axa/offres/data-scientist-data-marketing-f-h-en-alternance-nanterre-france,2026-03-25,2026-04-24,jsearch
+Data Engineer H/F,AXA en France,Nanterre,FR,,,EUR,False,À plein temps,"Les missions du poste
+Notre raison d'être chez AXA ? Chaque jour, nous agissons ensemble pour le progrès humain en protégeant ce qui compte dans + de 50 pays. Accompagner près de 95 millions de clients à chaque étape de leur vie, une mission qui donne le sourire et envie de se lever le matin à nos employés et agents (+ de 145 000 dans le monde !)Chez AXA, nous sommes riches de nos singularités et accueillons tous les profils dans leur diversité. Au-delà de mener une politique inclusive engagée, ",https://www.hellowork.com/fr-fr/emplois/78342755.html,2026-04-23,2026-04-24,jsearch
+Data Scientist (H/F) - Stage,Allianz Insurance,Courbevoie,FR,,,EUR,False,À plein temps,"Participez à la transformation numérique de la réassurance et boostez votre carrière en développant des solutions innovantes pour optimiser nos processus au cœur de l'assurance de biens et responsabilités.
+
+Rejoignez Allianz France pour un stage en tant que Data Scientist, où vous aurez l'opportunité de contribuer à l'automatisation et à l'optimisation des processus de réassurance.
+
+Vous jouerez ainsi un rôle clé dans la correcte application des traités et facultatives, la comptabilisation des é",https://careers.allianz.com/global/en/job/95494/Data-Scientist-H-F-Stage,2026-04-06,2026-04-24,jsearch
+Alternance - Data Scientist – Master 2,EDF,Colombes,FR,,,EUR,False,,"La Direction des Systèmes d’Information et du Numérique (DSIN) est en charge de développer le SI et les outils numériques de la Direction Commerce pour faire face aux défis que doit affronter EDF dans le cadre de la concurrence accrue du marché de l’énergie et des services.
+
+En tant que data scientist, vous intégrerez le « Centre de Solutions et Compétences (CSC) Datascience & IA », une équipe Agile ayant pour mission de réaliser les travaux d’analyse et de valorisation des données de la Directi",https://www.energierecrute.com/stage-energie/alternance-data-scientist-master-2-fh~300937.html,2026-03-29,2026-04-24,jsearch
+Technical leader Data scientist F/H,Safran,FR,FR,,,EUR,False,À plein temps,"Description du poste
 
 Intitulé du poste
 
@@ -20,70 +224,763 @@ Temps complet
 Parlons de votre future mission
 
 La data science est au cœur de la transformation industrielle chez Safran et se met au service de nos métiers de la production (manufacturing 4.0) ou de la surveillance de nos systèmes en vol (Service 4.0).
-En intégrant Safran Engineering Services vous aurez l'opportunité de pouvoir répondre aux problém",https://lesjeudis.com/fr/job/technical-leader-data-scientist-fh-404802,2026-03-30,jsearch
-Senior Data Scientist - Michelin Mobility Intelligence (MMI) - Connected Solutions (CXS) (F/H),Michelin,Clermont-Ferrand,,,False,"Senior Data Scientist - Michelin Mobility Intelligence (MMI) - Connected Solutions (CXS) (F/H)
-- - - - - - - - - - - -
-A propos de Michelin Connected Solutions (CXS) & Michelin Mobility Intelligence (MMI)
+En intégrant Safran Engineering Services vous aurez l'opportunité de pouvoir répondre aux problém",https://lesjeudis.com/fr/job/technical-leader-data-scientist-fh-404802,2026-03-27,2026-04-24,jsearch
+"Offre n° 1633718 Data Scientist / Actuariat - CDI F/H - Système, réseaux, données (H/F)",Collective,Niort,FR,,,EUR,False,À plein temps,"Descriptif du poste: Salaire: 45-55K selon profil et expériences Et si votre prochain projet faisait grandir vos compétences autant que votre carrière ? Chez K-LAGAN, nous faisons vivre chaque projet grâce aux talents qui le portent, en alliant expertise technique et accompagnement personnalisé. Aujourd'hui, nous recherchons un.e Data Scientist & Actuariat (F/H) pour rejoindre l'un de nos clients du secteur de l'assurance, basé à Niort.
 
-Une mission qui nous rassemble. Chez Michelin, nous « offrons à chacun une meilleure façon d'avancer », avec une ambition claire : réinventer un mouvement plus sûr, plus efficient et plus respectueux de l'environnement. Cette raison d'être irrigue notre stratégie « Tout durable », qui recherch",https://lesjeudis.com/fr/job/senior-data-scientist-michelin-mobility-intelligence-mmi-connected-solutions-cxs-fh-407418,2026-03-30,jsearch
-DATA SCIENTIST IA F/H (FRA-REC-2026-25719),Framatome,,,,False,"🚀 Le poste en 3 mots
-Innovant. Transverse. Impactant.
+Vous interviendrez sur des sujets à forte valeur ajoutée, ",https://bebee.com/fr/jobs/offre-n-1633718-data-scientist-actuariat-cdi-systeme-reseaux-donnees-collective-niort--techmap_fr_1633718,2026-04-20,2026-04-24,jsearch
+DATA SCIENTIST NLP / IA GEN pour développement de projets IA Gen,SMILE,FR,FR,,,EUR,False,À plein temps et Prestataire,"Bonjour,
+Dans le cadre du centre d'expertise de la direction Data & IA, nous recherchons un(e) data scientist de 3 à 6 ans d'expérience. Il s'agira d'intervenir sur divers sujets : contribuer à l'analyse des use cases remontés par les entités du groupe, contribuer potentiellement à des benchmarks, prendre en charge une application d'évaluation RAG, contribuer à l'évaluation de prompt (équipe Expertise Transverse du Centre d'Expertise Data Science composée de 9 data scientists dont les projets DS",https://www.free-work.com/fr/tech-it/data-scientist/job-mission/data-scientist-378,2026-04-07,2026-04-24,jsearch
+DATA ANALYST (structuration et valorisation de la donnée) (H/F),France Travail,Paris,FR,,,EUR,False,À plein temps,"La POLICE NATIONALE recrute un(e) data analyst. Il s'agit d'un poste structurant, avec les attentes suivantes : Cartographie des données existantes dans un environnement aujourd'hui majoritairement non structuré Capacité à : identifier les sources de données structurer et préparer la donnée la rendre exploitable par différents outils Contribution à un projet stratégique (type OTDH) à fort impact Le profil recherché s'apparente à un profil hybride à dominante technique : compétences en data engin",https://candidat.francetravail.fr/offres/recherche/detail/207GNYH,2026-04-21,2026-04-24,jsearch
+Data Scientist - F/H - Lille,MP DATA,Lille,FR,,,EUR,False,À plein temps,"Chez MPdata, nous sommes une équipe passionnée d’experts en données, spécialisée dans l’acquisition, le traitement et la valorisation des données pour nos clients industriels. Depuis 2015, nous mettons notre savoir-faire technique et notre engagement au service de missions et de projets pour les grands groupes. Notre approche repose sur les valeurs d’Excellence, de Partage et d’Engagement.
+Suite à la forte croissance de MPdata et une forte demande de nos clients dans les Hauts-de-France, nous av",https://www.welcometothejungle.com/fr/companies/mp-data/jobs/data-scientist-f-h-lille_lille,2026-04-02,2026-04-24,jsearch
+ALTERNANT DATA ANALYST H/F (H/F),JUNGHEINRICH FRANCE,Vélizy-Villacoublay,FR,,,EUR,False,À plein temps,"Qui sommes-nous? Jungheinrich compte parmi les leaders mondiaux du secteur de l'intralogistique. Dans le monde ce sont 18 000 collaborateurs, et en France, première filiale de distribution, nous sommes 1250. Tes missions Rattaché à la Direction des Ventes et au sein du service pilotage et contrôle des ventes, tes missions s'articulent autour de plusieurs axes: Elaboration et déploiement d'outils dynamiques pour la direction des ventes et l'animation du réseau commercial Création et publication d",https://candidat.francetravail.fr/offres/recherche/detail/207GMZH,2026-04-21,2026-04-24,jsearch
+Data Engineer SENIOR,Tritux France,FR,FR,,,EUR,False,À plein temps et Prestataire,"Objectif de la missionAu sein d’une équipe produit, vous interviendrez sur la conception, le développement et l’industrialisation de pipelines de données complexes, dans un environnement technique moderne et orienté performance.
+Votre objectif principal est de garantir des solutions data :
+• Scalables
 
-🎯 Votre mission
-A la BU Combustible de Framatome, nos algorithmes contribuent à la performance industrielle du nucléaire, et nos data-scientists parlent autant aux métallurgistes, aux développeurs, aux mécaniciens, aux thermo-hydrauliciens, aux neutroniciens…
-En tant que Data Scientist IA au sein de notre service d’ingénierie, vous serez notre couteau suisse de l'intelligence artificielle. Votre terrain de jeu : faire émerger des solutions I",https://www.edf.fr/edf-recrute/offre/detail/FRA-REC-2026-25719,2026-03-30,jsearch
-Data Scientist confirmé H/F,Groupe Talents Handicap,,,,False,"Description du poste
-En tant qu'organisateur de forums de recrutement, Talents Handicap accompagne de très nombreuses entreprises & organisations en France dans leurs recrutements de collaborateurs en situation de handicap. Participant actuellement à l'un de nos forums.
+• Maintenables
 
-L'entreprise Atos recherche actuellement des profils :
+• Alignées avec les standards d’architecture et de qualité
 
-Rejoignez une aventure qui a du sens !
+Missions & responsabilitésIngénierie & Développement
+• Concevoir et développer des pipelines de données robustes et perf",https://www.free-work.com/fr/tech-it/data-engineer/job-mission/data-engineer-senior-106,2026-04-21,2026-04-24,jsearch
+STAGE - Assistant Data Scientist - Mesures et réduction des biais des LLMs H/F,Crédit Agricole S.A.,Montrouge,FR,,,EUR,False,Stage,"Au sein de la Direction de la Transformation Technologique Data & IA, la Direction Data & IA Groupe a pour ambition de maximiser la contribution de la Data et de l’Intelligence Artificielle au fonctionnement du Crédit Agricole. Elle s’appuie notamment pour cela sur le DataLab Groupe pôle de référence en conception interne de solutions Data & IA innovantes et industrielles en partenariat avec les entités du Groupe.
 
-Ce que vous allez faire si vous nous rejoignez :
+Le DataLab Groupe dispose de toutes les compétences Data coopérant au sein de Squ",https://groupecreditagricole.jobs/fr/nos-offres-emploi/579-191859-122-stage---assistant-data-scientist---mesures-et-reduction-des-biais-des-llms-hf-reference--2025-104283--/,2026-04-02,2026-04-24,jsearch
+Manager Data Science & Intelligence Artificielle (F/H/X),EPSILON France,Paris,FR,,,EUR,False,À plein temps,"EPSILON France est l’entité Datamarketing de Publicis Groupe avec 650 experts data, marketing et technologiques et plus de 40 métiers représentés. Avec pour claim « Every Interaction Counts », la mission d’EPSILON est de conjuguer les pouvoirs de la data, du marketing et de la technologie pour rendre les interactions entre les marques et leurs clients toujours plus justes et pertinentes. EPSILON intervient sur l’ensemble des étapes-clé d’un projet de transformation data-driven, de la définition ",https://www.welcometothejungle.com/fr/companies/epsilon/jobs/manager-data-science-intelligence-artificielle-f-h-x_paris,2026-04-03,2026-04-24,jsearch
+Offre n° 1636814 Data scientist (H/F),France Travail,Boulogne-Billancourt,FR,,,EUR,False,À plein temps,"Nous recherchons pour l'un de nos clients un Data Scientist avec plus de 2 ans d'expérience pour renforcer une équipe data.
 
-Sous la responsabilité du Responsable Data / IA, vous interviendrez sur les missio",https://www.meteojob.com/jobs/52937555,2026-03-30,jsearch
-AP26 - BAC+5 -Data Scientist de la transformation de la gestion des incidents avec l'IA (H/F),Renault Group,Le Mans,,,False,"Société
+Vous aurez pour mission : Participer à l?amélioration continue du SI : Explorer des données et production d?analyses, Identifier et mettre en ?uvre des indicateurs de suivi et des solutions d?amélioration, Réaliser des Proof of Concept de solution pour des problématiques métiers ou SI. o Analyse du problème, o Identification de solutions potentielles, o Réalisation des sol",https://bebee.com/fr/jobs/offre-n-1636814-data-scientist-france-travail-boulogne-billancourt--techmap_fr_1636814,2026-04-20,2026-04-24,jsearch
+Project Data Analyst (Entry / Junior Level),Studio Merlin,FR,FR,,,EUR,False,À plein temps,"Project Data Analyst (Entry / Junior Level)
+Role Description
+A Project Data Analyst at entry level supports project teams by collecting, analyzing, and interpreting data to improve planning, execution, and performance tracking. The role focuses on transforming project-related data into meaningful insights that help monitor progress, identify risks, and support decision-making. The analyst works with datasets related to timelines, resources, budgets, and deliverables to ensure projects stay on tr",https://fr.linkedin.com/jobs/view/project-data-analyst-entry-junior-level-at-studio-merlin-4404577054,2026-04-21,2026-04-24,jsearch
+Data Scientist,Société Générale,Puteaux,FR,,,EUR,False,Stage,"Vos missions au quotidien
 
-RENAULT s.a.s.
+Société Générale Financements Immobiliers (SGFI) accompagne les clients Entreprise de la Banque dans leurs stratégies et financements immobiliers (Investisseurs, Promoteurs, Marchands de bien, Corporate) - 260 collaborateurs.
 
-Descriptif du poste
+La direction Data & Transformation est chargée d’orchestrer d’un grand nombre de projets demandeurs de données, principalement en lien avec la production des états réglementaires, le pilotage financier, la gestion des risques, la RSE et d’autres ",https://www.welcometothejungle.com/fr/companies/societe-generale/jobs/data-scientist_la-defense_SG_Y5VeJle,2026-04-22,2026-04-24,jsearch
+Offre n° 1720427 Data scientist (H/F),France Travail,Chatou,FR,,,EUR,False,Stage,"Description du poste : En tant qu'organisateur de forums de recrutement, Talents Handicap accompagne de très nombreuses entreprises & organisations en France dans leurs recrutements de collaborateurs en situation de handicap. Participant actuellement à l'un de nos forums. L'entreprise EDF recherche actuellement des profils Le stagiaire est accueilli au sein d'un groupe du département PRISME d'EDF R&D à Chatou (78).
 
-Contexte et environnement de travail :
+Une des missions de ce groupe est de développer des méthodes et outils pour la s",https://bebee.com/fr/jobs/offre-n-1720427-data-scientist-france-travail-chatou--techmap_fr_1720427,2026-04-21,2026-04-24,jsearch
+Data engineer (H/F),INVIVOO,Puteaux,FR,,,EUR,False,À plein temps,"AU SEIN D'UNE BANQUE D'INVESTISSEMENT, NOUS RECHERCHONS UN DATA ENGINEER (H/F) POUR INTERVENIR SUR UN PROJET STRATEGIQUE. L'OBJECTIF DE CE PROJET EST DE DEVELOPPER UNE PLATEFORME DE DONNEES ROBUSTE ET EVOLUTIVE, CAPABLE DE GERER UN VOLUME CONSEQUENT D'INFORMATIONS A L'ECHELLE MULTI-PAYS. L'ENVIRONNEMENT TECHNIQUE EST EN PYSPARK ET DATABRICKS. VOUS JUSTIFIEZ D'UNE EXPÉRIENCE DE 5 ANS MINIMUM EN TANT QUE DATA ENGINEER.",https://candidat.francetravail.fr/offres/recherche/detail/207FPVB,2026-04-21,2026-04-24,jsearch
+SENIOR DATA ENGINEER F/H,Safran Helicopter Engines,Bordes,FR,,,EUR,False,À plein temps,"En tant que Data Engineer senior , votre mission sera de collecter, transformer et mettre à disposition les données au sein des solutions décisionnelles (notamment BW HANA et BW4HANA) et analytiques du groupe, au service des différents métiers et systèmes internes. Vous interviendrez de façon privilégiée dans le contexte de la migration vers BW4HANA et l'accompagnement des projets associés.
 
-Renault Group poursuit son engagement envers les jeunes au travers la formation par l'alternance et les stages.
+Dans un environnement industriel et exigeant en matière de sécurité et de performance, vous serez en inte",https://www.safran-group.com/jobs/france/bordes/senior-data-engineer-fh-177902,2026-04-22,2026-04-24,jsearch
+Data Engineer,AXA GROUP,Nanterre,FR,,,EUR,False,À temps partiel,"VOTRE RÔLE ET VOS MISSIONS
+En tant que Data Engineer (F/H), vous intégrerez la Data Factory au sein du Data & IA Office d’AXA France.
+Vous reportez au Engineering Manager delivery DATA & Modernisation.
+La Data Factory a pour mission de développer, maintenir et faire évoluer les socles technologiques Data, BI & IA (plateformes Big Data, BI, …) permettant à AXA France de stocker, gérer et valoriser son patrimoine de données.
+Elle définit ainsi une vision produit des plateformes data, au plus proch",https://mymove.axa.com/event-5454/jobs/33847?lang=en-us,2026-04-23,2026-04-24,jsearch
+Ingénieur Data (H/F),Claranet France,Rennes,FR,,,EUR,False,À plein temps,"Depuis 30 ans, Claranet accompagne ses clients dans la modernisation, la sécurisation ainsi que l’optimisation de leurs écosystèmes numériques.
 
-Réalisez votre apprentissage au sein de Renault Group et transformez vos connaissances en compétences sur des projets concrets.
-Accompagné par un maître d'apprentissage et d'équipes expertes, vous progressez vers votre diplôme dans un cadre exigeant et bienveillant.
-Une expérience utile, formatrice e",https://openclassrooms.com/fr/job-postings/renault-group-ap26-bac5-data-scientist-de-la-transformation-de-la-gestion-des-incidents-avec-lia-hf-18ff4fa477940973?backLink=%2Fjob-postings%2Fapprenticeship%2F31-data%2F2053-ai-engineer,2026-03-30,jsearch
-Data scientist (H/F),MCCANN ERICKSON PARIS,Neuilly-sur-Seine,,,False,"Nous recrutons un-e Data Scientist spécialisé-e en IA générative appliquée à l'image, au sein de l'équipe Digital. Le poste s'inscrit à l'interface entre recherche appliquée, développement technique et création publicitaire, avec un objectif : concevoir et déployer des solutions GenAI au service des équipes créatives et des clients. MISSIONS Développement de solutions IA générative Concevoir, entraîner et optimiser des modèles de génération d'images (diffusion, GAN, modèles hybrides) Adapter des",https://candidat.francetravail.fr/offres/recherche/detail/206CBJR,2026-03-30,jsearch
-Data Scientist-IA - 2285,RHESO.TECH,Toulouse,,,False,"Data Scientist-IA (H/F)
+Cloud, Data, IA, Cybersécurité et Applications : nous combinons expertise et innovation pour relever les défis technologiques d’aujourd’hui et préparer ceux de demain.
 
-• Type de contrat : CDI
-• Localisation : Toulouse (télétravail partiel possible)
-• Date de démarrage envisageable : ASAP
-• Secteur d'activité : Finance / Banque
-• Salaire : A partir de 60K€ brut annuel
-• Ref : 2285
-• Contact : christophe@rheso.tech
+Pourquoi tu vas aimer Claranet ?
 
-Nous
+• Parce que chez nous, nous valorisons chaque voix, chaque contribution. Respect, autonomie, bienveillance, inclusion et diversité ne sont pas que des m",https://fr.linkedin.com/jobs/view/ing%C3%A9nieur-data-h-f-at-claranet-france-4402863782,2026-04-23,2026-04-24,jsearch
+"Data engineer / Machine learning - #-  Lille, France  (H/F)",Astek,FR,FR,,,EUR,False,À plein temps,"Et si vous rejoigniez la communauté Astek ?
 
-RHESO.TECH est une agence de freelancing. Nous accompagnons l'industrie et les hautes technologies dans leurs projets de staffing d'ingénieurs et de cadres. Nos valeurs : l'humain, la confiance et la transparence.
+Vous jouerez un rôle clé dans la conception et la mise en œuvre de solutions data innovantes au sein du périmètre marketing client. Vos contributions permettront de :
 
-Alor",https://lesjeudis.com/fr/job/data-scientist-ia-2285-401614,2026-03-30,jsearch
-Data Scientist / AI Engineer,ILLUIN Technology,Paris,,,False,"→ Votre mission
-En tant que Data Scientist/AI Engineer, votre rôle sera de participer à la conception et au développement de solutions de Data Science de pointe - en mode projet sur mesure ou en mode produit - à fort impact auprès de nos clients, de leurs utilisateurs et de la société.
-→ Vos responsabilités
-• Contribuer techniquement à la réalisation de projets en Data Science - préparation de données, modélisation, ML Engineering et/ou déploiement - dans nos domaines d’intervention : RAG, chatb",https://www.welcometothejungle.com/fr/companies/illuin-tech/jobs/data-scientist_la-defense,2026-03-30,jsearch
-Alternance F/H – Data Scientist (IA & Agents) - Studentjob.fr,Jobster,Saint-Jean-de-Braye,,,False,"LVMH RECHERCHE est le Centre de Recherche et d'Innovation pour l'ensemble des Maisons de la branche Parfums et Cosmétiques du Groupe LVMH.
+• Développer des algorithmes et produits data intégrant des technologies d’IA et de machine learning.
 
-Plus de 700 talents à travers le monde (chercheurs, chimistes, biologistes, etc.) œuvrent à la création et le développement de produits de luxe pour le soin, le maquillage et le parfum.
+• Automatiser des processus complexes pour améliorer la prise de décision stratégique.
 
-Engagé auprès de nombreux acteurs publics et privés, LVMH RECHERCHE a progressivement mis en place un véritable écosystème d’innovation.
+• Mettre en place des visualisations impactantes avec Power BI ou Looker.
 
-Tout au long du processus, l’innova",https://fr.linkedin.com/jobs/view/alternance-f-h-%E2%80%93-data-scientist-ia-agents-studentjob-fr-at-jobster-4391270750,2026-03-30,jsearch
-Data Scientist (F/H) en alternance,CARREFOUR SYSTEME D'INFORMATIONS,Massy,,,False,"Rejoignez Carrefour et participez à une aventure qui fait la différence !
+Votre mission (... si",https://bebee.com/fr/jobs/data-engineer-machine-learning-lille-france-astek-lille-hauts-de--theirstack-668883251,2026-04-23,2026-04-24,jsearch
+Data Engineer - Build & Data Platform (H/F),URBAN LINKER,FR,FR,,,EUR,False,À plein temps,"Titre de l'annonce :
+Data Engineer - Build & Data Platform (H/F)
 
-Nous avons une mission simple : rendre le meilleur accessible à tous, tout en nous engageant pour une distribution responsable. Cela ouvre la porte à de nombreux projets innovants et à des opportunités passionnantes pour nos équipes.
+Contexte de l'entreprise :
 
-Travailler chez Carrefour, c'est avant tout un esprit d'équipe. Que vous soyez dans le commerce, l'expertise ou l'entrepreneuriat, chacun apporte ses compétences pour créer ensemble une chaî",https://jobs-stages.letudiant.fr/entreprises/carrefour-systeme-d-informations/offres/data-scientist-f-h-en-alternance-massy-france-1,2026-03-30,jsearch
+Notre client est une entreprise technologique française spécialisée dans le développement et l'exploitation de systèmes de stockage d'énergie par batteries. Récemment soutenue par une levée de fonds de plusieurs millions d'euros auprès d'investisseurs institutionnels de premier rang , la société évolue à la croisée des infrastructures énergétiques et du trading.
+Afin d'accompagner une forte phase de cro",https://bebee.com/fr/jobs/data-engineer-build-data-platform-urban-linker-paris-ile-de--theirstack-667937582,2026-04-22,2026-04-24,jsearch
+Lead /  Data Engineer senior,Comet,FR,FR,,,EUR,False,Prestataire,"Bonjour à tous, notamment aux Data Engineers Seniors ⚙️ spécialisés sur GCP / BigQuery
+🔎 Je cherche un Data Engineer Senior avec une forte dimension expertise technique et expérience en rôle de lead, pour rejoindre une data platform stratégique en pleine montée en puissance.
+L’objectif de la plateforme est de centraliser, transformer et exposer la donnée à grande échelle afin de supporter des cas d’usage analytics, BI et IA dans un environnement data moderne.
+La plateforme est déjà en place et e",https://www.free-work.com/fr/tech-it/data-engineer/job-mission/lead-data-engineer-senior-22,2026-04-23,2026-04-24,jsearch
+"Data Engineer Confirmé(e) - expert PySpark - Services Financiers - Ile de France | Paris, FR",Sopra Steria,Paris,FR,,,EUR,False,À plein temps,"Data Engineer Confirmé(e) - expert PySpark - Services Financiers - Ile de France
+
+{""description"": "" Description de l'entreprise 
+
+Sopra Steria , acteur majeur de la Tech en Europe, avec 50 000 collaborateurs dans pr\u00e8s de 30 pays, est reconnu pour ses activit\u00e9s de conseil, de services et solutions num\u00e9riques. Il aide ses clients \u00e0 mener leur transformation digitale et \u00e0 obtenir des b\u00e9n\u00e9fices concrets et durables. Le Groupe apporte une r\u00e9ponse globale au",https://www.efinancialcareers.fr/emploi-France-Paris-Data_Engineer_Confirm%C3%A9e_-_expert_PySpark_-_Services_Financiers_-_Ile_de_France.id24142925,2026-04-18,2026-04-24,jsearch
+Data Engineer - Senior Consultant,JAKALA,,,,,EUR,False,À plein temps,"Au sein de notre practice Data & AI, tu travailles conjointement avec les Data Scientists, Data Engineers, MLE/MLOps engineer déjà en poste et tu es impliqué.e dans la prise de décisions liée aux solutions Data et à son évolution.
+A cet effet, tu es en charge de :
+• Contribuer au développement de notre offre Data et à l’industrialisation de plateformes data pour nos clients
+
+• Comprendre, analyser et proposer des solutions techniques répondant aux besoins des Plateformes digitales et des projets",https://www.welcometothejungle.com/fr/companies/jakala/jobs/data-engineer-confirme-cdi-paris_paris,2026-04-07,2026-04-24,jsearch
+Data Engineer Collecting and decoding of data for Fleet Data Engineering H/F F/H,Safran Aircraft Engines,Montereau-sur-le-Jard,FR,,,EUR,False,À plein temps,"Vous souhaitez mettre vos talents au service de la transformation digitale ?
+
+La direction Engineering du support et des Services souhaite dynamiser sa transformation digitale via ce poste renforcer l'équipe en charge de processus de collecte et décodage des données de vols des avions.
+
+Les données d'exploitation (données de vol, de Health Monitoring et de fiabilité) jouent un rôle de plus en plus important dans la gestion des flottes clients. Les équipes du support technique ont ainsi besoin d'",https://www.safran-group.com/fr/offres/france/montereau-jard/data-engineer-collecting-and-decoding-data-fleet-data-engineering-hf-fh-176439,2026-04-21,2026-04-24,jsearch
+Consultant Stagiaire Data Engineer F/H,KPMG France,FR,FR,,,EUR,False,Stage,"En collaboration avec l'équipe et sous la supervision d'un manager, votre mission, en tant que Consultant Stagiaire Data Engineer F/H consiste à :
+
+• Le recueil des besoins de différents métiers de nos clients (Finance, Customer, RH, Operations, Risk, etc.) dans de multiples secteurs d'activité (Banque, Assurance, Energie, Transport, Santé, Distribution, Luxe, etc.)
+
+• La conception de cahier des charges et/ou spécifications fonctionnelles
+
+• Le développement et la mise en œuvre de solutions Dat",https://bebee.com/fr/jobs/consultant-stagiaire-data-engineer-kpmg-france-avenue-andre-prothin-92400-courbevoie-france--theirstack-668127265,2026-04-22,2026-04-24,jsearch
+Data Engineer Spark / Hadoop – Data & Analytics,Datapy,Paris,FR,,,EUR,False,Prestataire,"Nous recherchons un Data Engineer pour intervenir chez un acteur majeur du secteur public, dans le cadre du développement de sa plateforme Data & Analytics.
+Vous évoluerez sur des problématiques de traitement de données à grande échelle, avec des enjeux forts autour de la qualité, de la gouvernance et de la valorisation de la donnée.
+
+Missions• Développer et maintenir des pipelines de données Big Data
+
+• Mettre en place des traitements distribués avec Spark
+
+• Structurer les données dans un Data",https://www.free-work.com/fr/tech-it/data-engineer/job-mission/data-engineer-spark-hadoop-data-analytics,2026-04-22,2026-04-24,jsearch
+Data Engineer - Keyrus France H/F,Keyrus france,Bordeaux,FR,,,EUR,False,À plein temps,"Détail du poste
+
+Rejoignez l'aventure Data chez Keyrus Bordeaux !
+
+Ici, la Data ne se limite pas à des chiffres : elle devient une véritable expérience humaine et technologique. L'agence de Keyrus Bordeaux est en pleine croissance, et nous recherchons un(e) Data Engineer prêt(e) à jouer un rôle clé dans notre développement.
+
+Vous avez une solide expertise technique dans la collecte, le traitement et l'optimisation des données, et l'envie de construire des pipelines et des architectures data robu",https://www.hellowork.com/fr-fr/emplois/78135037.html,2026-04-18,2026-04-24,jsearch
+Alternance - Data Engineer Risque de crédit (H/F) - 12/24 mois,BNP Paribas,FR,FR,,,EUR,False,À plein temps,"Alternance - Data Engineer Risque de crédit (H/F) - 12/24 mois
+AU QUOTIDIEN ÇA DONNE QUOI ?
+Au sein de RISK Global Framework, la responsabilité de RISK Strategic Governance & Credit Platform (RISK SGCP) est double :
+• Animer et maintenir le cadre stratégique de gouvernance des risques du Groupe en étroite coordination avec les différentes RISK Business domains et autres équipes RISK Global Framework, permettant les prises de décisions relatives à l’appétence au risque (Risk appetite), l’orientat",https://group.bnpparibas/emploi-carriere/offre-emploi/alternance-data-engineer-risque-de-credit-h-f-12-24-mois,2026-04-16,2026-04-24,jsearch
+Data Engineer expérimenté F/H,Accenture,Clermont-Ferrand,FR,,,EUR,False,À plein temps,"Venez vivre au cœur du changement et rejoignez-nous en tant que Data Engineer Expérimenté H/F (Clermont-Ferrand).
+
+Attiré par les environnements data, vous maîtrisez l’ingénierie des données et souhaitez concevoir des solutions robustes et performantes au service de projets à forte valeur ajoutée.
+
+Vos missions :
+• Analyser les besoins clients et questionner l’existant
+
+• Concevoir et optimiser des pipelines de données robustes (ingestion, transformation, stockage) en collaboration avec les arch",https://www.accenture.com/fr-fr/careers/jobdetails?id=R00306397_fr-fr,2026-04-10,2026-04-24,jsearch
+Data Engineer – Cloudera CDP & Data Services (OpenShift),Craftman data,Paris,FR,,,EUR,False,À plein temps,"Description du posteDans le cadre de la mise en place et de l?évolution de sa plateforme data, l?entreprise recherche un Data Engineer spécialisé sur l?écosystème CDP, évoluant dans un environnement conteneurisé OpenShift.
+
+Au sein de l?équipe data, le collaborateur conçoit, développe et optimise les pipelines de traitement de données. Il intervient sur l?ensemble du cycle de vie de la donnée,
+
+depuis son ingestion jusqu?à sa mise à disposition pour les usages analytiques et métiers.
+
+Il contrib",https://bebee.com/fr/jobs/data-engineer-cloudera-cdp-data-services-openshift-craftman-data-paris-75--theirstack-668911447,2026-04-23,2026-04-24,jsearch
+Data Engineer - Build & Data Platform (H/F),Urban Linker,Paris,FR,,,EUR,False,À plein temps,"Titre de l'annonce : Data Engineer - Build & Data Platform (H/F)
+
+Contexte de l'entreprise :
+Notre client est une entreprise technologique française spécialisée dans le développement et l'exploitation de systèmes de stockage d'énergie par batteries. Récemment soutenue par une levée de fonds de plusieurs millions d'euros auprès d'investisseurs institutionnels de premier rang , la société évolue à la croisée des infrastructures énergétiques et du trading.
+
+Afin d'accompagner une forte phase de cro",https://fr.linkedin.com/jobs/view/data-engineer-build-data-platform-h-f-at-urban-linker-4403938321,2026-04-21,2026-04-24,jsearch
+Data Engineer Confirmé(e) - expert PySpark  - Services Financiers - Ile de France,SOPRA STERIA,Paris,FR,,,EUR,False,À plein temps,"Company Description
+
+Sopra Steria, acteur majeur de la Tech en Europe, avec 50 000 collaborateurs dans près de 30 pays, est reconnu pour ses activités de conseil, de services et solutions numériques. Il aide ses clients à mener leur transformation digitale et à obtenir des bénéfices concrets et durables. Le Groupe apporte une réponse globale aux enjeux de compétitivité des grandes entreprises et organisations, en combinant une connaissance approfondie des secteurs d'activité et des technologies ",https://lesjeudis.com/fr/job/data-engineer-confirmee-expert-pyspark-services-financiers-ile-de-france-419817,2026-04-16,2026-04-24,jsearch
+Data engineer,OPENVALUE,Neuilly-sur-Seine,FR,,,EUR,False,À plein temps,"En tant que Data Engineer, vous jouerez un rôle clé dans la conception, la mise en œuvre et l'industrialisation des plateformes et pipelines data au service des projets d'IA Générative. Vous interviendrez au cœur des écosystèmes data & cloud de nos clients, en collaboration avec des experts data scientists, IA engineers et métiers, pour transformer la donnée en leviers d'innovation et de performance. Vos principales responsabilités : Concevoir, développer et maintenir des pipelines de données ro",https://candidat.francetravail.fr/offres/recherche/detail/206VKJG,2026-04-13,2026-04-24,jsearch
+Data Engineer - Big Data/Teradata 🏆,VISIAN,Paris,FR,,,EUR,False,À plein temps,"Data Engineer - Big Data/Teradata
+VISIAN recherche un spécialiste Data! Echelle salariale 52 000 - 92 000 € par an
+
+🛠️ Technologies utilisées:
+Big Data, Confluence, ETL, Git, Hadoop, JIRA, Python, SQL, Spark, Unix, Data
+
+📝 Ce que nous attendons de vous:
+- Excellente maîtrise des outils suivants :
+- Teradata
+- CONTROL-M
+- Environnement UNIX (répertoires principaux, Usage & Entrepôt)
+- SQL sur SGBD relationnel (Teradata)
+- TPT
+- Outils collaboratifs et documentaires : GIT, Jira, Confluence, MEGA,",https://devitjobs.fr/jobs/VISIAN-Data-Engineer---Big-DataTeradata,2026-04-19,2026-04-24,jsearch
+Data Analytics Engineer - CDI,Recept AI,Paris,FR,,,EUR,False,À plein temps,"Le rôle
+Premier recrutement Data de l’entreprise, tu prends en charge l’exécution et la structuration de notre infrastructure analytique.
+Tu reportes directement à Michaël (CTPO AI, Voice & Data), qui t’accompagnera sur les choix d’architecture et te laissera responsable de ton exécution. Sur chaque sujet que tu portes, tu gères le périmètre de bout en bout — du cadrage à la mise en production.
+Les besoins sont identifiés, la définition de ce qui doit être mesuré t’appartient. Tu anticipes les b",https://www.welcometothejungle.com/fr/companies/recept-ai/jobs/data-analyst-analytics-engineer_paris,2026-04-14,2026-04-24,jsearch
+Data Engineer Confirmé(e) - expert PySpark  - Services Financiers - Ile de France,Sopra Steria France,Paris,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+Sopra Steria, acteur majeur de la Tech en Europe, avec 50 000 collaborateurs dans près de 30 pays, est reconnu pour ses activités de conseil, de services et solutions numériques. Il aide ses clients à mener leur transformation digitale et à obtenir des bénéfices concrets et durables. Le Groupe apporte une réponse globale aux enjeux de compétitivité des grandes entreprises et organisations, en combinant une connaissance approfondie des secteurs d’activité et des techn",https://careers.soprasteria.fr/job/data-engineer-confirme-e-expert-pyspark-services-financiers-ile-de-france-in-paris-france-jid-7134,2026-04-23,2026-04-24,jsearch
+Data Engineer - Plateforme Data Engineering,ALTEN,Vitrolles,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+Créé il y a plus de 30 ans et présent dans plus de 30 pays, le Groupe s'est imposé comme un leader mondial dans les domaines de l'Ingénierie et des Services IT.
+Nous intervenons auprès des grands acteurs des secteurs Aéronautique & Spatial, Défense & Naval, Sécurité, Automobile, Ferroviaire, Energie, Sciences de la vie, Finance, Retail, Télécommunications et Services.
+
+Nous avons réalisé un chiffre d'affaires de plus de 4,14 milliards d'euros en 2024 et comptons aujo",https://lesjeudis.com/fr/job/data-engineer-plateforme-data-engineering-417761,2026-04-11,2026-04-24,jsearch
+Stage- DATA Engineer (F/H),La Banque Postale,Gradignan,FR,,,EUR,False,Stage,"DATA Engineer, vous contribuez à la conception et au développement d’une nouvelle application dédiée au pilotage des coûts IT. Venez participer et améliorer le suivi des coûts pour répondre aux enjeux de La Banque Postale !
+
+A la DSI de la Banque Postale et Assurance (1800 collaborateurs à Nantes, Toulouse, Issy-Les-Moulineaux, Gradignan), vos actions auront un impact positif sur nos clients pour une finance plus responsable et une transition juste.
+
+VOS MISSIONS
+
+-Participer à la conception et ",https://fr.linkedin.com/jobs/view/stage-data-engineer-f-h-at-la-banque-postale-4404580985,2026-04-21,2026-04-24,jsearch
+Data Engineer - Databricks (H/F),Meritis,FR,FR,,,EUR,False,À plein temps,"Company Description
+
+Meritis est une société de conseil spécialisée en transformation digitale des organisations, fondée en 2007 par Sébastien Videment.
+Installée initialement à Paris, elle s’est déployée en régions et assure désormais une présence dans les plus grandes villes de France : Sophia-Antipolis, Montpellier, Nantes, Bordeaux, Lyon, Aix-en-Provence, Lille et même à Lisbonne au Portugal depuis 2023.
+Nos experts accompagnent des clients de divers secteurs dans l’intégralité de leurs beso",https://bebee.com/fr/jobs/data-engineer-databricks-meritis-1025-avenue-henri-becquerel-34000-montpellier-france--theirstack-667669296,2026-04-21,2026-04-24,jsearch
+Data Engineer Senior F/H,Orange Business,Bordeaux,FR,,,EUR,False,À plein temps,"Date de publication : Feb 24, 2026, 12:00AM
+Orange Business est un intégrateur réseau et numérique qui comprend toute la chaîne de valeur du monde digital, permettant à nos clients de se concentrer sur les initiatives stratégiques qui font avancer leur business. Chaque jour, vous collaborerez avec une équipe dédiée à la livraison de solutions globales cohérentes et durables, peu importe où nos clients opèrent. Avec plus de 30 000 salariés en Europe, Asie, Amérique et Afrique, nous proposons un e",https://orange.jobs/fr/fr/job/IOS-2026-1917/Data-Engineer-Senior-F-H,2026-04-23,2026-04-24,jsearch
+Data Engineer Expérimenté Azure Databricks (H/F),Thales,Toulouse,FR,,,EUR,False,À plein temps,"Lieu : Toulouse, France
+
+Construisons ensemble un avenir de confiance
+
+Thales est un leader mondial des hautes technologies spécialisé dans trois secteurs d’activité : Défense & Sécurité, Aéronautique & Spatial, et Cyber & Digital. Il développe des produits et solutions qui contribuent à un monde plus sûr, plus respectueux de l’environnement et plus inclusif. Le Groupe investit près de 4 milliards d’euros par an en Recherche & Développement, notamment dans des domaines clés de l’innovation tels ",https://careers.thalesgroup.com/fr/fr/job/R0305283/Data-Engineer-Exp%C3%A9riment%C3%A9-Azure-Databricks-H-F,2026-04-23,2026-04-24,jsearch
+Alternance - Data Engineer (F/H) (H/F),COMPAGNIE DE SAINT-GOBAIN,Aubervilliers,FR,,,EUR,False,À plein temps,"Pourquoi a-t-on besoin de vous? L'équipe Digital & IT de la DTI (Direction Technique Internationale) de Saint-Gobain Glass recherche un.e alternant.e data engineer. Sous la responsabilité du responsable architecte data, votre mission sera de contribuer au développement de la plateforme data de Glass Industry. Vous vous appuierez sur les outils existants mais pourrez également être force de proposition afin de mettre en place de nouvelles méthodes en accord avec notre stratégie. Vos missions : Me",https://candidat.francetravail.fr/offres/recherche/detail/206HLRP,2026-04-21,2026-04-24,jsearch
+Consultant Senior Azure Data Engineer - H/F (CDI),Talan,Paris,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+Fondé en France, Talan est aujourd'hui un groupe international qui accompagne ses clients dans leur transformation Data & IA, de bout en bout, en combinant conseil en management et expertise technologique.
+
+Avec plus de 6000 collaborateurs sur 5 continents, nous accélérons les transformations de nos clients à travers des partenariats de long terme, en créant un impact mesurable et durable.
+
+Notre proposition de valeur repose sur un écosystème d'innovation structuré :",https://lesjeudis.com/fr/job/consultant-senior-azure-data-engineer-hf-cdi-421158,2026-04-19,2026-04-24,jsearch
+Data engineer (F/H) - Data Solutions Analytics,BPCE Solutions informatiques,Villeurbanne,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+BPCE Solutions Informatiques, une entreprise dynamique et innovante fait partie du groupe BPCE, 2ème groupe bancaire français.
+
+Nos 2600 collaborateurs, présents sur 19 villes en France, imaginent et inventent, des solutions SI pour faciliter la vie des utilisateurs des Caisses d'épargne, des Banques Populaires et de plusieurs autres filiales.
+
+Entreprise humaine et engagée, notre politique de Responsabilité sociale de l’entreprise porte des sujets clés comme la mixit",https://www.welcometothejungle.com/fr/companies/bpce-solutions-informatiques/jobs/data-engineer-f-h-data-solutions-analytics,2026-04-04,2026-04-24,jsearch
+Data Engineer Databricks,KOMEET TECHNOLOGIES,Paris,FR,,,EUR,False,À plein temps,"En tant que Data Engineer, vous intervenez sur la conception, le développement et l’optimisation de pipelines de données robustes et scalables. Vous travaillez au cœur des plateformes Data afin de garantir la qualité, la disponibilité et la performance des données utilisées par les équipes métiers, BI et Data Science.
+Expérience attendue : 3 à 8+ ans en ingénierie Data.
+Vous correspondez au/à la Data Engineer que nous recherchons si :
+• Vous évoluez efficacement au sein d’équipes agiles et pluri",https://www.free-work.com/fr/tech-it/data-engineer/job-mission/data-engineer-databricks-21,2026-04-01,2026-04-24,jsearch
+"Data Engineer expérimenté F/H | Clermont-Ferrand, FR",Accenture,Clermont-Ferrand,FR,,,EUR,False,À plein temps,"Data Engineer expérimenté F/H
+
+{""description"": ""Venez vivre au c\u0153ur du changement et rejoignez-nous en tant que Data Engineer Exp\u00e9riment\u00e9 H/F (Clermont-Ferrand). 
+
+Attir\u00e9 par les environnements data, vous ma\u00eetrisez l'ing\u00e9nierie des donn\u00e9es et souhaitez concevoir des solutions robustes et performantes au service de projets \u00e0 forte valeur ajout\u00e9e. 
+
+Vos missions : 
+
+• Analyser les besoins clients et questionner l'existant 
+• Concevoir et optimi",https://www.efinancialcareers.fr/emploi-France-Clermont-Ferrand-Data_Engineer_exp%C3%A9riment%C3%A9_FH.id24085850,2026-04-04,2026-04-24,jsearch
+Alternant Data Engineer H/F,Virbac,FR,FR,,,EUR,False,À plein temps et Stage,"Les missions du poste
+Vivre ensemble une aventure humaine unique
+
+La santé animale est au coeur de la santé de la planète. Travailler chez Virbac signifie participer à une aventure humaine unique où l'engagement de chacun contribue à la faire progresser. Encourager la mobilité interne entre nos métiers et nos filiales, proposer des plans de développement individuels et construire un partenariat managers-collaborateurs basé sur la confiance sont autant de perspectives de motivation pour nos équip",https://www.hellowork.com/fr-fr/emplois/78075783.html,2026-04-17,2026-04-24,jsearch
+Lead Data Engineer,SAFRAN NACELLES FRANCE,Gonfreville-l'Orcher,FR,,,EUR,False,À plein temps,"Safran est un groupe international de haute technologie opérant dans les domaines de l'aéronautique (propulsion, équipements et intérieurs), de l'espace et de la défense. Sa mission : contribuer durablement à un monde plus sûr, où le transport aérien devient toujours plus respectueux de l'environnement, plus confortable et plus accessible. Implanté sur tous les continents, le Groupe emploie 100 000 collaborateurs pour un chiffre d'affaires de 27,3 milliards d'euros en 2024, et occupe, seul ou en",https://www.aerocontact.com/emploi-aeronautique/lead-data-engineer-hf~1109552.html,2026-04-17,2026-04-24,jsearch
+Lead Data Engineer (F/H),Ressources UP 🎯,Voiron,FR,,,EUR,False,À plein temps,"Dans le cadre du renforcement de son pôle R&D, notre client recrute un(e) LEAD DATA ENGINEER (F/H)
+
+Lisez la suite si vous recherchez…
+• Une entreprise innovante spécialisée dans l’analyse de données scientifiques, technologiques et économiques
+• Un environnement SaaS BtoB mêlant data engineering, data science et innovation
+• Un poste à responsabilité, au coeur des enjeux techniques et organisationnels
+
+UPgradez votre carrière grâce à Ressources UP & Prenez la tête d’un pôle data et structurez d",https://fr.linkedin.com/jobs/view/lead-data-engineer-f-h-at-ressources-up-%F0%9F%8E%AF-4401943485,2026-04-21,2026-04-24,jsearch
+Senior Data Engineer - Databricks Specialist 🇫🇷,Capgemini,Fresnes,FR,,,EUR,False,À plein temps,"Job Title: Senior Data Engineer - Databricks Specialist 🇫🇷
+
+Location: France
+
+About Capgemini
+
+Capgemini is a global leader in technology and digital transformation. Join us in France to bring your data engineering expertise to high-impact projects in diverse industries, all within a culture that values growth and innovation 🚀.
+
+About the Role
+
+Are you ready to return or relocate to France? 🇫🇷 As a Senior Data Engineer specializing in Databricks, you’ll work with a talented team to build and opt",https://bebee.com/fr/jobs/senior-data-engineer-databricks-specialist-capgemini-fresnes--fj-2116626130,2026-04-21,2026-04-24,jsearch
+Data Engineer (H/F),CIRIL GROUP,Villeurbanne,FR,,,EUR,False,À plein temps,"Ciril GROUP met son esprit d'innovation et son savoir-faire d'éditeur au service des acteurs publics et privés partout dans le monde, grâce à un écosystème complet de solutions interopérables : ERP, SIG, décisionnel, GMAO... Ciril GROUP Cloud complète cette offre logicielle par un hébergement Cloud souverain de haute qualité et haute sécurité certifié. En rejoignant nos équipes transverses, vous évoluerez dans un environnement dynamique où chaque service contribue à relever les défis variés de n",https://candidat.francetravail.fr/offres/recherche/detail/206GJTL,2026-03-31,2026-04-24,jsearch
+Data Engineer Senior - Expert Dataiku  - CDI - H/F,Talan,Paris,FR,,,EUR,False,À plein temps,"Company Description
+À propos de Talan
+Fondé en France, Talan est aujourd’hui un groupe international qui accompagne ses clients dans leur transformation Data & IA, de bout en bout, en combinant conseil en management et expertise technologique.
+Avec plus de 6000 collaborateurs sur 5 continents, nous accélérons les transformations de nos clients à travers des partenariats de long terme, en créant un impact mesurable et durable.
+Notre proposition de valeur repose sur un écosystème d’innovation stru",https://www.welcometothejungle.com/fr/companies/talan/jobs/data-analyst-dataiku-cdi-h-f_paris,2026-04-21,2026-04-24,jsearch
+"DATA ENGINEER CONFIRME H/F | Angers, FR",CNP Assurances,Angers,FR,,,EUR,False,À plein temps,"DATA ENGINEER CONFIRME H/F
+
+{""description"": "" Description du poste 
+
+M\u00e9tier 
+
+DATA - SOLUTION DATA 
+
+Intitul\u00e9 du poste 
+
+DATA ENGINEER CONFIRME H/F 
+
+Type de Contrat 
+
+CDI 
+
+Statut 
+
+Cadre 
+
+Temps de travail 
+
+Temps complet 
+
+Description de la mission 
+
+Vous int\u00e9grez la Direction de l'exp\u00e9rience client, des services num\u00e9riques et de la donn\u00e9e qui a pour ambition de concevoir et mettre en \u0153uvre tous les dispositifs informatiques qui per",https://www.efinancialcareers.fr/emploi-France-Angers-DATA_ENGINEER_CONFIRME_HF.id24085670,2026-04-04,2026-04-24,jsearch
+Data Engineer - Clermont-Ferrand (63) F/H,LOJELIS,Clermont-Ferrand,FR,,,EUR,False,À plein temps et Prestataire,"Description des missions
+Le contexte ?
+
+Dans le cadre de notre développement, nous recherchons un Data Engineer pour concevoir, développer et maintenir des pipelines de données au sein d’un environnement cloud Azure.
+
+
+
+Vous interviendrez sur des projets stratégiques autour de la collecte, du traitement et de la restitution des données, avec des outils tels que Synapse Analytics, SQL Server, Power BI et Microsoft Fabric.
+
+
+
+Nos secteurs d'activités principaux : industrie, métallurgie, aéron",https://recrutement.lojelis.com/887-652462f659eb1e5,2026-04-15,2026-04-24,jsearch
+Ingénieur Méthodes Industrielles - Data Engineer (F/H),Thales,Bordeaux,FR,,,EUR,False,À plein temps,"Lieu : Bordeaux, France
+
+Construisons ensemble un avenir de confiance
+
+Thales est un leader mondial des hautes technologies spécialisé dans trois secteurs d’activité : Défense & Sécurité, Aéronautique & Spatial, et Cyber & Digital. Il développe des produits et solutions qui contribuent à un monde plus sûr, plus respectueux de l’environnement et plus inclusif. Le Groupe investit près de 4 milliards d’euros par an en Recherche & Développement, notamment dans des domaines clés de l’innovation tels ",https://careers.thalesgroup.com/fr/fr/job/R0318351/Ing%C3%A9nieur-M%C3%A9thodes-Industrielles-Data-Engineer-F-H,2026-04-04,2026-04-24,jsearch
+Data Engineer H/F,Groupe NAT,Lesquin,FR,,,EUR,False,À plein temps,"Groupe N.A.T propose à ses Clients (collectivités locales, exploitants de réseaux, entreprises de travaux, particuliers, etc.) une offre unique, éthique et responsable afin de les accompagner dans la gestion de leurs obligations réglementaires et la réalisation de leurs projets de travaux. Nous sommes une entreprise en pleine expansion, qui se différencie en proposant à ses clients des services sur mesure dans le but de fiabiliser les réseaux et de sécuriser l’humain. Son expertise se regroupe a",https://bebee.com/fr/jobs/data-engineer-groupe-nat-lesquin-59--theirstack-667242779,2026-04-21,2026-04-24,jsearch
+Expert techique / Lead Data engineer F/H/X,Askills,Lyon,FR,,,EUR,False,À plein temps,"À propos de Askills
+
+Askills est un cabinet de conseil lyonnais. Nous proposons à nos clients des prestations d'expertise technique dans la data et le développement web.
+
+Aujourd'hui nous sommes une vingtaine, nous souhaitons continuer à grandir en restant simples et transparents.
+
+Nous avons choisi de nous entourer de consultant.e.s sur 2 pôles :
+
+• Toute la chaîne de la data avec des profils Data engineer, data analyst, Data scientist, ...
+• Le développement d'applications en environnement agi",https://lesjeudis.com/fr/job/expert-techique-lead-data-engineer-fhx-403583,2026-03-27,2026-04-24,jsearch
+Data Engineer,Capgemini,Grenoble,FR,,,EUR,False,À plein temps,"Vos missions
+
+Rejoignez notre équipe Digital Engineering en tant que Data Engineer. Basé sur le site de production de l’un de nos partenaires, leader mondial de l’industrie pharmaceutique, vous intégrerez un pôle d’expertise dédié aux applications de production et aux solutions d’intégration de données. Ces outils sont essentiels pour la revue des données de production dans des objectifs d’analyse, de traçabilité, de contrôle qualité, d’ordonnancement, de maintenance et d’amélioration continue.
+",https://www.welcometothejungle.com/fr/companies/capgemini/jobs/data-engineer_greboble_CAPGE_Pgzmbdl,2026-03-26,2026-04-24,jsearch
+Lead Data Engineer H/F,Safran Nacelles,Gonfreville-l'Orcher,FR,,,EUR,False,À plein temps,"Au sein du pôle Data de la Digital Factory, vous jouerez un rôle clé dans le pilotage et la mise en œuvre des solutions data de l'entreprise.
+Vous interviendrez dans un environnement cloud, agile et multiculturel, en lien étroit avec les équipes Métiers, Data, IT et DevOps.",https://www.safran-group.com/fr/offres/france/gonfreville-orcher/data-ingenieur-fh-160222,2026-04-22,2026-04-24,jsearch
+Data Engineer TERADATA ET BIGDATA,WE +,FR,FR,,,EUR,False,À plein temps et Prestataire,"• vous contribuerez à la construction des solutions Datalab et Datamart sous technologie Teradata, en étroite collaboration avec les autres membres de la Tribu
+• vous aurez en charge le développement des solutions de collecte des données, de leur stockage et traitement (constitution d’agrégats ou scores), et de leur mise à disposition des DataScientists : une expérience des environnements Unix, du sql et des SGDB relationnels est indispensable ainsi que des bonnes pratiques de développement et m",https://www.free-work.com/fr/tech-it/data-engineer/job-mission/data-engineer-teradata-et-biigdata,2026-04-03,2026-04-24,jsearch
+Data Engineer F/H,Orange Business,Cesson-Sévigné,FR,,,EUR,False,À plein temps,"Publication date : Jan 21, 2026, 12:00AM
+Orange Business est un intégrateur réseau et numérique qui comprend toute la chaîne de valeur du monde digital, permettant à nos clients de se concentrer sur les initiatives stratégiques qui font avancer leur business. Chaque jour, vous collaborerez avec une équipe dédiée à la livraison de solutions globales cohérentes et durables, peu importe où nos clients opèrent. Avec plus de 30 000 salariés en Europe, Asie, Amérique et Afrique, nous proposons un envi",https://orange.jobs/gb/en/job/IOS-2026-1808/Data-Engineer-F-H,2026-03-31,2026-04-24,jsearch
+CDI - Data Engineer Junior H/F,Generali France,Saint-Denis,FR,,,EUR,False,À plein temps,"Détail du poste
+
+Generali
+
+Avec plus de 71 millions de clients et un chiffre d'affaires de 95,2 milliards d'euros en 2024, Generali est l'un des leaders de l'assurance et de la gestion d'actifs dans le monde. Assureur responsable, nous plaçons la durabilité au coeur de notre stratégie.
+
+Notre direction
+
+La Direction Marketing, Communication et Durabilité soutient les marchés, réseaux de distribution et les fonctions support dans la réalisation de leurs objectifs de développement en déployant des",https://www.hellowork.com/fr-fr/emplois/74479601.html,2026-04-19,2026-04-24,jsearch
+Senior Data Analyst (H/F),AZIRA,Paris,FR,,,EUR,False,À plein temps,"Nous recherchons un Sr Data Analyst pour renforcer notre équipe Data. Ce rôle clé consiste à garantir la fiabilité, la performance et la valeur de nos données marketing et programmatiques. Le poste se situe à l'intersection de l'analyse de données, de l'analyse de performance et de la publicité digitale (programmatique, DOOH, DSP, etc.). Vous accompagnerez les équipes commerciales, opérationnelles et produit dans leurs prises de décisions stratégiques et leurs optimisations quotidiennes. Respons",https://candidat.francetravail.fr/offres/recherche/detail/206YNPL,2026-04-23,2026-04-24,jsearch
+Data Analyst (CDD 12 mois),AbbVie FR,Boulogne-Billancourt,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+La mission d'AbbVie est de découvrir et de mettre à disposition des thérapies et des solutions innovantes qui permettent de répondre à des maladies graves d’aujourd’hui, et de relever les défis médicaux de demain. Nous nous efforçons d'avoir un impact remarquable sur la vie des patients dans plusieurs aires thérapeutiques clés majeures : immunologie, ophtalmologie, oncologie, neurosciences et virologie, ainsi qu’en médecine esthétique avec les produits et services de",https://careers.abbvie.com/fr/job/data-analyst-cdd-12-mois-in-boulogne-billancourt-idf-jid-27456,2026-04-23,2026-04-24,jsearch
+Data Analyst H/F,Thales,Pecqueuse,FR,,,EUR,False,À plein temps,"Lieu : Limours, France
+
+Construisons ensemble un avenir de confiance
+
+Thales est un leader mondial des hautes technologies spécialisé dans trois secteurs d’activité : Défense & Sécurité, Aéronautique & Spatial, et Cyber & Digital. Il développe des produits et solutions qui contribuent à un monde plus sûr, plus respectueux de l’environnement et plus inclusif. Le Groupe investit près de 4 milliards d’euros par an en Recherche & Développement, notamment dans des domaines clés de l’innovation tels q",https://fr.linkedin.com/jobs/view/data-analyst-h-f-at-thales-4405692877,2026-04-23,2026-04-24,jsearch
+Data Analyst,GEC _ Global Experts Consulting,Chennevières-sur-Marne,FR,,,EUR,False,Prestataire,"Dans le cadre du développement de son écosystème data, notre client, acteur majeur du secteur des paiements, recherche un Data Analyst afin de renforcer son équipe dédiée aux données monétiques.
+
+Intégré à une équipe d’une dizaine de collaborateurs, le consultant interviendra au cœur des enjeux de valorisation de la donnée, en lien étroit avec les équipes métiers et les autres équipes data.
+
+Contexte de la mission
+
+L’équipe a pour mission de fournir des données fiables et exploitables liées aux ",https://fr.linkedin.com/jobs/view/data-analyst-at-gec-global-experts-consulting-4404799840,2026-04-23,2026-04-24,jsearch
+Offre n° 1694547 Data analyst (H/F),France Travail,Paris,FR,,,EUR,False,Stage,"PRÉSENTATION DE L’ORGANISATION Avec ses filiales et ses partenaires stratégiques, la Caisse des Dépôts constitue le premier pôle financier public. Investisseur de long terme au service de l'intérêt général et du développement économique du pays, la Caisse des Dépôts se charge de plusieurs missions, dont la protection de l'épargne populaire, le financement et soutien du logement social, la gestion des mandats publics, l'accompagnement des Français dans leurs parcours de vie et la contribution au ",https://bebee.com/fr/jobs/offre-n-1694547-data-analyst-france-travail-paris--techmap_fr_1694547,2026-04-21,2026-04-24,jsearch
+Data Analyst X/ F/H,APEC - Offres Gratuites,Le Havre,FR,,,EUR,False,À plein temps,"Description du poste
+  Ce que vous ferez : 
+
+Vous travaillerez sur des missions enrichissantes au cœur de la transformation digitale et industrielle, en étroite collaboration avec des équipes pluridisciplinaires.
+
+• Analyser des données complexes provenant de différentes sources pour fournir des insights stratégiques.
+
+• Créer, développer, et maintenir des tableaux de bord et des rapports pour aider à la prise de décision.
+
+• Collaborer avec les équipes techniques et opérationnelles pour compren",https://www.meteojob.com/jobs/53525838,2026-04-22,2026-04-24,jsearch
+Data Analyst Industriel,GROUPE PIMENT,Colombes,FR,,,EUR,False,,"Présentation de la société
+Le Groupe PIMENT et ses marques spécialisées, PIMENT, au savoir-faire reconnu dans l’aéronautique et OPTIMA, cabinet de recrutement multi-sectoriel, vous accompagnent tout au long de votre évolution professionnelle, en vous proposant des contrats en intérim, CDD, CDI et freelance dans de nombreux secteurs d’activité.
+
+Nous apportons une vision et des méthodes de recrutement centrées sur les qualités humaines.
+
+Pour cela, nous proposons à nos clients des solutions de re",https://www.aerocontact.com/emploi-aeronautique/data-analyst-industriel-hf~1111384.html,2026-04-20,2026-04-24,jsearch
+Offre n° 1682610 Data Analyst Expérimenté (F/H),France Travail,FR,FR,,,EUR,False,À plein temps,"Le poste en quelques mots : Dans notre entité Technology Services, nous proposons à nos clients de l’accompagnement local, de bout en bout, sur des sujets d’expertise et de conseil. Nous intervenons sur tous les types de projets et majoritairement dans des contextes Agile. Nous renforçons notre communauté Agile avec un/une Data Analyst expérimenté (F/H) qui interviendra sur un projet chez l'un de nos clients sur le secteur de Nantes.
+
+Ce que vous allez faire si vous nous rejoignez : Intégré(e) à",https://bebee.com/fr/jobs/offre-n-1682610-data-analyst-experimente-france-travail--techmap_fr_1682610,2026-04-21,2026-04-24,jsearch
+Data Analyst,Haddad Brands Europe,Saint-Denis,FR,,,EUR,False,Prestataire,"Haddad Brands Europe, fondée en 2017, est spécialisée dans la distribution de textile pour enfants sous licences exclusives (Nike, Levi’s, Converse, Jordan, Lacoste…) à travers toute l’Europe.
+Opérationnelle depuis 8 ans, la société connaît une croissance fulgurante et compte déjà plus de 500 collaborateurs répartis dans toute l'Europe.
+Nous distribuons nos produits aussi bien en wholesale, auprès de grands faiseurs spécialisés ou multimarques, qu’en Retail, via nos corners dans les grands magas",https://talents.haddadeurope.com/jobs/7615338-data-analyst,2026-04-22,2026-04-24,jsearch
+Consultant(e) Senior Data Analyst – Luxe & Retail (GCP / BigQuery) F/H,APEC - Offres Gratuites,Neuilly-sur-Seine,FR,,,EUR,False,À plein temps,"Description du poste
+LE POSTE
+
+Au sein de Square Management, vous intégrez le domaine d'excellence Data & IA en tant que Data Analyst pour intervenir dans les secteurs du Luxe et du Retail où l'expérience client et l'imagine de marque sont reines.
+
+VOTRE MISSION
+
+1. Stratégie & Product Ownership Data Viz
+
+•
+Animer des ateliers avec les métiers et les marchés pour traduire leurs problématiques business en KPIs pertinents
+
+•
+Concevoir des maquettes (wireframes) de dashboards centrés sur l'expérien",https://www.meteojob.com/jobs/53526670,2026-04-22,2026-04-24,jsearch
+Data analyst (F/H),ELKEM SILICONES FRANCE SAS,Saint-Fons,FR,,,EUR,False,À plein temps,Le Data Analyst ou analyste de données transforme les données en informations statistiques et techniques. Collecte les données analytiques pour en extraire des tendances et des prévisions pour résoudre des problèmes Collabore avec les équipes techniques et métiers pour comprendre les besoins en données Présente les résultats des analyses sous forme de rapports ou de visualisations compréhensibles Assure la qualité et l'intégrité des données utilisées dans les analyses par une veille technologiqu,https://labonnealternance.apprentissage.beta.gouv.fr/emploi/offres_emploi_lba/69e77f1bbea46e642db33587/data-analyst-f-h,2026-04-21,2026-04-24,jsearch
+Data Analyst F/H,ecosystem,Courbevoie,FR,,,EUR,False,À plein temps,"Au sein de la Direction de la Transformation Digitale, vos principales missions seront les suivantes :
+• Analyse et Modélisation des Données :
+• Collecter, traiter et analyser des ensembles de données complexes provenant de diverses sources (bases de données, API, fichiers logs, etc.).
+
+• Développer et optimiser des modèles statistiques et des algorithmes d’apprentissage automatique (machine learning) pour prédire des tendances et optimiser les processus opérationnels (contrôle de cohérence, dét",https://www.welcometothejungle.com/fr/companies/ecosystem/jobs/data-analyst-f-h_courbevoie,2026-04-15,2026-04-24,jsearch
+Stage Juin 2026  - Data Analyst Junior (F/H),AXA,Suresnes,FR,,,EUR,False,Stage,"Leader français de l’assurance auto en ligne depuis 1992, Direct Assurance, entité du Groupe AXA, propose également des offres d’assurance habitation, moto et santé.
+Aujourd'hui, plus de deux millions de clients nous font confiance grâce à un tarif adapté et une gestion des sinistres personnalisée.
+
+Dans un marché assurantiel très compétitif, Direct Assurance conçoit des solutions adaptées aux besoins de ses clients en défendant leur pouvoir d’achat.
+Nous faisons de l'expérience client une prior",https://careers.axa.com/careers-home/jobs/19687?lang=fr-fr,2026-04-20,2026-04-24,jsearch
+Data Analyst senior Digital product F/H,AIR FRANCE,FR,FR,,,EUR,False,À plein temps,"Description du poste
+
+Description du poste
+
+Intitulé du poste
+
+Data Analyst senior Digital product F/H
+
+Métier
+
+Digital - e-Marketing
+
+Catégorie socio-professionnelle
+
+Cadre
+
+Présentation du contexte
+
+L'entité digital performance, au sein de la direction centrale du Digital Product Management, est en charge de piloter la performance opérationnelle et commerciale de nos sites internet et de nos Applications Mobile.
+
+Pour la partie commerciale, le service Performance Insights & Analytics (PIA) fou",https://www.meteojob.com/jobs/53485111,2026-04-21,2026-04-24,jsearch
+Stage - ESG  Reporting & Data Analyst H/F,BNP Paribas Asset Management,Puteaux,FR,,,EUR,False,Stage,"BNP Paribas Asset Management (BNPP AM) est la division de gestion d’actifs du groupe BNP Paribas. Depuis le 1er juillet 2025, les activités d’AXA Investment Managers (AXA IM) ont été intégralement rattachées à BNPP AM, créant ainsi une plateforme mondiale unifiée et renforcée.
+BNPP AM est un leader mondial de la gestion d’actifs, bénéficiant de la taille, de la stabilité et de l’expertise du Groupe. Nous accompagnons une clientèle diversifiée, incluant des investisseurs institutionnels, des entr",https://group.bnpparibas/emploi-carriere/offre-emploi/stage-reporting-data-analyst-h-f,2026-04-17,2026-04-24,jsearch
+Data Analyst en Alternance H/F,KEREIS FRANCE,Saint-Herblain,FR,,,EUR,False,À plein temps et Stage,"Les missions du poste
+
+Chez Kereis, nous avons pris le parti de tout vous dévoiler pour vous aider à vous projeter dans votre futur univers de travail.
+
+Vous évoluez au sein de l'équipe Business Intelligence (BI) dans le département Solutions Data de notre Direction des Systèmes d'Information. Cette équipe est chargée de la mise en oeuvre et du maintien en condition opérationnelle des solutions de production et d'exposition des données au sein du groupe Kereis. Vous contribuez à organiser, synth",https://www.hellowork.com/fr-fr/emplois/78164689.html,2026-04-20,2026-04-24,jsearch
+Senior Data Analyst,eXalt,Lille,FR,,,EUR,False,À plein temps,"Descriptif du poste
+
+Notre entreprise accompagne plusieurs clients sur des sujets de transformation data, BI et gouvernance. Nous recherchons un(e) Senior Data Analyst pour intervenir sur la refonte d’un dispositif de pilotage d’initiatives IA, dans un environnement international.
+
+Vous serez chargé(e) d’analyser les données existantes, de recueillir les besoins des parties prenantes et de contribuer à la mise en place d’un nouveau workflow intégré, avec un outil de gouvernance et une couche BI
+",https://fr.trabajo.org/offre-4112-c26ee97906dfe48875a7b0b4487c0ea5,2026-04-22,2026-04-24,jsearch
+Consultant.e Data Analyst CRM & Insights,Elevate,Paris,FR,,,EUR,False,À plein temps,"Dans le cadre du développement du cabinet, nous recherchons un.e Data Analyst Senior spécialisé.e CRM afin de rejoindre la practice Data & Tech !
+Vous interviendrez directement au cœur des équipes CRM / Media de nos client pour transformer la donnée en insights activables.
+Parmi vos missions 🛠
+Exploration & Data Mining
+• Requêter directement dans les bases de données (SQL avancé impératif) pour extraire, nettoyer et structurer les données nécessaires aux analyses.
+
+• Réconcilier des données hété",https://www.welcometothejungle.com/fr/companies/elevate/jobs/consultant-e-data-analyst-crm-insights_paris,2026-03-27,2026-04-24,jsearch
+Data Analyst Pricing F/H,Itesa,FR,FR,,,EUR,False,Stage,"À propos de nous
+
+Fort d’un effectif de 150 collaborateurs répartis dans 15 établissements à travers la France, le Groupe ITESA-VEDITEC s’impose comme un acteur majeur dans le domaine de la sécurité électronique.
+Son expertise se concentre principalement sur les segments de l’alarme et de la vidéosurveillance.
+Cette spécialisation témoigne de la capacité du groupe à répondre aux enjeux croissants de protection des biens et des personnes, tout en maintenant une proximité terrain grâce à son maill",https://bebee.com/fr/jobs/data-analyst-pricing-itesa-marseille-16e-13--theirstack-668419102,2026-04-22,2026-04-24,jsearch
+Ingénieur Data Analyst - Data Analysis & Validation (H/F),TREFLE ITA,Toulouse,FR,,,EUR,False,À plein temps,"Trèfle ITA est aujourd'hui un acteur majeur dans le domaine du BTP, des télécommunications, de l'eau, de la VRD, de l'informatique et de l'aéronautique. Depuis plus de 20 ans, notre expertise est reconnue par une clientèle Grands Comptes, qui s'appuie sur nos compétences techniques et notre réactivité et que nous accompagnons sur le long terme. Nous sommes présents sur les métiers suivants : - Télécom - Mécanicien - Electricité - Plasturgie - Automatisme - Electronique - Informatique industriell",https://candidat.francetravail.fr/offres/recherche/detail/206GRNF,2026-04-21,2026-04-24,jsearch
+HAVAS MEDIA FRANCE - CDI - DATA ANALYST - CHARGÉ DE DATA OPERATIONS & REPORTING MARKETING   - H/F,Havas France,Puteaux,FR,,,EUR,False,À plein temps,"Au sein de l’équipe Data de Havas Media, vous contribuez au bon fonctionnement d’un ensemble de solutions internes de pilotage marketing et de reporting utilisées par les équipes opérationnelles. Vous serez garant·e du bon fonctionnement au quotidien et aurez en charge la maintenance, l’évolution et le déploiement des outils et dashboards pour les collaborateurs et les clients.
+Vous devrez comprendre les besoins métiers, répondre aux demandes des utilisateurs pour utiliser au mieux les outils et",https://www.welcometothejungle.com/fr/companies/havas-sa/jobs/havas-media-france-cdi-data-analyst-charge-de-data-operations-reporting-marketing-h-f_puteaux,2026-03-31,2026-04-24,jsearch
+Data Analyst – Contrats de Service F/H,Safran Aircraft Engines,Montereau-sur-le-Jard,FR,,,EUR,False,À plein temps,"Dans le cadre des contrats de service MCR (Maintenance Cost Reconciliation) et du suivi des poussées moteurs, nous recherchons un Data Analyst.
+
+La première mission du Data Analyst tournera autour de la donnée (collecte, compilation, nettoyage et identification d'incohérence des données) de nouveaux contrats de service tout juste déployés auprès de nos grands clients.
+
+Ceci permettra de mener l'analyse économiques des contrats de services MCR (Maintenance Cost Reconciliation). Pour ce faire, il ",https://www.safran-group.com/fr/offres/france/montereau-jard/data-analyst-contrats-service-fh-169847,2026-04-21,2026-04-24,jsearch
+Data Analyst H/F,ECOUTER VOIR,Paris,FR,,,EUR,False,À plein temps,"Visaudio recherche pour sa Direction Analyse et Data, un Data Analyst (h/f) en CDI à temps plein sur son site de Paris (15ème). Vous aimez comprendre, analyser et tirer des enseignements concrets à partir des chiffres ? Mettez vos connaissances au profit d'une enseigne engagée en optique et en audition ! Rattaché(e) au Directeur Analyse et Data, vous serez en charge de l'exploitation et de l'analyse des données issues du réseau Ecouter Voir, optique et audition mutualiste, afin d'en dégager des ",https://candidat.francetravail.fr/offres/recherche/detail/206XPWH,2026-04-20,2026-04-24,jsearch
+Offre n° 1699274 DATA ANALYST H/F,Keepcool,Ventabren,FR,,,EUR,False,À plein temps,"Le sport et le bien-être sont aujourd'hui l'un des domaines d'activité phare du groupe ICM. Considérant la pratique sportive comme un levier essentiel de santé et de qualité de vie, le groupe s'engage pleinement dans leur développement. Afin de renforcer sa présence sur le marché du fitness, le groupe a acquis en 2022 Neoness, leader des salles de sport en région parisienne. À travers sa branche ICM Wellness, le groupe exploite désormais deux réseaux complémentaires de clubs de sport - Keepcool ",https://bebee.com/fr/jobs/offre-n-1699274-data-analyst-keepcool-ventabren--techmap_fr_1699274,2026-04-21,2026-04-24,jsearch
+Alternant Data Analyst (H/F),Carrier,Montluel,FR,,,EUR,False,À temps partiel,"Carrier recrute des Alternants !
+
+Chez Carrier, vous travaillerez dans un endroit où vous serez en contact avec des gens extraordinaires, où vous sentirez que vos compétences et vos points de vue seront vraiment appréciés. Nous offrons des opportunités de développement et de progression, et des expériences pratiques sur des projets stimulants.
+
+Lancez votre carrière chez le premier fournisseur mondial de solutions de chauffage, ventilation, climatisation et réfrigération (CVC).
+
+Alternant Data A",https://jobs.carrier.com/fr/emploi/montluel/alternant-data-analyst-h-f/29289/92345206304,2026-04-01,2026-04-24,jsearch
+DATA ANALYST,EXPECTRA,Blagnac,FR,,,EUR,False,,"Expectra, leader en France de l'intérim spécialisé et du recrutement en CDI de cadres et agents de maîtrise.
+
+Les consultants du Département Aéronautique vous proposent des opportunités de carrière.Nous recherchons pour le compte de notre client AIRBUS, UN/UNE SUPPORT PROJET DE DIGITALISATION.Rejoignez l'équipe SRB Cross-Programme et Performance en tant que Catalyseur IA et Analyste Avancé(e). Dans ce rôle, vous serez le moteur de l'adoption de l'IA générative (Gemini) et des solutions Low-Code ",https://www.aerocontact.com/emploi-aeronautique/data-analyst-fh~1098580.html,2026-03-26,2026-04-24,jsearch
+DATA ANALYST EN STAGE H/F,Maison de l'Emploi et de la Formation des Pays Voironnais et Sud Grésivaudan,Voiron,FR,,,EUR,False,À plein temps,"Description
+
+Leader européen dans la conception et la fabrication de pièces plastiques, le Groupe Plastivaloire est à la fois un équipementier automobile de rang 1 et 2 (cockpit, décorations et mécanismes, poignées de portes, éclairage et signalisation, etc.) mais aussi un acteur majeur de l’industrie grand public (multimédia, électroménager, électricité & sécurité).
+
+Plastivaloire est en mesure de proposer à ses clients des solutions innovantes pour des pièces injectées de haute technicité, mon",https://fr.linkedin.com/jobs/view/data-analyst-en-stage-h-f-at-maison-de-l-emploi-et-de-la-formation-des-pays-voironnais-et-sud-gr%C3%A9sivaudan-4404822031,2026-04-21,2026-04-24,jsearch
+Data analyst (H/F),DAVIDSON PACA,Valbonne,FR,,,EUR,False,À plein temps,"Rejoindre Davidson, ce n'est pas seulement intégrer un groupe de 3000 consultants dans 6 pays et 2 continents, c'est intégrer LA société qui a été élue par ses salariés Great Place To Work France et Europe pendant 4 ans mais aussi une des plus grandes B Corp de France, nommée Best of the World dans la catégorie ""collaborateurs"" en 2022 ! (Les ""B Corp"" formant une communauté de sociétés qui ont décidé d'être non pas les meilleures du monde mais les meilleures POUR le monde). Parce que notre dével",https://candidat.francetravail.fr/offres/recherche/detail/204RWGL,2026-04-16,2026-04-24,jsearch
+Offre n° 1698539 Apprenti data analyst f/h,France Travail,Roissy-en-France,FR,,,EUR,False,,"Accompagné(e) par votre maître d'apprentissage, vous interviendrez sur l'ensemble de la chaîne de valeur data, avec une forte dimension d'analyse et de compréhension métier.
+
+• Recueil des besoins & cadrage fonctionnel (~20%) • Comprendre les enjeux métiers (prévisions, dimensionnement, planification, régulation?)
+• Être en interface avec les équipes opérationnelles pour challenger et affiner les besoins
+• Définir et formaliser des indicateurs de performance pertinents (KPI)
+• Restituer les anal",https://bebee.com/fr/jobs/offre-n-1698539-apprenti-data-analyst-france-travail-roissy-en-france--techmap_fr_1698539,2026-04-21,2026-04-24,jsearch
+Data Analyst / Business Analyst Junior (Dataiku & Agile) (H/F),France Travail,Épinay-sur-Seine,FR,,,EUR,False,À plein temps,"Dans le cadre du développement de nos activités data, nous recherchons un(e) Data Analyst / Business Analyst Junior capable d'intervenir sur l'analyse de données, le suivi de projets et l'amélioration des processus.
+
+Le poste s'inscrit dans un environnement Agile et nécessite une capacité à structurer les besoins, analyser les données et produire des indicateurs d'aide à la décision.",https://candidat.francetravail.fr/offres/recherche/detail/206PMSP,2026-04-10,2026-04-24,jsearch
+Data Engineer / Data Analyst IA,Constencia,FR,FR,,,EUR,False,À plein temps,"Qui sommes-nous ?
+
+Constencia est une jeune entreprise dynamique implantée à Sophia Antipolis, première technopole d’Europe.
+
+Nous accompagnons nos partenaires grands groupes établis sur tout le territoire français dans leurs projets d’innovation et de transformation numérique à forte valeur ajoutée.
+
+Nos ingénieurs et experts interviennent sur des sujets stratégiques mêlant ingéniosité, intelligence artificielle, data, cloud, cybersécurité, développement logiciel et systèmes critiques, au sein ",https://bebee.com/fr/jobs/data-engineer-data-analyst-ia-constencia-greater-nice-metropolitan-area--theirstack-667266782,2026-04-21,2026-04-24,jsearch
+CDI - DATA ANALYST - Chargé de Data Operations & Reporting Marketing   - H/F,Havas Media France,FR,FR,,,EUR,False,À plein temps,"Au sein de l’équipe Data de Havas Media, vous contribuez au bon fonctionnement d’un ensemble de solutions internes de pilotage marketing et de reporting utilisées par les équipes opérationnelles. Vous serez garant·e du bon fonctionnement au quotidien et aurez en charge la maintenance, l’évolution et le déploiement des outils et dashboards pour les collaborateurs et les clients.
+
+Vous devrez comprendre les besoins métiers, répondre aux demandes des utilisateurs pour utiliser au mieux les outils e",https://fr.linkedin.com/jobs/view/cdi-data-analyst-charg%C3%A9-de-data-operations-reporting-marketing-h-f-at-havas-media-france-4385279254,2026-04-07,2026-04-24,jsearch
+Data Analyst Expérimenté - Keyrus France H/F,Keyrus france,Aix-en-Provence,FR,,,EUR,False,À plein temps,"Détail du poste
+Qui sommes-nous ? Une success story dans la Data et le Digital !
+
+Notre mission ? Des projets à forte valeur ajoutée pour accroître la performance et la compétitivité des entreprises, faciliter et accélérer leur transformation.
+Notre expertise depuis plus de 20 ans ? Le conseil et l'intégration de solutions innovantes autour de trois domaines :
+
+- Data Intelligence
+
+Business Intelligence, Big Data & Analytics, Intelligence Artificielle
+
+- Digital Experience
+
+Conseil, Stratégie & ",https://www.hellowork.com/fr-fr/emplois/66769865.html,2026-04-19,2026-04-24,jsearch
+Growth Data Analyst - Intern M - F - N H/F,HelloFresh,FR,FR,,,EUR,False,À plein temps et Stage,"Les missions du poste
+Rejoins une superstar de la foodtech française
+
+HelloFresh est présent dans plus de 15 pays. La France, un jeune marché lancé en 2019, connaît une ascension fulgurante : nous y sommes déjà leaders depuis 2021. Le moment parfait pour rejoindre notre équipe et avoir un impact fort dans l'une des scales up françaises les plus prometteuses !
+
+Début début 2023, nous avons ouvert un nouveau site de production, et nous sommes en train de constituer l'équipe, si tu souhaites prendr",https://www.hellowork.com/fr-fr/emplois/62401451.html,2026-04-06,2026-04-24,jsearch
+SENIOR DATA ANALYST H/F/NB (H/F),NRJ GROUP,Paris,FR,,,EUR,False,À plein temps,"Date de démarrage souhaitée : dès que possible Type de contrat : CDI Statut : Cadre Au sein de la Direction Marketing Digital & Data de e-NRJ, vous rejoignez une équipe au cœur de la transformation digitale du Groupe NRJ. Notre mission : accompagner les antennes et les marques du Groupe (NRJ, Chérie FM, Nostalgie, Rire & Chansons) sur l'ensemble de leurs propriétés digitales (sites, apps, CRM, campagnes d'acquisition, audio digital), afin de développer les audiences, les écoutes, l'engagement et",https://candidat.francetravail.fr/offres/recherche/detail/206DSLB,2026-03-31,2026-04-24,jsearch
+Offre n° 1666352 DATA ANALYST – TEMPS PLEIN H/F,France Travail,,,,,EUR,False,Stage,"Votre mission : Préparer un plan de travail de correction des données Recueillir toutes les données statiques pour l’ERP de l’entreprise Saisir et mettre à jour des données : produits (création article, désignation, paramètres, nomenclature, étapes produits), et compte (création compte fournisseurs et clients) Documenter l’ensemble des contraintes détectées et des actions correctives mise en place pour réunir l’ensemble des données. Catégoriser les données afin de les exploiter au mieux Créer et",https://bebee.com/fr/jobs/offre-n-1666352-data-analyst-temps-plein-france-travail-sezanne--techmap_fr_1666352,2026-04-21,2026-04-24,jsearch
+Consultant junior Data Analyst – Spécialiste data quality et data Gouvernance (F/H),Deloitte,Paris,FR,,,EUR,False,À plein temps,"Quel sera votre rôle dans la #TeamDeloitte ?
+vous interviendrez auprès de nos clients sur les missions suivantes :
+• Contribuer à la mise en place de stratégie et de politiques de gouvernance des données, y compris l'établissement de normes, de processus et de « Target Operating Models » alignés sur les meilleures pratiques du marché ;
+
+• Examiner et comprendre les réglementations et exigences spécifiques liées au secteur banque et assurance (Solvabilité 2 et BCBS 239 par exemple) ;
+
+• Assister ",https://www.welcometothejungle.com/fr/companies/deloitte/jobs/consultant-junior-data-analyst-specialiste-data-quality-et-data-gouvernance-f-h_paris-la-defense_DELOI_ogmQyLL,2026-04-03,2026-04-24,jsearch
+"ALTERNANCE - Data analyst, digitalisation du SI - F/H",Thales,Saint-Jean-de-Moirans,FR,,,EUR,False,À plein temps,"Lieu : Moirans, France
+
+Construisons ensemble un avenir de confiance
+
+Thales est un leader mondial des hautes technologies spécialisé dans trois secteurs d’activité : Défense & Sécurité, Aéronautique & Spatial, et Cyber & Digital. Il développe des produits et solutions qui contribuent à un monde plus sûr, plus respectueux de l’environnement et plus inclusif. Le Groupe investit près de 4 milliards d’euros par an en Recherche & Développement, notamment dans des domaines clés de l’innovation tels q",https://fr.linkedin.com/jobs/view/alternance-data-analyst-digitalisation-du-si-f-h-at-thales-4387860464,2026-04-10,2026-04-24,jsearch
+Data Analyste/Data Quality,Société Générale,Puteaux,FR,,,EUR,False,Stage,"Vos missions au quotidien
+
+Vous savez “ faire parler “ les données pour créer de la valeur ? Vous souhaitez travailler en mode agile ? Rejoignez-nous !
+
+En tant que stagiaire chargé de développement big data et data visualisation, vous intégrez l’équipe DFIN/EMR/DQP (Direction FINancière, Expertise on Metric and Reports, Data Quality Platform) en charge de la chaîne de production des métriques de liquidité (ratios LCR et NSFR, CML, pilotage interne et reporting règlementaire). Au sein de ces équ",https://www.welcometothejungle.com/fr/companies/societe-generale/jobs/data-analyste-data-quality_la-defense,2026-04-04,2026-04-24,jsearch
+Data Analyst (H/F),France Travail,Paris,FR,,,EUR,False,À plein temps,"Qui sommes-nous ? Artefact est une société française de conseil et d'ingénierie spécialisée dans les données et l'IA, et un leader européen dans ce domaine. Basés à Paris, nous sommes aujourd'hui présents dans 23 pays sur tous les continents, avec une équipe de 1 700 collaborateurs. Notre mission est d'aider les entreprises à exploiter pleinement le potentiel de l'IA et des données en développant des solutions sur mesure qui répondent aux défis spécifiques de leur secteur. En tant que pionniers ",https://candidat.francetravail.fr/offres/recherche/detail/206ZCBQ,2026-04-15,2026-04-24,jsearch
+Offre n° 1708046 Alternance Data analyst - Roissy-en-France (H/F),France Travail,Roissy-en-France,FR,,,EUR,False,,"Description : L'ISCOD, spécialiste de la formation en Digital Learning, recherche pour un fournisseur d'équipement de manutention à Roissy-en-France, un(e) Data analyst H/F en contrat d'apprentissage, pour préparer l'une de nos formations diplômantes reconnues par l'Etat de niveau 5 à niveau 7 (Bac+2, Bachelor/Bac+3 ou Mastère/Bac+5). Choisissez l'alternance nouvelle génération avec l'ISCOD !
+
+Missions : Création et mise à jour des fiches articles et fournisseurs dans l'ERP (SAGE)Nettoyage et fi",https://bebee.com/fr/jobs/offre-n-1708046-alternance-data-analyst-roissy-en-france-france-travail-roissy-en-france--techmap_fr_1708046,2026-04-21,2026-04-24,jsearch
+Applied Ai Forward Deployed Machine Learning Engineer Critical And Sovereign Institutions EMEA H/F,Mistral AI,Paris,FR,,,EUR,False,À plein temps,"Détail du poste
+
+About Mistral
+
+At Mistral AI, we believe in the power of AI to simplify tasks, save time, and enhance learning and creativity. Our technology is designed to integrate seamlessly into daily working life, democratizing AI through high-performance, open-source models, products, and solutions. Our comprehensive AI platform meets enterprise needs, whether on-premises or in the cloud, and includes tools like Le Chat, La Plateforme, and Mistral Compute.
+
+We are a dynamic, collaborative",https://www.hellowork.com/fr-fr/emplois/78347210.html,2026-04-23,2026-04-24,jsearch
+Data Engineer / Machine Learning Engineer (F/H) - 33,informatis-ts,Bordeaux,FR,,,EUR,False,À plein temps,"Dans le cadre d’un important projet avec un client final leader dans son domaine, nous recherchons des profils Data Engineer / Machine Learning Engineer
+
+Localisation : France (Bordeaux / Paris / Remote hybride)
+
+Type de contrat : CDI / Freelance / Pré-embauche
+
+Expérience : 3 ans minimum
+
+Contexte
+
+Projets à forte volumétrie de données, nous recherchons plusieurs profils Data Engineer / Machine Learning Engineer pour intervenir sur des environnements techniques exigeants, orientés performance e",https://fr.indeed.com/viewjob?jk=3f0e21d44c19c8ab,2026-04-23,2026-04-24,jsearch
+Senior Machine Learning Engineer - AI Initiatives (W/M/NB) - Parisot,Ubisoft,Parisot,FR,,,EUR,False,À plein temps,"Join the Ubisoft AI Initiatives team and architect the future of the information lifecycle at Ubisoft. From advanced hybrid search and RAG pipelines to complex, agentic reasoning, we are engineering the tools that turn raw information into high-velocity decision-making. If you want to push the boundaries of how humans and AI collaborate to solve complex problems, this is your arena. We are seeking a highly skilled Machine Learning Engineer to design, build, evaluate, and optimize AI models and i",https://www.directemploi.com/candidatOffre/54171432,2026-04-23,2026-04-24,jsearch
+Senior Data Scientist / ML Engineer,Hellowork Group,Rennes,FR,,,EUR,False,À plein temps,"Description du poste et Missions
+
+Chez Hellowork Group, on développe des solutions digitales au service de l’emploi et de la formation, utilisées chaque jour par des millions de personnes et d’entreprises.
+
+Derrière ces produits, il y a beaucoup de data, du machine learning en production, et une place de plus en plus importante pour l’IA générative et les LLM, avec un objectif simple : créer des usages concrets et utiles.
+
+Dans ce contexte, on recrute un·e Senior Data Scientist / ML Engineer pou",https://carrieres.hellowork-group.com/offer/3169-MTA2MDUtTG1rb3Bw,2026-04-21,2026-04-24,jsearch
+Lead ML / AI Engineer,Artefact,Paris,FR,,,EUR,False,À plein temps,"Offre d’emploi Lead ML / AI Engineer _ Artefact Côte d’Ivoire
+Nous recherchons notre futur(e) Lead ML/AI Engineer pour rejoindre l’équipe d’Abidjan et contribuer à des projets data concrets, à forte valeur ajoutée, pour des clients locaux et internationaux.
+Qui sommes-nous ?
+Artefact est un cabinet de conseil nouvelle génération, entièrement dédié à la data et à la transformation AI. Avec plus de 2000 talents présents dans 24 pays, nous aidons les organisations à activer pleinement la puissance ",https://www.welcometothejungle.com/fr/companies/artefact/jobs/lead-ml-ai-engineer_paris,2026-04-22,2026-04-24,jsearch
+Machine Learning Engineer - MLOps (H/F) - Lille - Freelance,Collective.work,Lille,FR,,,EUR,False,À plein temps et Prestataire,"Description du poste
+Taux journalier (TJM): 400 - 450
+Missions
+
+Le/La Machine Learning Engineer aura pour mission de :
+
+•
+Déployer, maintenir et faire évoluer des applications de machine learning en production
+
+•
+Collecter, nettoyer, structurer et orchestrer les pipelines de données nécessaires aux applications ML
+
+•
+Concevoir et mettre en place les outils de CI/CD pour automatiser les déploiements et la mise en production
+
+•
+Développer les composants de monitoring, d’observabilité et de supervi",https://fr.indeed.com/viewjob?jk=f0eb8c987932e52c,2026-04-13,2026-04-24,jsearch
+Stage Machine Learning & Modélisation Data - Stage M1 (3 à 4 mois),Nalo,Paris,FR,,,EUR,False,Stage,"La data chez Nalo
+La donnée joue un rôle important dans l’entreprise. Elle permet d’éclairer les décisions stratégiques, de piloter le produit, d’analyser les comportements clients et de soutenir les équipes d’investissement dans leur métier via la mise à disposition d’informations pertinentes.
+Ainsi, la fonction data est transverse et collabore étroitement avec les équipes Produit, Marketing, Investissement et Tech. Elle couvre à la fois la structuration du data warehouse, la fiabilisation des ",https://www.welcometothejungle.com/fr/companies/nalo/jobs/stage-machine-learning-modelisation-data-stage-m1-3-a-4-mois_paris,2026-04-21,2026-04-24,jsearch
+Stage Ingénieur R&D en apprentissage automatique / IA (h/f) - 6 mois,VEDECOM,Versailles,FR,,,EUR,False,À plein temps,"Description
+
+L’Institut pour la Transition Energétique (ITE) VEDECOM est un institut français de recherche et de formation dédié aux mobilités innovantes et durables, à travers trois axes de R&D multidisciplinaire : l’électrification, le véhicule automatisé et connecté, les facteurs humains et économie des mobilités durables.
+
+Intégré dans le programme d'innovation ""France 2030"", l’Institut contribue également activement à de nombreux projets de recherche européens.
+
+Constitué de chercheurs, d'i",https://fr.linkedin.com/jobs/view/stage-ing%C3%A9nieur-r-d-en-apprentissage-automatique-ia-h-f-6-mois-at-vedecom-4405037295,2026-04-23,2026-04-24,jsearch
+Ml Engineer - Nlp Production et MLOps H/F,FAB Group,Pau,FR,,,EUR,False,À plein temps,"Les missions du poste
+Le contexte
+
+Nous accompagnons une startup technologique en forte croissance dans la recherche de son futur(e) ML Engineer - NLP (Production & MLOps) H/F.
+
+Dans le cadre du renforcement de son pôle IA, notre cabinet FAB Group intervient sur les premières étapes du processus de recrutement ainsi que sur le suivi de votre intégration au sein de notre client, qui sera votre futur employeur.
+
+Ce poste en CDI, basé à Pau, s'inscrit dans un contexte d'accélération produit avec un",https://www.hellowork.com/fr-fr/emplois/78275475.html,2026-04-22,2026-04-24,jsearch
+Machine Learning Engineer H/F,BNP Paribas,Nantes,FR,,,EUR,False,À plein temps,"Missions, équipe et environnement de travail, ça donne quoi ?
+Au sein du Groupe, la Banque Commerciale en France (BCEF) accélère sa stratégie autour de l’Intelligence Artificielle pour accompagner toutes ses lignes métiers : Retail, Corporate, Banque Privée, Opérations et Fonctions centrales.
+Au cœur de cette dynamique, l’IA Factory, intégrée à la DSI de BCEF, déploie à grande échelle des solutions innovantes d’IA générant de la valeur : amélioration de l’efficacité opérationnelle, création de n",https://group.bnpparibas/emploi-carriere/offre-emploi/machine-learning-engineer-h-f-1,2026-03-28,2026-04-24,jsearch
+Machine Learning Engineer,WHIZE,Neuilly-sur-Seine,FR,,,EUR,False,À plein temps,"Welcome To The World Of Whizdom !
+
+Offre d'emploi pour un CDI : Développeur Machine learning (ML)
+
+WHIZE est spécialisée dans le développement de solutions sur mesure en architecture Serverless (Azure, AWS) et de solutions basées sur l'écosystème Microsoft 365 (SharePoint, Teams, Power Platform).
+
+Vos missions :
+• Développement d’application en lien avec l’exploitation de modèles de types machine learning : prédictions de consommation, maintenance prédictive de nos infrastructures (canalisations",https://fr.linkedin.com/jobs/view/machine-learning-engineer-at-whize-4402732131,2026-04-17,2026-04-24,jsearch
+Machine Learning Engineer - confirmé F/H,ATOS,Saint-André-lez-Lille,FR,,,EUR,False,À plein temps,"Le poste en quelques mots : Vous aimez concevoir des modèles de Machine Learning… mais surtout les voir fonctionner en production ?Et si votre expertise IA servait des produits digitaux concrets, à grande échelle ? En tant que Machine Learning Engineer H/F, vous intervenez au cœur de projets data et IA avancés, dans des environnements cloud GCP industrialisés. Vous jouez un rôle clé dans le déploiement, l’automatisation et la fiabilité des solutions de Machine Learning, tout en contribuant à l’é",https://www.jobijoba.com/fr/annonce/54/c85d53e8a6c5a0bb10c5e613dfd01ce4,2026-04-19,2026-04-24,jsearch
+Machine Learning Engineer - confirmé (H/F),Atos,Lille,FR,,,EUR,False,À plein temps,"Le poste en quelques mots :
+
+Vous aimez concevoir des modèles de Machine Learning… mais surtout les voir fonctionner en production ?
+Et si votre expertise IA servait des produits digitaux concrets, à grande échelle ?
+
+En tant que Machine Learning Engineer H/F , vous intervenez au cœur de projets data et IA avancés, dans des environnements cloud GCP industrialisés. Vous jouez un rôle clé dans le déploiement, l’automatisation et la fiabilité des solutions de Machine Learning, tout en contribuant à",https://www.welcometothejungle.com/fr/companies/atos/jobs/machine-learning-engineer-confirme-h-f_lille,2026-03-31,2026-04-24,jsearch
+"Machine Learning Engineers / Paris | Paris, FR | Flexible",Eka Finance,Paris,FR,,,EUR,False,À plein temps,"Role :- 
+
+Design state-of-the-art machine learning algorithms tailored to the company’s unique latency and scalability demands. 
+
+Analyse large datasets, identify prediction and classification challenges, propose solutions, build prototypes, and stay current on the latest research. 
+
+Explore new academic and industrial machine learning and modelling techniques, applying them within the company. 
+
+Requirements :- 
+
+You have a Master’s or PhD in Machine Learning, Computer Science, or a r",https://www.efinancialcareers.fr/emploi-France-Paris-Machine_Learning_Engineers__Paris.id24069527,2026-04-01,2026-04-24,jsearch
+"Data Scientist / Machine Learning Engineer Confirmé F/H - Système, réseaux, données (H/F)",ONEY BANK,Croix,FR,,,EUR,False,À plein temps,"Quelles sont les missions ?
+Descriptif du poste:
+
+Poste et missions
+
+Être Data Scientist / ML Engineer chez Oney, pourquoi c'est mieux ?
+Plus qu'un poste.une mission pour vous ! Et quelle mission !
+
+Dans le cadre de sa feuille de route IA, Oney développe et accélère l'intégration du Machine & Deep Learning, du NLP et des solutions d'IA Génératives afin de capitaliser sur l'exploitation des données, l'optimisation des processus opérationnels et l'amélioration de l'expérience client.
+
+Au sein du p",https://emploi.lefigaro.fr/offres-emploi/156534507749967482,2026-04-19,2026-04-24,jsearch
+ML Engineer / Lead ML Engineer (H/F),Tilencia,Paris,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+Tilencia est une société de conseil spécialisée dans les activités de Cybersécurité et de DevOps.
+
+Notre ADN et nos valeurs :
+• L'humain au centre
+• Détection de talents
+• Suivi, coaching
+• Solutions cousues main
+
+Et surtout prendre du plaisir ;)
+
+Description du poste
+
+Contexte
+
+Notre client renforce sa Direction Data et crée une équipe dédiée au machine learning en production et aux systèmes de recommandation, afin d'améliorer la personnalisation de l'expérience uti",https://lesjeudis.com/fr/job/ml-engineer-lead-ml-engineer-hf-416883,2026-04-09,2026-04-24,jsearch
+"Machine Learning Engineer | Paris, FR",Sia,Paris,FR,,,EUR,False,À plein temps,"Machine Learning Engineer
+
+{""description"": "" Description de l'entreprise 
+
+Sia est un groupe international de conseil en management de nouvelle g\u00e9n\u00e9ration, fond\u00e9 en 1999. N\u00e9s \u00e0 l'\u00e8re du digital, nous sommes augment\u00e9s par la data, enrichis par la cr\u00e9ativit\u00e9 et guid\u00e9s par la responsabilit\u00e9. Nous collaborons avec nos clients pour relever les d\u00e9fis et saisir les opportunit\u00e9s. Dans un monde en pleine mutation, nous croyons que l'opt",https://www.efinancialcareers.fr/emploi-France-Paris-Machine_Learning_Engineer.id24119851,2026-04-13,2026-04-24,jsearch
+Senior Ml Engineer,MP Data,Toulouse,FR,,,EUR,False,À plein temps,"MP DATA est un cabinet de conseil spécialisé dans l'accompagnement de projets Data et IA de bout en bout. Nous renforçons actuellement notre équipe pour intervenir sur des projets industriels de grande envergure, notamment pour le compte d'acteurs majeurs de l'aéronautique.
+
+En tant que Machine Learning Engineer (MLE), vous rejoindrez la Digital Innovation Team de l'un de nos clients stratégiques. Votre mission principale sera de transformer une architecture RAG existante en une véritable Factor",https://fr.trabajo.org/offre-5523-4e2516eab3a6584571b0e806c1bde4d7,2026-04-21,2026-04-24,jsearch
+Project-Based ML Engineer — AI Systems & GenAI,Mindrift,Lyon,FR,,,EUR,False,À plein temps,"Mindrift seeks contributors for project-based AI opportunities, focusing on testing and improving AI systems. Candidates should have over 5 years of machine learning experience and excellent Python skills for data science. The role involves designing computational STEM problems and verifying solutions. Compensation is based on contribution levels, with rates up to $58/hour, based on project complexity and expertise, requiring around 10-20 hours per week during active phases.
+#J-18808-Ljbffr",https://fr.whatjobs.com/jobs/project--based-ml-engineer-%E2%80%94-ai/lyon-rhone-alpes?id=141424539,2026-04-22,2026-04-24,jsearch
+ML Engineer confirmé H/F,BNP Paribas,Montreuil,FR,,,EUR,False,À plein temps,"ML Engineer confirmé H/F
+
+Au quotidien ça donne quoi ?
+En tant que MLOps Engineer, vous serez responsable de la mise en place, de la gestion et de l'optimisation des pipelines de machine learning pour assurer la qualité, la frugalité et la conformité des modèles d'IA. Vous travaillerez en étroite collaboration avec les équipes de data science et d'ingénierie pour garantir le déploiement efficace et sécurisé des modèles d'IA dans les environnements de production.
+Vos responsabilités seront les su",https://group.bnpparibas/emploi-carriere/offre-emploi/ml-engineer-confirme-h-f-2,2026-03-31,2026-04-24,jsearch
+Machine Learning Engineer (F/H/X) - Eviden,ATOS,Les Clayes-sous-Bois,FR,,,EUR,False,À plein temps,"Bienvenue chez Eviden, acteur clé du numérique de prochaine génération et leader mondial du cloud, du calcul avancé et de la sécurité !
+
+Eviden opère dans tous les secteurs d’activité, et fait rayonner son expertise sur l’ensemble du continuum numérique.
+
+Nous rejoindre, c’est à la fois une opportunité exaltante de contribuer au futur de la tech et d’agir pour le bien commun, tout en bénéficiant d’un environnement équitable et inclusif, entouré d’experts de haut niveau !
+
+Aujourd’hui, et pour",https://www.jobijoba.com/fr/annonce/54/8485c3d0d45b4c558871b06c9dbc4dbe,2026-04-19,2026-04-24,jsearch
+Machine Learning Engineer – MLOps & Plateforme Data/IA (IT) / Freelance,Free-Work,L'Échelle,FR,,,EUR,False,À plein temps,"ph3 Contexte /h3 pDans le cadre du développement d’une plateforme Data IA à l’échelle internationale, un acteur majeur renforce ses équipes afin de structurer et industrialiser ses pratiques bMLOps /b. /p pL’objectif est de faciliter le déploiement, l’exploitation et la scalabilité des modèles de machine learning, tout en garantissant leur intégration fluide au sein des produits digitaux. /p pVous interviendrez dans un environnement moderne, orienté bcloud, automatisation et intelligence artific",https://fr.jobrapido.com/jobpreview/5310503489128890368,2026-04-22,2026-04-24,jsearch
+Machine Learning Engineer - Confirmé F/H,Matmut,,,,,EUR,False,À plein temps,"À la Matmut, nous n'exerçons pas juste un métier. Pour nous, sens et ambition sont indissociables. Nous rendons l'assurance accessible et équitable grâce à notre modèle mutualiste. Responsabilité, proximité, efficacité nous guident pour satisfaire chaque jour nos clients sociétaires. C'est aussi ce qui vous anime ?
+
+PAS JUSTE UN QUOTIDIEN !
+
+Afin de renforcer sa performance opérationnelle, d'améliorer l'expérience de ses sociétaires et d'optimiser l'efficacité de ses métiers, le Groupe Matmut ac","https://www.glassdoor.fr/job-listing/machine-learning-engineer-confirm%C3%A9-f-h-matmut-JV_IC3090388_KO0,38_KE39,45.htm?jl=1009997715023",2026-04-14,2026-04-24,jsearch
+Ingénieur intelligence artificielle - AI/ML Engineer,"GE Vernova, Inc.",Villeurbanne,FR,,,EUR,False,À plein temps,"Job Description Summary
+Are you an experienced, passionate, and results-oriented Artificial Intelligence and Machine Learning (AI/ML) Engineer ready to drive innovation in the critical field of Power Transmission? We are seeking a talented individual to design, develop, and deploy cutting-edge AI/ML solutions that optimize our operations, enhance product performance, and unlock new opportunities within our Power Transmission business (PT). In this pivotal role, you will be instrumental in transf",https://lesjeudis.com/job/ingenieur-intelligence-artificielle-aiml-engineer-407714,2026-03-28,2026-04-24,jsearch
+"Offre n° 1580753 Data Scientist / Machine Learning Engineer Confirmé F/H - Système, réseaux, données (H/F)",ONEY BANK,Croix,FR,,,EUR,False,Stage,"Descriptif du poste: Poste et missions Être Data Scientist / ML Engineer chez Oney, pourquoi c'est mieux ? Plus qu'un poste.une mission pour vous ! Et quelle mission ! Dans le cadre de sa feuille de route IA, Oney développe et accélère l'intégration du Machine &
+
+• Deep Learning, du NLP et des solutions d'IA Génératives afin de capitaliser sur l'exploitation des données, l'optimisation des processus opérationnels et l'amélioration de l'expérience client. Au sein du pôle Data Science du départeme",https://bebee.com/fr/jobs/offre-n-1580753-data-scientist-machine-learning-engineer-confirme-systeme-reseaux-donnees-oney-bank---techmap_fr_1580753,2026-04-16,2026-04-24,jsearch
+Machine Learning Engineer sénior (F/H),Luminess,Rennes,FR,,,EUR,False,À plein temps,"Acteur majeur de l'écosystème numérique français, nos équipes conjuguent expertise et connaissance métier large à un savoir-faire technologique robuste. Luminess s'appuie sur cette alliance : technologies et compétences métiers pour proposer des solutions adaptées à l'évolution des besoins de nos clients et leur permettre ainsi de sublimer leur promesse client.
+
+BPO, IA, RPA, l'automatisation des processus associée à une supervision humaine tout au long de nos workflows assurent un haut niveau d",https://fr.indeed.com/viewjob?jk=f158ff09df0e6ca0,2026-03-26,2026-04-24,jsearch
+Machine Learning Engineer – MLOps,Free-Work,Lille,FR,,,EUR,False,À plein temps,"🎯 Contexte
+
+Dans le cadre du développement d’une plateforme Data & IA à l’échelle internationale, un acteur majeur renforce ses équipes afin de structurer et industrialiser ses pratiques MLOps.
+
+L’objectif est de faciliter le déploiement, l’exploitation et la scalabilité des modèles de machine learning, tout en garantissant leur intégration fluide au sein des produits digitaux.
+
+Vous interviendrez dans un environnement moderne, orienté cloud, automatisation et intelligence artificielle, incluant",https://fr.trabajo.org/offre-4112-a033ab7c815a7bcb16449422196b210a,2026-04-18,2026-04-24,jsearch
+Machine Learning Engineer  (H/F) | Stage,Liora,Courbevoie,FR,,,EUR,False,Stage,"Le MLOps est aujourd’hui incontournable pour industrialiser les projets de Machine Learning. Il permet de :
+• Automatiser le cycle de vie complet des modèles ML
+
+• Garantir la reproductibilité et la qualité des modèles
+
+• Faciliter la collaboration entre Data Scientists et équipes métier
+
+• Accélérer le passage de l’expérimentation à la production.
+
+Au sein de l’équipe Machine Learning Engineering du pôle Data Science, vous serez amenés à intervenir sur les parcours Machine Learning Engineer (en",https://www.welcometothejungle.com/fr/companies/datascientest/jobs/machine-learning-engineer-formateur-h-f-stage_puteaux,2026-04-22,2026-04-24,jsearch
+Data Scientist | Machine Learning Engineer – Practice IA MARGO,Margo-Group,Paris,FR,,,EUR,False,À plein temps,"Qui sommes nous ?
+
+Chez MARGO, nos consultants travaillent sur ce qui compte vraiment : des projets complexes qui allient challenge intellectuel et impact business réel.
+
+C’est pourquoi nous accompagnons les plus grands acteurs de la finance, de l’industrie et de la tech sur leurs projets les plus stratégiques en Data Science, Machine Learning et Intelligence Artificielle.
+
+Pourquoi rejoindre la practice IA ?
+
+Vous évoluerez au sein d’une équipe encadrée par Hamza Bouanani, Practice Manager IA c",https://jobs.hugodecrypte.com/entreprises/margo-group/offres/data-scientist-machine-learning-engineer-practice-ia-margo-paris-france,2026-03-25,2026-04-24,jsearch
+DS / ML Engineer (confirmé) : Sud-Est,MP DATA,Boulogne-Billancourt,FR,,,EUR,False,À plein temps,"Nous recherchons un profil de Data Scientist / ML Engineer confirmé pour renforcer notre équipe Data Industrie dans le Sud-Est de la France. Vous interviendrez sur plusieurs étapes de projets Data/IA notamment sur la mise à disposition de données métiers au travers de solutions de Deep Learning et de Computer Vision.
+Vos responsabilités incluront :
+• L’automatisation du déploiement et l’orchestration des services.
+
+• Participation à la veille techno, aux choix d’outils et à l’amélioration contin",https://www.welcometothejungle.com/fr/companies/mp-data/jobs/ml-engineer-experimente_boulogne-billancourt,2026-04-13,2026-04-24,jsearch
+AI Software Engineer (Angular / .NET),Hubvisory,Paris,FR,,,EUR,False,À plein temps,"Contexte de la mission
+Dans le cadre d’un programme d’accélération stratégique, vous rejoignez une équipe produit d’une dizaine de personnes avec un objectif clair : augmenter drastiquement la productivité
+de développement grâce à l’IA.
+
+Le principal enjeu consiste à lever un goulet d’étranglement critique lié à la réécriture d’un front-end Angular, estimée aujourd’hui à plus de 300 jours, en s’appuyant sur des approches de développement assistées par IA de nouvelle génération.
+
+Vos missions
+Int",https://fr.linkedin.com/jobs/view/ai-software-engineer-angular-net-at-hubvisory-4402444243,2026-04-22,2026-04-24,jsearch
+Deep Learning Engineer,Groupe Aptenia,Paris,FR,,,EUR,False,Prestataire,"📍 Localisation : Paris (2j/semaine sur site)
+📅 Démarrage : ASAP
+⏳ Durée : 6 mois minimum
+🔍 Nous recherchons un Deep Learning Engineer expérimenté dans un contexte à forte dimension technologique.
+🎯 Vos missions principales✅ Développer, entraîner et tester des modèles de Deep Learning (Computer Vision)
+✅ Travailler sur des données d'imagerie aérospatiale
+✅ Contribuer à la mise en production des modèles
+✅ Participer à l’amélioration de la stack MLOps (CI/CD, industrialisation)
+✅ Collaborer au sein",https://www.free-work.com/fr/tech-it/data-engineer/job-mission/deep-learning-engineer,2026-04-08,2026-04-24,jsearch
+Senior ML Engineer - F/H,ChapsVision,Paris,FR,,,EUR,False,Stage,"Présentation de ChapsVision
+Fondé en 2019, ChapsVision est un éditeur de logiciels français en forte croissance, membre du NEXT40 de la French Tech, regroupant les 40 start‑ups les plus prometteuses.
+
+Avec plus de 1200 collaborateurs et 1000 clients grands comptes et régaliens, ChapsVision ambitionne de devenir un leader européen du traitement souverain de la donnée.
+
+Nos produits allient intelligence artificielle, analyse de données et performance technologique pour aider nos clients à mieux ex",https://bebee.com/fr/jobs/senior-ml-engineer-chapsvision-paris--talent-1a0971ded7e6,2026-04-11,2026-04-24,jsearch
+Senior Machine Learning Engineer - AI Initiatives (W/M/NB),Ubisoft,Paris,FR,,,EUR,False,À plein temps,"Description de l'entreprise
+
+Ubisoft est un leader mondial du jeu vidéo, avec des équipes réparties aux quatre coins du monde qui créent des expériences de jeu originales et mémorables, de Assassin's Creed à Rainbow Six, en passant par Just Dance et bien d'autres. Nous sommes convaincus que la diversité des points de vue permet à la fois aux joueurs et aux équipes de s'épanouir. Si vous êtes passionné(e) par l'innovation et souhaitez repousser les limites du divertissement, rejoignez-nous pour c",https://lesjeudis.com/fr/job/senior-machine-learning-engineer-ai-initiatives-wmnb-402536,2026-03-27,2026-04-24,jsearch
+AI & Machine Learning Engineer,exponentiel.ai,Paris,FR,,,EUR,False,À plein temps,"About The Position
+
+We are currently seeking an AI/Machine Learning Engineer, Manager Consultant to join our team at Exponential AI. In this role, you’ll leverage cutting-edge AI and machine learning technologies to design, develop, and implement solutions for complex, real-world challenges. You will work closely with clients across various industries, applying advanced analytics and AI techniques to bring scalable, innovative solutions to life. As part of our mission, you’ll collaborate with di",https://fr.linkedin.com/jobs/view/ai-machine-learning-engineer-at-exponentiel-ai-4398277226,2026-04-07,2026-04-24,jsearch
+Lead Machine Learning Engineer - 70k€-80k€ -Aix-en-Provence - Télétravail partiel -client final- CDI - prime à la signature H/F,Primrecrut,Aix-en-Provence,FR,,,EUR,False,À plein temps,"Donnez un nouveau souffle à votre carrière !
+
+Leader de l'intérim digital en France, notre client te propose de rejoindre une entreprise innovante et en forte croissance. Classée 21ème sur la liste des 1000 entreprises européennes à la croissance la plus rapide, notre client est également la première entreprise française dans ce classement, avec des distinctions telles que le titre de Champion de la croissance 2021 par Les Echos et une place dans le prestigieux classement #FT120 de La French Tec",https://fr.engineering.jobs/fr/emploi/lead-machine-learning-engineer-70keu-80keu-aix-en-provence-teletravail-partiel-client-final-0,2026-04-03,2026-04-24,jsearch
+Tech Lead Machine Learning Engineer (F/H/X),Epsilon France,FR,FR,,,EUR,False,À plein temps,"• *Description De L'entreprise**
+
+EPSILON France est l’entité Datamarketing de Publicis Groupe avec 650 experts data, marketing et technologiques et plus de 40 métiers représentés. Avec pour claim « Every Interaction Counts », la mission d’EPSILON est de conjuguer les pouvoirs de la data, du marketing et de la technologie pour rendre les interactions entre les marques et leurs clients toujours plus justes et pertinentes. EPSILON intervient sur l’ensemble des étapes-clé d’un projet de transformat",https://bebee.com/fr/jobs/tech-lead-machine-learning-engineer-epsilon-france-paris-ile-de--theirstack-651389962,2026-03-27,2026-04-24,jsearch
+Manager Machine Learning Engineer - Conseil H/F,CGI,Paris,FR,,,EUR,False,À plein temps,"Détail du poste
+Manager Machine Learning Engineer / Conseil - F/H
+
+Description de poste
+CGI Business Consulting est le partenaire stratégique des entreprises et des organisations dans leur transformation digitale. Forts de l'appui d'un grand groupe et d'une dynamique entrepreneuriale, nous accompagnons nos clients dans l'exploitation des opportunités offertes par la Data et l'Intelligence Artificielle.
+
+Notre équipe en forte croissance recherche des talents ambitieux et passionnés, désireux de r",https://www.hellowork.com/fr-fr/emplois/73632906.html,2026-04-14,2026-04-24,jsearch
+AI Founding Engineer,Bazylic,Paris,FR,,,EUR,False,À plein temps,"Nous accompagnons une startup AI parisienne en early stage qui construit une plateforme établie sur des agents d’intelligence artificielle capables d’automatiser des workflows métier complexes.
+
+Le produit s’attaque à un secteur européen important mais encore très peu outillé technologiquement, dans lequel une grande partie du travail repose aujourd’hui sur :
+• l’analyse de documents complexes
+• la production de comparatifs
+• la structuration d’informations provenant de multiples sources
+• la gé",https://fr.linkedin.com/jobs/view/ai-founding-engineer-at-bazylic-4405206208,2026-04-22,2026-04-24,jsearch
+Senior Machine Learning Engineer: ML Recall,Jobgether,Saint-Martin-Lacaussade,FR,,,EUR,False,À plein temps,"Senior Machine Learning Engineer: ML Recall in France
+This role sits at the core of a next‑generation e‑commerce search and discovery platform that operates at massive global scale. You will be responsible for building and optimizing machine learning systems that directly impact relevance, recall, and business‑critical outcomes such as conversion and revenue.
+
+Working on cutting‑edge transformer‑based and multimodal models, you will help shape how users discover products across search, recommend",https://www.jobilize.com/job/fr-nouvelle-aquitaine-saint-martin-lacaussade-senior-machine-learning-psyg0s,2026-04-23,2026-04-24,jsearch
+Team Lead Machine Learning Engineer - H/F/NB - Parisot,Ubisoft,Parisot,FR,,,EUR,False,À plein temps,"En nous rejoignant sur ce poste, vous intégrerez une équipe multidisciplinaire (data, programmation, game & narrative design, animation, etc.), guidée par une question simple et ambitieuse : parmi toutes les possibilités offertes par l’IA générative, lesquelles sont réellement intéressantes et fun pour le gameplay ?L’équipe a pour mission de tester de nouvelles expériences auprès de joueurs et joueuses, et d’équiper les créateur·rices pour imaginer des interactions plus dynamiques, immersives et",https://www.directemploi.com/candidatOffre/53768678,2026-04-19,2026-04-24,jsearch

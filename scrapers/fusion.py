@@ -29,9 +29,8 @@ from datetime import datetime
 
 DATA_DIR          = "/opt/airflow/data"
 OUTPUT_PATH       = f"{DATA_DIR}/offres_all.csv"
-OUTPUT_TRANSFORME = f"{DATA_DIR}/offres_transformees.csv"  # ← produit par transform.py
+OUTPUT_TRANSFORME = f"{DATA_DIR}/offres_transformees.csv"
 
-# Fichiers sources attendus
 SOURCES = {
     "france_travail": f"{DATA_DIR}/offres_france_travail.csv",
     "arbeitnow":      f"{DATA_DIR}/offres_cadremploi.csv",
@@ -40,11 +39,10 @@ SOURCES = {
     "jsearch":        f"{DATA_DIR}/offres_jsearch.csv",
 }
 
-# Schéma cible — toutes les colonnes attendues dans offres_all.csv
 SCHEMA = [
     "hash_id",
     "titre",
-    "titre_normalise",        # ← produit par transform.py
+    "titre_normalise",
     "entreprise",
     "lieu",
     "region",
@@ -58,7 +56,7 @@ SCHEMA = [
     "contrat_type",
     "secteur",
     "categorie",
-    "competences_extraites",  # ← produit par transform.py
+    "competences_extraites",
     "description",
     "lien",
     "tags",
@@ -71,74 +69,86 @@ SCHEMA = [
 ]
 
 # ─── MAPPING SECTEUR FALLBACK ─────────────────────────────────────────────────
+# ✅ Mots-clés précis pour éviter les faux positifs
 
 SECTEUR_KEYWORDS = {
     "Informatique / Tech": [
-        "data", "python", "java", "développeur", "developer", "devops",
-        "cloud", "ia", "ai", "machine learning", "sql", "engineer",
-        "software", "sre", "scrum", "agile", "tech", "it ", " it",
-        "cybersécurité", "réseau", "infrastructure",
+        "data scientist", "data engineer", "data analyst",
+        "machine learning", "deep learning", "nlp engineer",
+        "développeur python", "développeur java", "développeur react",
+        "developer", "software engineer", "fullstack",
+        "devops", "mlops", "dataops", "sre",
+        "cloud architect", "aws", "azure", "gcp",
+        "cybersécurité", "cybersecurity",
+        "intelligence artificielle", "ai engineer",
+        "data architect", "business intelligence",
+        "infrastructure it", "scrum master it",
+        "product manager tech", "ingénieur data",
     ],
     "Finance / Comptabilité": [
         "finance", "comptabl", "audit", "trésor", "contrôleur",
-        "analyste financier", "risk", "banque", "assurance",
-        "gestion de patrimoine", "analyst", "portfolio",
+        "analyste financier", "risk manager", "banque", "assurance",
+        "gestion de patrimoine", "portfolio",
     ],
     "Marketing / Communication": [
-        "marketing", "communication", "seo", "sem", "content",
-        "brand", "media", "digital", "social media", "rédact",
-        "traffic", "growth",
+        "marketing", "communication", "seo", "sem", "content manager",
+        "brand manager", "social media manager", "rédact",
+        "traffic manager", "growth hacker",
     ],
     "Commercial / Ventes": [
-        "commercial", "vente", "sales", "account", "business develop",
-        "ingénieur commercial", "technico-commercial", "key account",
+        "commercial", "vente", "sales", "account manager",
+        "business developer", "ingénieur commercial",
+        "technico-commercial", "key account",
     ],
     "Ressources Humaines": [
-        "rh", "ressources humaines", "recrutement", "recruteur",
-        "talent", "paie", "formation", "hrbp",
+        "ressources humaines", "recrutement", "recruteur",
+        "talent acquisition", "responsable paie", "hrbp",
     ],
     "Ingénierie": [
-        "ingénieur", "ingenieur", "engineer", "mécanique", "électrique",
-        "automatisme", "bureau d'études", "r&d", "process",
-        "production", "méthodes",
+        "ingénieur mécanique", "ingénieur électrique",
+        "ingénieur industriel", "automatisme",
+        "bureau d'études", "ingénieur production",
+        "ingénieur qualité", "ingénieur travaux",
     ],
     "Santé / Médical": [
         "infirmier", "médecin", "pharmacien", "soignant", "aide-soignant",
-        "kiné", "médical", "santé", "clinique", "hôpital", "paramédical",
+        "kiné", "clinique", "hôpital", "paramédical",
     ],
     "Juridique": [
-        "juriste", "avocat", "droit", "compliance", "juridique",
-        "notaire", "legal", "paralegal",
+        "juriste", "avocat", "droit", "compliance officer",
+        "notaire", "paralegal",
     ],
     "Logistique / Supply Chain": [
         "logistique", "supply chain", "entrepôt", "transport",
-        "approvisionn", "stock", "cariste", "import export",
+        "approvisionn", "cariste", "import export",
     ],
     "Management / Opérations": [
-        "directeur", "manager", "chef de projet", "project manager",
-        "responsable", "directrice", "coo", "ceo", "opérations",
+        "directeur général", "directeur opérations",
+        "chef de projet", "project manager",
+        "responsable de site", "lean manager",
     ],
     "Education / Formation": [
-        "formateur", "enseignant", "pédagogie", "formation",
+        "formateur", "enseignant", "pédagogie",
         "professeur", "éducation",
     ],
     "Commerce / Distribution": [
-        "commerce", "distribution", "acheteur", "achats",
-        "approvisionnement", "merchandis", "magasin", "retail",
+        "commerce", "distribution", "acheteur",
+        "merchandis", "retail",
     ],
     "Conseil": [
-        "consultant", "consulting", "conseil", "advisory", "cabinet",
+        "consultant stratégie", "consultant management",
+        "consultant transformation", "consulting",
     ],
     "Immobilier / BTP": [
         "immobilier", "btp", "conducteur de travaux", "architecte",
-        "bâtiment", "chantier", "génie civil", "travaux",
+        "bâtiment", "chantier", "génie civil",
     ],
     "Hôtellerie / Restauration": [
-        "hôtel", "restauration", "cuisine", "chef", "serveur",
+        "hôtel", "restauration", "cuisine", "serveur",
         "réception", "hébergement",
     ],
     "R&D / Scientifique": [
-        "chercheur", "scientifique", "laboratoire", "recherche",
+        "chercheur", "scientifique", "laboratoire",
         "biologie", "chimie", "physique", "biotech",
     ],
 }
@@ -363,6 +373,11 @@ def fusionner_offres(sources: dict | None = None) -> pd.DataFrame:
     cols_finales = [c for c in SCHEMA if c in df_all.columns]
     df_all = df_all[cols_finales]
 
+    # ✅ Garder uniquement les offres IT/Data
+    avant_filtre = len(df_all)
+    df_all = df_all[df_all["secteur"] == "Informatique / Tech"]
+    print(f"Filtre IT : {avant_filtre} → {len(df_all)} offres conservées")
+
     os.makedirs(DATA_DIR, exist_ok=True)
     df_all.to_csv(OUTPUT_PATH, index=False, encoding="utf-8")
 
@@ -401,7 +416,6 @@ def sauvegarder_en_db(df: pd.DataFrame | None = None) -> int:
     }
 
     if df is None:
-        # ✅ Priorité au fichier transformé (produit par transform.py)
         fichier = OUTPUT_TRANSFORME if os.path.exists(OUTPUT_TRANSFORME) else OUTPUT_PATH
         print(f"📂 Lecture : {fichier}")
         df = pd.read_csv(fichier, low_memory=False)
@@ -412,7 +426,6 @@ def sauvegarder_en_db(df: pd.DataFrame | None = None) -> int:
     conn   = psycopg2.connect(**DB_CONFIG)
     cursor = conn.cursor()
 
-    # ✅ Schéma complet avec titre_normalise et competences_extraites
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS offres_emploi (
             id                    SERIAL PRIMARY KEY,
@@ -447,7 +460,6 @@ def sauvegarder_en_db(df: pd.DataFrame | None = None) -> int:
         )
     """)
 
-    # ✅ Ajouter colonnes si table existe déjà (migration sécurisée)
     for col_sql in [
         "ALTER TABLE offres_emploi ADD COLUMN IF NOT EXISTS titre_normalise VARCHAR(200);",
         "ALTER TABLE offres_emploi ADD COLUMN IF NOT EXISTS competences_extraites TEXT;",

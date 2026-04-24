@@ -4,17 +4,11 @@ Scraper The Muse API
 API publique — AUCUNE CLÉ REQUISE pour les offres publiques.
 Documentation : https://www.themuse.com/developers/api/v2
 
-Volume estimé : ~1 000-3 000 offres (base internationale, beaucoup de FR/EU)
-Catégories : 50+ secteurs disponibles natifs
-
-Avantages :
-  - Zéro inscription
-  - Multi-secteurs natifs
-  - Bonne structuration (level, category, company_size)
-  - International avec filtre location possible
+✅ VERSION IT/DATA UNIQUEMENT — conforme au projet Job Intelligent
 """
 
 import os
+import re
 import time
 import hashlib
 import requests
@@ -27,75 +21,20 @@ BASE_URL    = "https://www.themuse.com/api/public/jobs"
 OUTPUT_PATH = "/opt/airflow/data/offres_themuse.csv"
 PAGE_SIZE   = 20  # max The Muse
 
-# Catégories natives The Muse (couvrent tous les domaines)
+# ✅ Uniquement les catégories IT/Data
 CATEGORIES = [
     "Computer and IT",
     "Data and Analytics",
     "Software Engineer",
     "Product",
-    "Design and UX",
-    "Marketing and PR",
-    "Sales",
-    "Finance",
-    "Accounting",
-    "HR and Recruiting",
-    "Legal",
-    "Operations",
-    "Project Management",
-    "Healthcare",
-    "Education",
-    "Engineering",
-    "Science",
-    "Social Media",
-    "Customer Service",
-    "Business Development",
-    "Consulting",
-    "Real Estate",
-    "Retail",
-    "Media and Journalism",
-    "Environmental",
-    "Nonprofit",
-    "Administration",
-    "Logistics",
-    "Hospitality",
-    "Architecture",
 ]
 
-# Niveaux d'expérience disponibles
-LEVELS = ["Entry Level", "Mid Level", "Senior Level", "Management", "Internship"]
-
-# Mapping catégorie → secteur lisible en français
+# Mapping catégorie → secteur
 SECTEUR_MAP = {
-    "Computer and IT":        "Informatique / Tech",
-    "Data and Analytics":     "Informatique / Tech",
-    "Software Engineer":      "Informatique / Tech",
-    "Product":                "Informatique / Tech",
-    "Design and UX":          "Design / UX",
-    "Marketing and PR":       "Marketing / Communication",
-    "Sales":                  "Commercial / Ventes",
-    "Finance":                "Finance / Comptabilité",
-    "Accounting":             "Finance / Comptabilité",
-    "HR and Recruiting":      "Ressources Humaines",
-    "Legal":                  "Juridique",
-    "Operations":             "Management / Opérations",
-    "Project Management":     "Management / Opérations",
-    "Healthcare":             "Santé / Médical",
-    "Education":              "Education / Formation",
-    "Engineering":            "Ingénierie",
-    "Science":                "R&D / Scientifique",
-    "Social Media":           "Marketing / Communication",
-    "Customer Service":       "Service Client",
-    "Business Development":   "Commercial / Ventes",
-    "Consulting":             "Conseil",
-    "Real Estate":            "Immobilier",
-    "Retail":                 "Commerce / Distribution",
-    "Media and Journalism":   "Médias / Journalisme",
-    "Environmental":          "Environnement",
-    "Nonprofit":              "Associatif / ONG",
-    "Administration":         "Administration",
-    "Logistics":              "Logistique / Supply Chain",
-    "Hospitality":            "Hôtellerie / Restauration",
-    "Architecture":           "Architecture / BTP",
+    "Computer and IT":    "Informatique / Tech",
+    "Data and Analytics": "Informatique / Tech",
+    "Software Engineer":  "Informatique / Tech",
+    "Product":            "Informatique / Tech",
 }
 
 
@@ -105,16 +44,13 @@ def scraper_themuse_categorie(
     categorie: str,
     pages_max: int = 10,
 ) -> list[dict]:
-    """
-    Scrape toutes les offres d'une catégorie The Muse.
-    The Muse pagine par 'page' (commence à 1).
-    """
+    """Scrape toutes les offres d'une catégorie The Muse."""
     offres = []
 
     for page in range(1, pages_max + 1):
         params = {
-            "category": categorie,
-            "page":     page,
+            "category":   categorie,
+            "page":       page,
             "descending": "true",
         }
 
@@ -130,9 +66,9 @@ def scraper_themuse_categorie(
                 print(f"  [TheMuse] HTTP {resp.status_code} page {page}")
                 break
 
-            data      = resp.json()
-            jobs      = data.get("results", [])
-            total_p   = data.get("page_count", 1)
+            data    = resp.json()
+            jobs    = data.get("results", [])
+            total_p = data.get("page_count", 1)
 
             if not jobs:
                 break
@@ -142,24 +78,19 @@ def scraper_themuse_categorie(
                 company = job.get("company", {}).get("name", "N/A")
                 lien    = job.get("refs", {}).get("landing_page", "N/A")
 
-                # Hash unique
                 hash_id = hashlib.sha1(
                     f"{titre}|{company}|{lien}".encode()
                 ).hexdigest()[:16]
 
-                # Localisation
                 locations = job.get("locations", [])
-                lieu = locations[0].get("name", "N/A") if locations else "N/A"
+                lieu      = locations[0].get("name", "N/A") if locations else "N/A"
 
-                # Contenu
                 contents = job.get("contents", "")
-                desc = _strip_html(contents)[:500] if contents else "N/A"
+                desc     = _strip_html(contents)[:500] if contents else "N/A"
 
-                # Niveau
                 levels = job.get("levels", [])
                 niveau = levels[0].get("name", "N/A") if levels else "N/A"
 
-                # Type contrat
                 job_type = job.get("type", "full-time")
 
                 offres.append({
@@ -175,7 +106,7 @@ def scraper_themuse_categorie(
                     "contrat":         job_type,
                     "contrat_type":    job_type,
                     "categorie":       categorie,
-                    "secteur":         SECTEUR_MAP.get(categorie, "Autre"),
+                    "secteur":         SECTEUR_MAP.get(categorie, "Informatique / Tech"),
                     "description":     desc,
                     "lien":            lien,
                     "tags":            categorie,
@@ -203,21 +134,16 @@ def scraper_themuse_categorie(
 # ─── UTILITAIRES ──────────────────────────────────────────────────────────────
 
 def _strip_html(html: str) -> str:
-    """Supprime les balises HTML basiques."""
-    import re
     clean = re.sub(r"<[^>]+>", " ", html)
     clean = re.sub(r"\s+", " ", clean).strip()
     return clean
 
 
 def _extract_region(lieu: str) -> str:
-    """Tente d'extraire une région ou pays depuis le lieu."""
     if not lieu or lieu == "N/A":
         return "N/A"
     parts = [p.strip() for p in lieu.split(",")]
-    if len(parts) >= 2:
-        return parts[-1]  # dernier élément = pays/région généralement
-    return lieu
+    return parts[-1] if len(parts) >= 2 else lieu
 
 
 def _detect_remote_themuse(lieu: str, desc: str) -> bool:
@@ -236,18 +162,12 @@ def scraper_themuse(
 ) -> list[dict]:
     """
     Point d'entrée principal — compatible DAG Airflow.
-
-    Args:
-        categories: catégories à scraper (défaut : CATEGORIES global)
-        pages_max: pages max par catégorie
-
-    Returns:
-        Liste de dicts offres
+    ✅ Scrape uniquement les catégories IT/Data.
     """
     if categories is None:
         categories = CATEGORIES
 
-    print(f"The Muse — démarrage pour {len(categories)} catégories")
+    print(f"The Muse — démarrage pour {len(categories)} catégories IT/Data")
     toutes = []
 
     for cat in categories:
@@ -283,7 +203,7 @@ def scraper_themuse_task():
 
 if __name__ == "__main__":
     offres = scraper_themuse(
-        categories=["Data and Analytics", "Finance", "Marketing and PR"],
+        categories=["Data and Analytics", "Software Engineer"],
         pages_max=3,
     )
     print(f"\nTotal : {len(offres)} offres")

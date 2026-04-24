@@ -1,5 +1,5 @@
 """
-Scraper France Travail API — Version élargie tous domaines
+Scraper France Travail API — Version IT/Data uniquement
 ==========================================================
 Inscription gratuite : https://francetravail.io
   → Mes applications → Créer une application
@@ -9,13 +9,6 @@ Inscription gratuite : https://francetravail.io
 Variables d'environnement :
   FT_CLIENT_ID=<votre client_id>
   FT_CLIENT_SECRET=<votre client_secret>
-
-Différences avec la v1 :
-  - POSTES couvre 50+ métiers dans tous les secteurs
-  - Extraction du code ROME pour la catégorisation
-  - Champ 'secteur' standardisé pour le dashboard
-  - Hash_id pour déduplication croisée robuste
-  - Extraction salaire améliorée
 """
 
 import os
@@ -31,110 +24,39 @@ from datetime import datetime
 FT_CLIENT_ID     = os.getenv("FT_CLIENT_ID", "")
 FT_CLIENT_SECRET = os.getenv("FT_CLIENT_SECRET", "")
 
-TOKEN_URL  = "https://entreprise.francetravail.fr/connexion/oauth2/access_token"
-SEARCH_URL = "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search"
+TOKEN_URL   = "https://entreprise.francetravail.fr/connexion/oauth2/access_token"
+SEARCH_URL  = "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search"
 OUTPUT_PATH = "/opt/airflow/data/offres_france_travail.csv"
 
-# ─── MÉTIERS COUVERTS — TOUS SECTEURS ─────────────────────────────────────────
-# Structure : { "secteur_lisible": ["mot_cle1", "mot_cle2", ...] }
-# France Travail cherche dans le titre + description simultanément.
+# ─── MÉTIERS IT/DATA UNIQUEMENT ───────────────────────────────────────────────
+# ✅ On garde uniquement le secteur IT/Data — conforme au projet Job Intelligent
 
 POSTES_PAR_SECTEUR = {
     "Informatique / Tech": [
-        "data scientist", "data engineer", "data analyst",
-        "machine learning", "MLOps", "NLP engineer",
-        "data architect", "business intelligence",
-        "développeur python", "développeur java", "développeur react",
-        "devops", "cloud architect", "SRE", "cybersécurité",
-        "product manager tech", "scrum master",
-    ],
-    "Finance / Comptabilité": [
-        "analyste financier", "contrôleur de gestion",
-        "directeur financier", "comptable", "auditeur",
-        "trésorier", "risk manager", "analyste crédit",
-        "gestionnaire de portefeuille", "conseiller en gestion",
-    ],
-    "Marketing / Communication": [
-        "chef de produit", "responsable marketing",
-        "traffic manager", "SEO", "responsable communication",
-        "brand manager", "content manager", "chargé de communication",
-        "directeur marketing", "growth hacker",
-    ],
-    "Commercial / Ventes": [
-        "commercial", "account manager", "business developer",
-        "directeur commercial", "ingénieur commercial",
-        "responsable des ventes", "chargé d'affaires",
-        "key account manager", "technico-commercial",
-    ],
-    "Ressources Humaines": [
-        "responsable RH", "recruteur", "HRBP",
-        "chargé de formation", "responsable paie",
-        "directeur des ressources humaines", "talent acquisition",
-        "chargé de missions RH",
-    ],
-    "Ingénierie": [
-        "ingénieur mécanique", "ingénieur électrique",
-        "ingénieur industriel", "ingénieur R&D",
-        "chef de projet ingénierie", "ingénieur production",
-        "ingénieur qualité", "ingénieur travaux",
-        "ingénieur automatisme", "technicien bureau d'études",
-    ],
-    "Santé / Médical": [
-        "infirmier", "médecin généraliste", "pharmacien",
-        "aide-soignant", "kinésithérapeute",
-        "technicien de laboratoire", "manipulateur radio",
-        "ergothérapeute", "orthophoniste",
-        "responsable qualité santé",
-    ],
-    "Juridique": [
-        "juriste", "avocat", "juriste d'entreprise",
-        "compliance officer", "responsable juridique",
-        "paralegal", "notaire", "juriste social",
-    ],
-    "Logistique / Supply Chain": [
-        "supply chain manager", "logisticien",
-        "responsable entrepôt", "chef de dépôt",
-        "approvisionneur", "gestionnaire de stocks",
-        "coordinateur logistique", "responsable transport",
-        "cariste",
-    ],
-    "Management / Opérations": [
-        "directeur général", "directeur opérations",
-        "responsable de site", "chef de projet",
-        "directeur de production", "responsable qualité",
-        "lean manager", "responsable maintenance",
-    ],
-    "Education / Formation": [
-        "formateur", "responsable formation",
-        "ingénieur pédagogique", "consultant en formation",
-        "directeur pédagogique", "chargé de formation continue",
-    ],
-    "Commerce / Distribution": [
-        "responsable de rayon", "chef de magasin",
-        "directeur de magasin", "merchandiser",
-        "responsable achats", "acheteur",
-        "category manager", "gestionnaire de point de vente",
-    ],
-    "Conseil": [
-        "consultant stratégie", "consultant management",
-        "consultant transformation digitale",
-        "analyste consultant", "consultant SAP",
-        "consultant ERP",
-    ],
-    "Immobilier / BTP": [
-        "agent immobilier", "responsable immobilier",
-        "conducteur de travaux", "chef de chantier",
-        "architecte", "ingénieur bâtiment",
-        "maître d'oeuvre", "chargé d'affaires BTP",
-    ],
-    "Hôtellerie / Restauration": [
-        "chef de cuisine", "directeur d'hôtel",
-        "responsable restauration", "maître d'hôtel",
-        "responsable hébergement", "cuisinier",
+        "data scientist",
+        "data engineer",
+        "data analyst",
+        "machine learning engineer",
+        "MLOps",
+        "NLP engineer",
+        "data architect",
+        "business intelligence",
+        "développeur python",
+        "développeur java",
+        "développeur react",
+        "devops",
+        "cloud architect",
+        "SRE",
+        "cybersécurité",
+        "product manager tech",
+        "scrum master",
+        "AI engineer",
+        "fullstack developer",
+        "backend developer",
     ],
 }
 
-# Aplatir pour compatibilité avec l'ancienne interface
+# Aplatir pour compatibilité
 POSTES = [p for postes in POSTES_PAR_SECTEUR.values() for p in postes]
 
 # Mapping inverse poste → secteur
@@ -177,9 +99,7 @@ def get_access_token() -> str:
 # ─── SCRAPING ─────────────────────────────────────────────────────────────────
 
 def scraper_poste(poste: str, token: str, max_offres: int = 150) -> list[dict]:
-    """
-    Récupère les offres pour un poste donné (max 150 par l'API FT).
-    """
+    """Récupère les offres pour un poste donné (max 150 par l'API FT)."""
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept":        "application/json",
@@ -209,36 +129,31 @@ def scraper_poste(poste: str, token: str, max_offres: int = 150) -> list[dict]:
                 raise PermissionError("Token France Travail expiré")
 
             resp.raise_for_status()
-            data = resp.json()
+            data      = resp.json()
             resultats = data.get("resultats", [])
             if not resultats:
                 break
 
             for job in resultats:
-                titre     = job.get("intitule", "N/A")
+                titre      = job.get("intitule", "N/A")
                 entreprise = job.get("entreprise", {}).get("nom", "N/A")
-                lien      = job.get("origineOffre", {}).get("urlOrigine", "N/A")
+                lien       = job.get("origineOffre", {}).get("urlOrigine", "N/A")
 
-                # Hash unique
                 hash_id = hashlib.sha1(
                     f"{titre}|{entreprise}|{lien}".encode()
                 ).hexdigest()[:16]
 
-                # Salaire
-                salaire = job.get("salaire", {})
+                salaire  = job.get("salaire", {})
                 sal_lib  = salaire.get("libelle", "")
                 sal_min, sal_max = _parse_salaire(sal_lib)
 
-                # Lieu + région
                 lieu_info = job.get("lieuTravail", {})
                 lieu      = lieu_info.get("libelle", "N/A")
                 region    = _extract_region_ft(lieu_info)
 
-                # Compétences
                 competences = job.get("competences", [])
                 tags = ", ".join(c.get("libelle", "") for c in competences[:10])
 
-                # Code ROME (classification métier FT)
                 rome = job.get("romeCode", "")
 
                 offres.append({
@@ -254,7 +169,7 @@ def scraper_poste(poste: str, token: str, max_offres: int = 150) -> list[dict]:
                     "contrat":         job.get("typeContratLibelle", "N/A"),
                     "contrat_type":    job.get("typeContrat", "N/A"),
                     "categorie":       poste,
-                    "secteur":         POSTE_TO_SECTEUR.get(poste, "Autre"),
+                    "secteur":         POSTE_TO_SECTEUR.get(poste, "Informatique / Tech"),
                     "description":     job.get("description", "N/A")[:500],
                     "lien":            lien,
                     "tags":            tags,
@@ -266,7 +181,6 @@ def scraper_poste(poste: str, token: str, max_offres: int = 150) -> list[dict]:
                     "poste_recherche": poste,
                 })
 
-            # Vérifier Content-Range
             content_range = resp.headers.get("Content-Range", "")
             if content_range:
                 total = int(content_range.split("/")[-1])
@@ -307,18 +221,16 @@ def _parse_salaire(libelle: str) -> tuple:
 
 
 def _extract_region_ft(lieu_info: dict) -> str:
-    """Extrait la région depuis l'objet lieuTravail France Travail."""
     libelle = lieu_info.get("libelle", "")
-    # Format typique : "75 - Paris" ou "Île-de-France"
     if " - " in libelle:
         return libelle.split(" - ")[1].strip()
     return libelle or "N/A"
 
 
 def _is_remote(job: dict) -> bool:
-    lieu    = job.get("lieuTravail", {}).get("libelle", "").lower()
-    desc    = job.get("description", "").lower()
-    kws     = ["télétravail", "teletravail", "remote", "à distance"]
+    lieu = job.get("lieuTravail", {}).get("libelle", "").lower()
+    desc = job.get("description", "").lower()
+    kws  = ["télétravail", "teletravail", "remote", "à distance"]
     return any(k in lieu or k in desc for k in kws)
 
 
@@ -330,12 +242,12 @@ def scraper_france_travail(
 ) -> list[dict]:
     """
     Point d'entrée principal — compatible DAG Airflow.
-    Scrape tous les secteurs définis dans POSTES_PAR_SECTEUR.
+    ✅ Scrape uniquement les métiers IT/Data.
     """
     if postes is None:
         postes = POSTES
 
-    print(f"France Travail — {len(postes)} postes / {len(POSTES_PAR_SECTEUR)} secteurs")
+    print(f"France Travail — {len(postes)} postes IT/Data")
 
     token  = get_access_token()
     toutes = []
@@ -373,7 +285,7 @@ def scraper_france_travail_task():
 
 if __name__ == "__main__":
     offres = scraper_france_travail(
-        postes=["data scientist", "analyste financier", "infirmier", "commercial"],
+        postes=["data scientist", "data engineer", "devops"],
         max_offres_par_poste=50,
     )
     print(f"\nTotal : {len(offres)} offres")

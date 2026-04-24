@@ -54,9 +54,10 @@ def task_arbeitnow():
     import pandas as pd
 
     domaines = [
-        "data scientist", "software engineer",
-        "marketing manager", "finance analyst",
-        "infirmier", "chef de projet",
+    "data scientist", "data engineer", "data analyst",
+    "machine learning engineer", "MLOps", "AI engineer",
+    "software engineer", "devops", "cloud engineer",
+    "fullstack developer", "backend developer", "cybersecurity",
     ]
     toutes = []
     for d in domaines:

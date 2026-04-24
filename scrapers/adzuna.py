@@ -10,8 +10,8 @@ Variables d'environnement :
   ADZUNA_APP_KEY=<votre app_key>
 
 Avantages :
-  - Tous les secteurs (IT, finance, santé, marketing, BTP, etc.)
-  - Couvre France + international (pays configurable)
+  - Secteur IT/Data uniquement (optimisé pour Job Intelligent)
+  - Couvre France
   - Salaires inclus dans l'API
   - Gratuit jusqu'à 250 req/jour
 """
@@ -28,75 +28,29 @@ from datetime import datetime
 APP_ID  = os.getenv("ADZUNA_APP_ID", "")
 APP_KEY = os.getenv("ADZUNA_APP_KEY", "")
 
-BASE_URL    = "https://api.adzuna.com/v1/api/jobs"
-COUNTRY     = "fr"         # fr, gb, us, de, etc.
-OUTPUT_PATH = "/opt/airflow/data/offres_adzuna.csv"
-RESULTS_PER_PAGE = 50      # max Adzuna
+BASE_URL         = "https://api.adzuna.com/v1/api/jobs"
+COUNTRY          = "fr"
+OUTPUT_PATH      = "/opt/airflow/data/offres_adzuna.csv"
+RESULTS_PER_PAGE = 50  # max Adzuna
 
-# ─── SECTEURS COUVERTS ────────────────────────────────────────────────────────
-# Adzuna supporte les catégories natives — on couvre un max de secteurs.
-# Liste complète : https://api.adzuna.com/v1/api/jobs/fr/categories
+# ─── CATÉGORIES IT UNIQUEMENT ────────────────────────────────────────────────
+# On garde uniquement it-jobs pour rester dans le quota (250 req/jour)
 CATEGORIES = [
     "it-jobs",
-    "accounting-finance-jobs",
-    "engineering-jobs",
-    "healthcare-nursing-jobs",
-    "sales-jobs",
-    "marketing-jobs",
-    "hr-jobs",
-    "legal-jobs",
-    "logistics-warehouse-jobs",
-    "education-jobs",
-    "scientific-qa-jobs",
-    "social-work-jobs",
-    "retail-jobs",
-    "hospitality-catering-jobs",
-    "consultancy-jobs",
-    "graduate-jobs",
 ]
 
-# Mots-clés supplémentaires par catégorie pour maximiser les résultats
+# Mots-clés IT/Data uniquement
 KEYWORDS_PAR_CATEGORIE = {
     "it-jobs": [
-        "data scientist", "data engineer", "data analyst",
-        "machine learning", "devops", "développeur python",
-        "cloud architect", "cybersécurité", "IA générative",
-    ],
-    "accounting-finance-jobs": [
-        "analyste financier", "contrôleur de gestion",
-        "comptable", "auditeur", "risk manager", "trésorier",
-    ],
-    "engineering-jobs": [
-        "ingénieur mécanique", "ingénieur électrique",
-        "chef de projet", "ingénieur R&D", "automatisme",
-    ],
-    "healthcare-nursing-jobs": [
-        "infirmier", "médecin", "pharmacien",
-        "kinésithérapeute", "technicien médical",
-    ],
-    "sales-jobs": [
-        "commercial", "account manager", "business developer",
-        "directeur commercial", "ingénieur commercial",
-    ],
-    "marketing-jobs": [
-        "chef de produit", "traffic manager", "SEO",
-        "brand manager", "content manager", "growth hacker",
-    ],
-    "hr-jobs": [
-        "RH", "recruteur", "HRBP", "chargé de formation",
-        "responsable paie",
-    ],
-    "legal-jobs": [
-        "juriste", "avocat", "compliance officer",
-        "responsable juridique", "paralegal",
-    ],
-    "logistics-warehouse-jobs": [
-        "supply chain", "logisticien", "responsable entrepôt",
-        "chef de dépôt", "approvisionneur",
-    ],
-    "education-jobs": [
-        "formateur", "enseignant", "consultant pédagogique",
-        "responsable formation",
+        "data scientist",
+        "data engineer",
+        "data analyst",
+        "machine learning",
+        "devops",
+        "développeur python",
+        "cloud architect",
+        "cybersécurité",
+        "AI engineer",
     ],
 }
 
@@ -121,13 +75,13 @@ def scraper_adzuna_page(
     """Récupère une page de résultats Adzuna."""
 
     params = {
-        "app_id":          APP_ID,
-        "app_key":         APP_KEY,
+        "app_id":           APP_ID,
+        "app_key":          APP_KEY,
         "results_per_page": RESULTS_PER_PAGE,
-        "what":            mot_cle,
-        "where":           "France",
-        "content-type":    "application/json",
-        "sort_by":         "date",
+        "what":             mot_cle,
+        "where":            "France",
+        "content-type":     "application/json",
+        "sort_by":          "date",
     }
 
     url = f"{BASE_URL}/{COUNTRY}/search/{page}"
@@ -137,10 +91,12 @@ def scraper_adzuna_page(
 
         if resp.status_code == 401:
             raise PermissionError("Credentials Adzuna invalides (401)")
+
+        # ✅ FIX : plus de pause infinie sur quota dépassé → on skip direct
         if resp.status_code == 429:
-            print(f"  [Adzuna] Quota dépassé. Pause 60s...")
-            time.sleep(60)
-            return []
+            print(f"  [Adzuna] Quota dépassé — on arrête le scraping.")
+            return None  # None = signal d'arrêt total
+
         if resp.status_code != 200:
             print(f"  [Adzuna] HTTP {resp.status_code} — {resp.text[:200]}")
             return []
@@ -151,36 +107,35 @@ def scraper_adzuna_page(
 
         offres = []
         for job in jobs:
-            sal   = job.get("salary_min"), job.get("salary_max")
-            titre = job.get("title", "N/A")
+            sal       = job.get("salary_min"), job.get("salary_max")
+            titre     = job.get("title", "N/A")
             url_offre = job.get("redirect_url", "N/A")
 
-            # Hash unique pour déduplication croisée (titre + url)
             hash_id = hashlib.sha1(
                 f"{titre}|{url_offre}".encode()
             ).hexdigest()[:16]
 
             offres.append({
-                "hash_id":          hash_id,
-                "titre":            titre,
-                "entreprise":       job.get("company", {}).get("display_name", "N/A"),
-                "lieu":             job.get("location", {}).get("display_name", "N/A"),
-                "region":           _extract_region(job),
-                "salaire_min":      sal[0],
-                "salaire_max":      sal[1],
-                "salaire_brut":     _format_salaire(sal[0], sal[1]),
-                "remote":           _detect_remote(job),
-                "contrat":          job.get("contract_time", "N/A"),
-                "contrat_type":     job.get("contract_type", "N/A"),
-                "categorie":        categorie,
-                "secteur":          _map_secteur(categorie),
-                "description":      (job.get("description") or "")[:500],
-                "lien":             url_offre,
-                "tags":             mot_cle,
-                "date_creation":    (job.get("created") or "")[:10],
-                "date_scraping":    datetime.now().strftime("%Y-%m-%d"),
-                "source":           "adzuna",
-                "poste_recherche":  mot_cle,
+                "hash_id":         hash_id,
+                "titre":           titre,
+                "entreprise":      job.get("company", {}).get("display_name", "N/A"),
+                "lieu":            job.get("location", {}).get("display_name", "N/A"),
+                "region":          _extract_region(job),
+                "salaire_min":     sal[0],
+                "salaire_max":     sal[1],
+                "salaire_brut":    _format_salaire(sal[0], sal[1]),
+                "remote":          _detect_remote(job),
+                "contrat":         job.get("contract_time", "N/A"),
+                "contrat_type":    job.get("contract_type", "N/A"),
+                "categorie":       categorie,
+                "secteur":         _map_secteur(categorie),
+                "description":     (job.get("description") or "")[:500],
+                "lien":            url_offre,
+                "tags":            mot_cle,
+                "date_creation":   (job.get("created") or "")[:10],
+                "date_scraping":   datetime.now().strftime("%Y-%m-%d"),
+                "source":          "adzuna",
+                "poste_recherche": mot_cle,
             })
 
         print(f"  [Adzuna] {categorie} / '{mot_cle}' p.{page} : "
@@ -198,7 +153,7 @@ def scraper_adzuna_page(
 def scraper_adzuna_categorie(
     categorie: str,
     keywords: list[str],
-    pages_par_keyword: int = 3,
+    pages_par_keyword: int = 2,  # ✅ réduit de 3 à 2
 ) -> list[dict]:
     """Scrape plusieurs mots-clés dans une catégorie."""
     toutes = []
@@ -206,10 +161,16 @@ def scraper_adzuna_categorie(
     for mot_cle in keywords:
         for page in range(1, pages_par_keyword + 1):
             offres = scraper_adzuna_page(categorie, mot_cle, page)
+
+            # ✅ FIX : si None → quota dépassé → arrêt total immédiat
+            if offres is None:
+                print(f"  [Adzuna] Quota atteint — arrêt du scraping Adzuna.")
+                return toutes
+
             toutes.extend(offres)
             if not offres:
                 break
-            time.sleep(0.8)  # respecter le rate limit
+            time.sleep(0.8)
 
     return toutes
 
@@ -217,9 +178,7 @@ def scraper_adzuna_categorie(
 # ─── UTILITAIRES ──────────────────────────────────────────────────────────────
 
 def _extract_region(job: dict) -> str:
-    """Extrait la région depuis la localisation Adzuna."""
     locs = job.get("location", {}).get("area", [])
-    # area = ['France', 'Île-de-France', 'Paris'] typiquement
     if len(locs) >= 2:
         return locs[1]
     return "N/A"
@@ -234,62 +193,42 @@ def _format_salaire(sal_min, sal_max) -> str:
 
 
 def _detect_remote(job: dict) -> bool:
-    desc = (job.get("description") or "").lower()
+    desc  = (job.get("description") or "").lower()
     titre = (job.get("title") or "").lower()
-    kws = ["télétravail", "teletravail", "remote", "à distance",
-           "full remote", "hybrid", "hybride"]
+    kws   = ["télétravail", "teletravail", "remote", "à distance",
+             "full remote", "hybrid", "hybride"]
     return any(k in desc or k in titre for k in kws)
 
 
 def _map_secteur(categorie: str) -> str:
-    """Mappe la catégorie Adzuna vers un secteur lisible."""
     mapping = {
-        "it-jobs":                   "Informatique / Tech",
-        "accounting-finance-jobs":   "Finance / Comptabilité",
-        "engineering-jobs":          "Ingénierie",
-        "healthcare-nursing-jobs":   "Santé / Médical",
-        "sales-jobs":                "Commercial / Ventes",
-        "marketing-jobs":            "Marketing / Communication",
-        "hr-jobs":                   "Ressources Humaines",
-        "legal-jobs":                "Juridique",
-        "logistics-warehouse-jobs":  "Logistique / Supply Chain",
-        "education-jobs":            "Education / Formation",
-        "scientific-qa-jobs":        "R&D / Scientifique",
-        "social-work-jobs":          "Social / Médico-social",
-        "retail-jobs":               "Commerce / Distribution",
-        "hospitality-catering-jobs": "Hôtellerie / Restauration",
-        "consultancy-jobs":          "Conseil",
-        "graduate-jobs":             "Jeunes diplômés",
+        "it-jobs": "Informatique / Tech",
     }
-    return mapping.get(categorie, "Autre")
+    return mapping.get(categorie, "Informatique / Tech")
 
 
 # ─── FONCTION PRINCIPALE ──────────────────────────────────────────────────────
 
 def scraper_adzuna(
     categories: list[str] | None = None,
-    pages_par_keyword: int = 3,
+    pages_par_keyword: int = 2,  # ✅ réduit de 3 à 2
 ) -> list[dict]:
     """
     Point d'entrée principal — compatible avec le DAG Airflow.
+    Scrape uniquement it-jobs pour rester dans le quota 250 req/jour.
 
-    Args:
-        categories: liste de catégories Adzuna (défaut : CATEGORIES global)
-        pages_par_keyword: pages à scraper par mot-clé (défaut : 3)
-
-    Returns:
-        Liste de toutes les offres sous forme de dicts
+    Calcul : 1 catégorie × 9 mots-clés × 2 pages = 18 requêtes max
     """
     _check_credentials()
 
     if categories is None:
         categories = CATEGORIES
 
-    print(f"Adzuna — démarrage pour {len(categories)} catégories")
+    print(f"Adzuna — démarrage pour {len(categories)} catégorie(s) IT")
     toutes = []
 
     for cat in categories:
-        keywords = KEYWORDS_PAR_CATEGORIE.get(cat, [cat.replace("-jobs", "")])
+        keywords = KEYWORDS_PAR_CATEGORIE.get(cat, ["data", "it", "software"])
         print(f"\nCategorie : {cat} ({len(keywords)} mots-clés)")
         offres = scraper_adzuna_categorie(cat, keywords, pages_par_keyword)
         toutes.extend(offres)
@@ -322,7 +261,7 @@ def scraper_adzuna_task():
 
 if __name__ == "__main__":
     offres = scraper_adzuna(
-        categories=["it-jobs", "accounting-finance-jobs", "marketing-jobs"],
+        categories=["it-jobs"],
         pages_par_keyword=2,
     )
     print(f"\nTotal : {len(offres)} offres")
