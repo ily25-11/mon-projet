@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Intelligent — Recommandation IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --glass-white: rgba(255,255,255,0.10);
+  --glass-white-md: rgba(255,255,255,0.18);
+  --glass-white-lg: rgba(255,255,255,0.28);
+  --glass-dark: rgba(0,0,0,0.20);
+  --glass-border: rgba(255,255,255,0.18);
+  --glass-border-subtle: rgba(255,255,255,0.09);
+  --blur-sm: blur(8px);
+  --blur-md: blur(20px);
+  --blur-lg: blur(36px);
+  --shadow-glass: 0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.22);
+  --shadow-float: 0 24px 64px rgba(0,0,0,0.42), 0 4px 16px rgba(0,0,0,0.22);
+  --reflection-top: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 50%);
+  --reflection-inner: inset 0 1px 1px rgba(255,255,255,0.38), inset 0 -1px 1px rgba(0,0,0,0.10);
+  --accent-cyan:   #5ee7df;
+  --accent-violet: #b490f5;
+  --accent-rose:   #f7a8c4;
+  --accent-amber:  #ffd27f;
+  --accent-lime:   #a8f08a;
+  --color-bg: #080c18;
+  --color-surface: rgba(255,255,255,0.04);
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255,255,255,0.52);
+  --color-text-subtle: rgba(255,255,255,0.32);
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+  --radius-full: 9999px;
+  --ease-liquid: cubic-bezier(0.34,1.56,0.64,1);
+  --ease-glass:  cubic-bezier(0.22,0.68,0,1.2);
+  --ease-smooth: cubic-bezier(0.4,0,0.2,1);
+  --dur-fast: 180ms;
+  --dur-mid: 360ms;
+  --dur-slow: 600ms;
+  --sp-xs: 8px; --sp-sm: 12px; --sp-md: 16px;
+  --sp-lg: 24px; --sp-xl: 32px; --sp-2xl: 48px; --sp-3xl: 64px;
+}
+
+[data-theme="light"] {
+  --glass-white: rgba(255,255,255,0.60);
+  --glass-white-md: rgba(255,255,255,0.78);
+  --glass-white-lg: rgba(255,255,255,0.92);
+  --glass-border: rgba(15,23,42,0.14);
+  --glass-border-subtle: rgba(15,23,42,0.08);
+  --shadow-glass: 0 8px 32px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.90);
+  --shadow-float: 0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.07);
+  --reflection-top: linear-gradient(135deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0) 50%);
+  --color-bg: #e8f0fa;
+  --color-surface: rgba(255,255,255,0.55);
+  --color-text: #0f172a;
+  --color-text-muted: rgba(15,23,42,0.55);
+  --color-text-subtle: rgba(15,23,42,0.35);
+  --accent-cyan: #0891b2;
+  --accent-violet: #6d28d9;
+  --accent-rose: #be185d;
+  --accent-amber: #b45309;
+  --accent-lime: #15803d;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--color-text);
+  background: var(--color-bg);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background var(--dur-mid) var(--ease-smooth), color var(--dur-mid) var(--ease-smooth);
+}
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 3px; border-radius: var(--radius-sm); }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font-body); }
+
+/* ============================================================
+   ANIMATED BACKGROUND
+   ============================================================ */
+.scene {
+  position: fixed; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+.scene__blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); opacity: 0.50;
+  animation: blob-drift var(--dur,20s) ease-in-out infinite alternate;
+}
+[data-theme="light"] .scene__blob { opacity: 0.25; }
+.scene__blob--1 { width:700px;height:700px; background:radial-gradient(circle,#5ee7df,#3b82f6); top:-220px;left:-180px; --dur:24s; }
+.scene__blob--2 { width:600px;height:600px; background:radial-gradient(circle,#b490f5,#ec4899); bottom:-220px;right:-120px; --dur:18s; animation-delay:-9s; }
+.scene__blob--3 { width:450px;height:450px; background:radial-gradient(circle,#ffd27f,#f7a8c4); top:40%;left:50%; --dur:28s; animation-delay:-14s; }
+@keyframes blob-drift {
+  0%   { transform:translate(0,0) scale(1); }
+  33%  { transform:translate(60px,-50px) scale(1.08); }
+  66%  { transform:translate(-50px,70px) scale(0.93); }
+  100% { transform:translate(40px,30px) scale(1.05); }
+}
+
+/* ============================================================
+   GLASS UTILITY
+   ============================================================ */
+.glass {
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  position: relative; overflow: hidden;
+}
+.glass::before {
+  content:""; position:absolute; inset:0;
+  background: var(--reflection-top);
+  pointer-events:none; border-radius:inherit; z-index:1;
+}
+
+/* ============================================================
+   NAVIGATION BAR
+   ============================================================ */
+.navbar {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 1000;
+  display: flex; align-items: center; gap: 4px;
+  padding: 6px 8px;
+  border-radius: var(--radius-full);
+  backdrop-filter: var(--blur-lg); -webkit-backdrop-filter: var(--blur-lg);
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  min-width: 560px;
+  max-width: 90vw;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-display);
+  font-size: 0.95rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-logo svg { width:18px; height:18px; }
+.nav-sep { width:1px; height:28px; background:var(--glass-border); flex-shrink:0; margin: 0 4px; }
+.nav-items { display:flex; align-items:center; gap:2px; flex:1; }
+.nav-item {
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem; font-weight: 400;
+  opacity: 0.60; cursor: pointer;
+  border: none; background: transparent; color: var(--color-text);
+  transition: background var(--dur-fast), opacity var(--dur-fast), transform var(--dur-fast) var(--ease-liquid);
+  white-space: nowrap;
+}
+.nav-item:hover { opacity:1; transform:translateY(-1px); background: rgba(255,255,255,0.08); }
+.nav-item.is-active {
+  background: var(--glass-white-md);
+  border: 1px solid var(--glass-border);
+  opacity: 1;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+.nav-actions { display:flex; align-items:center; gap:6px; margin-left:auto; flex-shrink:0; }
+.btn-icon {
+  width:36px; height:36px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--glass-border); background:var(--glass-white);
+  color:var(--color-text); font-size:0.85rem;
+  transition: background var(--dur-fast), transform var(--dur-fast) var(--ease-liquid);
+}
+.btn-icon:hover { background:var(--glass-white-md); transform:scale(1.08); }
+
+/* ============================================================
+   PAGE ROUTER
+   ============================================================ */
+.page { display:none; position:relative; z-index:10; min-height:100vh; }
+.page.is-active { display:block; animation: page-in var(--dur-mid) var(--ease-glass) both; }
+@keyframes page-in {
+  from { opacity:0; transform:translateY(20px) scale(0.98); filter:blur(6px); }
+  to   { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+}
+
+/* ============================================================
+   SHARED COMPONENTS
+   ============================================================ */
+.container { width:min(1100px,92vw); margin-inline:auto; }
+.glass-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 24px; border-radius:var(--radius-full);
+  border:none; cursor:pointer;
+  font-family:var(--font-body); font-size:0.82rem; font-weight:500;
+  letter-spacing:0.04em; color:var(--color-text); text-decoration:none;
+  transition: transform var(--dur-fast) var(--ease-liquid), box-shadow var(--dur-fast), background var(--dur-fast);
+  position:relative; overflow:hidden;
+}
+.glass-btn::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--reflection-top); pointer-events:none; z-index:1; }
+.glass-btn:active { transform:scale(0.96); }
+.btn-primary {
+  background:linear-gradient(135deg,rgba(94,231,223,0.45),rgba(59,130,246,0.45));
+  border:1px solid rgba(94,231,223,0.40);
+  box-shadow:0 4px 24px rgba(94,231,223,0.28), var(--reflection-inner);
+}
+.btn-primary:hover { background:linear-gradient(135deg,rgba(94,231,223,0.65),rgba(59,130,246,0.65)); transform:translateY(-2px); box-shadow:0 8px 36px rgba(94,231,223,0.42); }
+.btn-ghost {
+  background:var(--glass-white); border:1px solid var(--glass-border);
+  box-shadow:var(--shadow-glass);
+}
+.btn-ghost:hover { background:var(--glass-white-md); transform:translateY(-2px); }
+.badge {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 12px; border-radius:var(--radius-full);
+  font-size:0.68rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase;
+}
+.badge-cyan  { background:rgba(94,231,223,0.15);  border:1px solid rgba(94,231,223,0.35);  color:var(--accent-cyan); }
+.badge-violet{ background:rgba(180,144,245,0.15); border:1px solid rgba(180,144,245,0.35); color:var(--accent-violet); }
+.badge-rose  { background:rgba(247,168,196,0.15); border:1px solid rgba(247,168,196,0.35); color:var(--accent-rose); }
+.badge-amber { background:rgba(255,210,127,0.15); border:1px solid rgba(255,210,127,0.35); color:var(--accent-amber); }
+.badge-lime  { background:rgba(168,240,138,0.15); border:1px solid rgba(168,240,138,0.35); color:var(--accent-lime); }
+.badge-gray  { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:var(--color-text-muted); }
+.dot { width:6px; height:6px; border-radius:50%; background:currentColor; animation:pulse-dot 2s ease infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+.glass-input {
+  width:100%; padding:10px 16px;
+  border-radius:var(--radius-md); border:1px solid var(--glass-border-subtle);
+  background:var(--glass-white); backdrop-filter:var(--blur-sm);
+  color:var(--color-text); font-family:var(--font-body); font-size:0.88rem;
+  outline:none;
+  transition:border-color var(--dur-fast), box-shadow var(--dur-fast), background var(--dur-fast);
+}
+.glass-input::placeholder { opacity:0.40; }
+.glass-input:focus { border-color:rgba(94,231,223,0.55); background:var(--glass-white-md); box-shadow:0 0 0 3px rgba(94,231,223,0.14); }
+.glass-textarea {
+  width:100%; padding:10px 16px; min-height:110px;
+  border-radius:var(--radius-md); border:1px solid var(--glass-border-subtle);
+  background:var(--glass-white); backdrop-filter:var(--blur-sm);
+  color:var(--color-text); font-family:var(--font-body); font-size:0.88rem;
+  outline:none; resize:vertical;
+  transition:border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.glass-textarea::placeholder { opacity:0.40; }
+.glass-textarea:focus { border-color:rgba(94,231,223,0.55); background:var(--glass-white-md); box-shadow:0 0 0 3px rgba(94,231,223,0.14); }
+label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; opacity:0.50; margin-bottom:6px; }
+.glass-card {
+  border-radius:var(--radius-xl); padding:var(--sp-xl);
+  transition:transform var(--dur-mid) var(--ease-glass), box-shadow var(--dur-mid), background var(--dur-mid);
+}
+.glass-card:hover { transform:translateY(-5px) scale(1.01); box-shadow:var(--shadow-float); background:var(--glass-white-md); }
+.divider { height:1px; background:linear-gradient(90deg,transparent,var(--glass-border),transparent); margin:var(--sp-2xl) 0; }
+.section-title { font-family:var(--font-display); font-size:clamp(1.5rem,2.8vw,2rem); font-weight:700; margin-bottom:var(--sp-sm); }
+.section-sub { font-size:0.78rem; opacity:0.45; letter-spacing:0.07em; text-transform:uppercase; }
+.progress-bar { height:5px; border-radius:var(--radius-full); background:rgba(255,255,255,0.10); overflow:hidden; }
+.progress-fill { height:100%; border-radius:var(--radius-full); background:linear-gradient(90deg,var(--accent-cyan),var(--accent-violet)); transform-origin:left; }
+@keyframes progress-grow { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@keyframes cascade-in {
+  from { opacity:0; transform:translateY(22px) scale(0.97); filter:blur(6px); }
+  to   { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+}
+.anim-in { animation: cascade-in var(--dur-slow) var(--ease-glass) both; }
+
+/* ============================================================
+   PAGE 1 — ACCUEIL
+   ============================================================ */
+#page-accueil { padding-top: 100px; padding-bottom: var(--sp-3xl); }
+.hero {
+  min-height: calc(100vh - 100px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; gap: var(--sp-lg);
+  padding: var(--sp-3xl) var(--sp-md);
+}
+.hero__kicker {
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  opacity: 0.50; animation: cascade-in .7s var(--ease-glass) .1s both;
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem,8vw,6.5rem);
+  font-weight: 800; line-height: 1;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #fff 30%, var(--accent-cyan) 65%, var(--accent-violet) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: cascade-in .8s var(--ease-glass) .2s both;
+}
+[data-theme="light"] .hero__title {
+  background: linear-gradient(135deg, #0f172a 20%, #0369a1 60%, #7c3aed 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero__sub {
+  max-width: 520px; line-height: 1.70; opacity: 0.65; font-size: 1rem;
+  animation: cascade-in .8s var(--ease-glass) .3s both;
+}
+.hero__cta {
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+  animation: cascade-in .8s var(--ease-glass) .4s both;
+}
+.hero__badge-row {
+  display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  animation: cascade-in .8s var(--ease-glass) .5s both;
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: var(--sp-md);
+  margin-top: var(--sp-3xl);
+  animation: cascade-in .8s var(--ease-glass) .6s both;
+}
+.stat-card {
+  border-radius: var(--radius-lg); padding: var(--sp-lg);
+  text-align: center; background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--blur-md);
+  transition: transform var(--dur-mid) var(--ease-liquid), box-shadow var(--dur-mid);
+}
+.stat-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-float); }
+.stat-num {
+  font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+  background: linear-gradient(135deg,#fff,var(--accent-cyan));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+[data-theme="light"] .stat-num {
+  background: linear-gradient(135deg,#0f172a,#0369a1);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.stat-label { font-size: 0.72rem; opacity: 0.48; margin-top: 4px; letter-spacing: 0.05em; }
+.features-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: var(--sp-md);
+  padding: var(--sp-2xl) 0;
+}
+.feature-card { border-radius: var(--radius-xl); padding: var(--sp-xl); }
+.feature-icon { width:48px; height:48px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; margin-bottom:var(--sp-md); font-size:1.4rem; }
+.feature-icon-cyan   { background:rgba(94,231,223,0.18);  border:1px solid rgba(94,231,223,0.30); }
+.feature-icon-violet { background:rgba(180,144,245,0.18); border:1px solid rgba(180,144,245,0.30); }
+.feature-icon-amber  { background:rgba(255,210,127,0.18); border:1px solid rgba(255,210,127,0.30); }
+.feature-title { font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:var(--sp-sm); }
+.feature-desc { font-size:0.86rem; line-height:1.65; opacity:0.68; }
+.sources-section { padding: var(--sp-2xl) 0; }
+.sources-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:var(--sp-sm); margin-top:var(--sp-lg); }
+.source-card {
+  border-radius:var(--radius-lg); padding:var(--sp-md);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  text-align:center; background:var(--glass-white); border:1px solid var(--glass-border);
+  backdrop-filter:var(--blur-sm);
+}
+.source-name { font-size:0.82rem; font-weight:500; }
+.source-count { font-size:1.2rem; font-weight:700; font-family:var(--font-display); }
+.source-count.zero { opacity:0.30; }
+
+/* ============================================================
+   PAGE 2 — RECOMMANDATION
+   ============================================================ */
+#page-reco { padding-top: 100px; padding-bottom: var(--sp-3xl); }
+.reco-layout { display:grid; grid-template-columns:320px 1fr; gap:var(--sp-lg); padding-top:var(--sp-lg); }
+.sidebar { position:sticky; top:90px; height:fit-content; }
+.sidebar-card { border-radius:var(--radius-xl); padding:var(--sp-xl); }
+.sidebar-title { font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:var(--sp-lg); }
+.form-group { margin-bottom:var(--sp-md); }
+.mode-toggle { display:flex; background:var(--glass-white); border:1px solid var(--glass-border); border-radius:var(--radius-full); padding:4px; gap:4px; margin-bottom:var(--sp-lg); }
+.mode-btn {
+  flex:1; padding:7px 12px; border-radius:var(--radius-full);
+  font-size:0.76rem; font-weight:500; border:none; background:transparent;
+  color:var(--color-text); opacity:0.55; cursor:pointer;
+  transition:background var(--dur-fast), opacity var(--dur-fast);
+}
+.mode-btn.is-on { background:var(--glass-white-md); border:1px solid var(--glass-border); opacity:1; box-shadow:0 2px 10px rgba(0,0,0,0.18); }
+.upload-zone {
+  border:2px dashed var(--glass-border); border-radius:var(--radius-lg);
+  padding:var(--sp-xl); text-align:center; cursor:pointer;
+  transition:border-color var(--dur-fast), background var(--dur-fast);
+}
+.upload-zone:hover, .upload-zone.dragover { border-color:rgba(94,231,223,0.55); background:rgba(94,231,223,0.06); }
+.upload-zone input[type=file] { display:none; }
+.upload-icon { font-size:2rem; margin-bottom:8px; }
+.upload-text { font-size:0.80rem; opacity:0.55; line-height:1.5; }
+.upload-success { display:flex; align-items:center; gap:8px; font-size:0.82rem; color:var(--accent-lime); }
+.slider-wrap { margin-top:var(--sp-md); }
+.slider-label { display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; opacity:0.55; margin-bottom:6px; }
+.slider-val { font-weight:500; color:var(--accent-cyan); opacity:1; }
+.glass-range { -webkit-appearance:none; width:100%; height:5px; border-radius:var(--radius-full); background:rgba(255,255,255,0.12); outline:none; cursor:pointer; }
+.glass-range::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:linear-gradient(135deg,var(--accent-cyan),var(--accent-violet)); border:2px solid rgba(255,255,255,0.45); box-shadow:0 2px 10px rgba(94,231,223,0.38); cursor:pointer; transition:transform var(--dur-fast) var(--ease-liquid); }
+.glass-range::-webkit-slider-thumb:active { transform:scale(1.3); }
+.reco-main { min-height:600px; }
+.reco-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--sp-lg); }
+.results-count { font-size:0.78rem; opacity:0.45; }
+.results-grid { display:flex; flex-direction:column; gap:var(--sp-sm); }
+.result-card {
+  border-radius:var(--radius-lg); padding:var(--sp-lg);
+  background:var(--glass-white); border:1px solid var(--glass-border);
+  backdrop-filter:var(--blur-sm);
+  transition:transform var(--dur-fast) var(--ease-liquid), box-shadow var(--dur-fast), background var(--dur-fast);
+  animation: cascade-in .5s var(--ease-glass) both;
+}
+.result-card:hover { transform:translateX(6px); box-shadow:var(--shadow-float); background:var(--glass-white-md); }
+.result-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--sp-md); margin-bottom:var(--sp-sm); }
+.result-title { font-family:var(--font-display); font-size:1rem; font-weight:700; line-height:1.3; }
+.result-company { font-size:0.80rem; opacity:0.55; margin-top:3px; }
+.score-wrap { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+.score-num { font-family:var(--font-display); font-size:1.3rem; font-weight:800; background:linear-gradient(135deg,var(--accent-cyan),var(--accent-violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.score-bar { width:80px; height:4px; border-radius:var(--radius-full); background:rgba(255,255,255,0.10); overflow:hidden; }
+.score-fill { height:100%; border-radius:var(--radius-full); background:linear-gradient(90deg,var(--accent-cyan),var(--accent-violet)); }
+.result-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:var(--sp-sm); }
+.result-actions { display:flex; gap:8px; }
+.btn-sm { padding:6px 16px; font-size:0.74rem; }
+.placeholder-state { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:var(--sp-md); min-height:400px; text-align:center; opacity:0.55; }
+.placeholder-icon { font-size:3rem; }
+.placeholder-text { font-size:0.88rem; line-height:1.6; max-width:300px; }
+
+/* ============================================================
+   PAGE 3 — DASHBOARD POWER BI
+   ============================================================ */
+#page-powerbi { padding-top: 100px; padding-bottom: var(--sp-3xl); }
+.pbi-header { padding:var(--sp-2xl) 0 var(--sp-lg); }
+.pbi-frame-wrap {
+  border-radius:var(--radius-xl); overflow:hidden;
+  background:var(--glass-white); border:1px solid var(--glass-border);
+  backdrop-filter:var(--blur-md);
+  box-shadow:var(--shadow-float);
+  position:relative;
+}
+.pbi-toolbar {
+  display:flex; align-items:center; gap:var(--sp-sm);
+  padding:var(--sp-sm) var(--sp-md);
+  border-bottom:1px solid var(--glass-border-subtle);
+  background:rgba(255,255,255,0.04);
+}
+.pbi-dots { display:flex; gap:6px; }
+.pbi-dot { width:10px; height:10px; border-radius:50%; }
+.pbi-dot-1 { background:#ef4444; } .pbi-dot-2 { background:#fbbf24; } .pbi-dot-3 { background:#4ade80; }
+.pbi-url { flex:1; padding:4px 12px; border-radius:var(--radius-full); background:rgba(255,255,255,0.06); border:1px solid var(--glass-border-subtle); font-size:0.72rem; opacity:0.45; }
+.pbi-iframe-container { position:relative; }
+.pbi-placeholder {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:var(--sp-lg); height:600px; text-align:center; padding:var(--sp-2xl);
+}
+.pbi-placeholder-icon { font-size:4rem; }
+.pbi-placeholder-title { font-family:var(--font-display); font-size:1.6rem; font-weight:700; }
+.pbi-placeholder-sub { font-size:0.88rem; opacity:0.55; line-height:1.65; max-width:440px; }
+.pbi-input-wrap { display:flex; gap:var(--sp-sm); width:min(500px,90%); }
+.pbi-input-wrap input { flex:1; }
+.pbi-iframe { width:100%; height:600px; border:none; display:none; }
+.pbi-tip-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-md); margin-top:var(--sp-xl); }
+.pbi-tip { border-radius:var(--radius-lg); padding:var(--sp-lg); }
+.pbi-tip-icon { font-size:1.5rem; margin-bottom:var(--sp-sm); }
+.pbi-tip-title { font-size:0.88rem; font-weight:600; margin-bottom:4px; }
+.pbi-tip-text { font-size:0.78rem; opacity:0.58; line-height:1.55; }
+
+/* ============================================================
+   PAGE 4 — À PROPOS
+   ============================================================ */
+#page-about { padding-top:100px; padding-bottom:var(--sp-3xl); }
+.about-hero { padding:var(--sp-2xl) 0; }
+.about-title { font-family:var(--font-display); font-size:clamp(2rem,5vw,3.5rem); font-weight:800; line-height:1.1; letter-spacing:-0.02em; margin-bottom:var(--sp-md); }
+.about-sub { font-size:1rem; opacity:0.65; line-height:1.7; max-width:560px; }
+.tech-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:var(--sp-sm); margin-top:var(--sp-lg); }
+.tech-card { border-radius:var(--radius-lg); padding:var(--sp-lg); }
+.tech-icon { font-size:1.8rem; margin-bottom:var(--sp-sm); }
+.tech-name { font-size:0.88rem; font-weight:600; margin-bottom:2px; }
+.tech-desc { font-size:0.74rem; opacity:0.50; }
+.pipeline-section { padding:var(--sp-2xl) 0; }
+.pipeline-steps { display:flex; flex-direction:column; gap:var(--sp-sm); margin-top:var(--sp-lg); }
+.pipeline-step { display:flex; align-items:center; gap:var(--sp-md); border-radius:var(--radius-lg); padding:var(--sp-md) var(--sp-lg); }
+.step-node { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.78rem; font-weight:700; flex-shrink:0; }
+.step-node-cyan   { background:rgba(94,231,223,0.20);  border:1px solid rgba(94,231,223,0.45); color:var(--accent-cyan); }
+.step-node-violet { background:rgba(180,144,245,0.20); border:1px solid rgba(180,144,245,0.45); color:var(--accent-violet); }
+.step-node-amber  { background:rgba(255,210,127,0.20); border:1px solid rgba(255,210,127,0.45); color:var(--accent-amber); }
+.step-node-lime   { background:rgba(168,240,138,0.20); border:1px solid rgba(168,240,138,0.45); color:var(--accent-lime); }
+.step-title { font-size:0.88rem; font-weight:600; margin-bottom:2px; }
+.step-desc { font-size:0.76rem; opacity:0.52; }
+.status-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:var(--sp-sm); margin-top:var(--sp-lg); }
+.status-card { border-radius:var(--radius-lg); padding:var(--sp-md); display:flex; align-items:center; gap:10px; }
+.status-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.status-dot-on  { background:#4ade80; box-shadow:0 0 8px rgba(74,222,128,0.55); }
+.status-dot-off { background:rgba(255,255,255,0.22); }
+.status-name { font-size:0.82rem; font-weight:500; }
+.status-num  { font-size:0.70rem; opacity:0.45; margin-top:1px; }
+.roadmap-section { padding:var(--sp-2xl) 0; }
+.roadmap-list { display:flex; flex-direction:column; gap:var(--sp-sm); margin-top:var(--sp-lg); }
+.roadmap-item { display:flex; align-items:center; gap:var(--sp-md); border-radius:var(--radius-lg); padding:var(--sp-md) var(--sp-lg); }
+.roadmap-badge { flex-shrink:0; }
+.roadmap-title { font-size:0.88rem; font-weight:500; }
+.roadmap-sub { font-size:0.74rem; opacity:0.45; margin-top:2px; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast-region { position:fixed; bottom:var(--sp-lg); right:var(--sp-lg); z-index:2000; display:flex; flex-direction:column; gap:8px; width:min(340px,90vw); pointer-events:none; }
+.toast {
+  border-radius:var(--radius-lg); padding:var(--sp-md) var(--sp-lg);
+  display:flex; align-items:center; gap:var(--sp-sm);
+  pointer-events:all; cursor:pointer;
+  animation:toast-in var(--dur-mid) var(--ease-liquid) both;
+  backdrop-filter:var(--blur-md); background:var(--glass-white);
+  border:1px solid var(--glass-border);
+}
+.toast.is-out { animation:toast-out var(--dur-mid) var(--ease-glass) forwards; }
+@keyframes toast-in  { from{opacity:0;transform:translateX(60px) scale(.94)} to{opacity:1;transform:translateX(0) scale(1)} }
+@keyframes toast-out { from{opacity:1;transform:translateX(0) scale(1)} to{opacity:0;transform:translateX(60px) scale(.90)} }
+.toast-icon { font-size:1.1rem; }
+.toast-body { flex:1; font-size:0.82rem; font-weight:500; }
+.toast-close { opacity:0.45; font-size:0.72rem; }
+.toast-success { border-color:rgba(74,222,128,0.40)!important; box-shadow:0 4px 24px rgba(74,222,128,0.18)!important; }
+.toast-error   { border-color:rgba(239,68,68,0.40)!important;  box-shadow:0 4px 24px rgba(239,68,68,0.18)!important; }
+
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+.theme-btn {
+  position:fixed; bottom:24px; left:24px;
+  z-index:1500; width:44px; height:44px; border-radius:50%;
+  border:1px solid var(--glass-border); background:var(--glass-white);
+  backdrop-filter:var(--blur-md); color:var(--color-text);
+  font-size:1.1rem; display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:transform var(--dur-fast) var(--ease-liquid), background var(--dur-fast);
+}
+.theme-btn:hover { transform:scale(1.12) rotate(15deg); background:var(--glass-white-md); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:900px) {
+  .reco-layout { grid-template-columns:1fr; }
+  .sidebar { position:static; }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .features-grid { grid-template-columns:1fr; }
+  .pbi-tip-grid { grid-template-columns:1fr; }
+}
+@media (max-width:640px) {
+  .navbar { min-width:auto; width:calc(100vw - 32px); }
+  .nav-items .nav-item span:not(:first-child) { display:none; }
+  .stats-grid { grid-template-columns:1fr 1fr; }
+  .hero__title { font-size:2.5rem; }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.18); border-radius:var(--radius-full); }
+</style>
+</head>
+<body>
+
+<!-- ── BACKGROUND ── -->
+<div class="scene" aria-hidden="true">
+  <div class="scene__blob scene__blob--1"></div>
+  <div class="scene__blob scene__blob--2"></div>
+  <div class="scene__blob scene__blob--3"></div>
+</div>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      <path d="M11 8v6M8 11h6" stroke-width="2.5"/>
+    </svg>
+    Job<span style="color:var(--accent-cyan)">IA</span>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="nav-items">
+    <button class="nav-item is-active" data-page="accueil">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      Accueil
+    </button>
+    <button class="nav-item" data-page="reco">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      Recommandation
+    </button>
+    <button class="nav-item" data-page="powerbi">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" data-page="about">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      À propos
+    </button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-icon" id="refreshBtn" title="Rafraîchir les données">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     PAGE 1 — ACCUEIL
+     ============================================================ -->
+<main id="page-accueil" class="page is-active" aria-label="Page d'accueil">
+  <div class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <span class="hero__kicker">Propulsé par IA · Sentence Transformers · Airflow</span>
+      <h1 class="hero__title">Job<br>Intelligent</h1>
+      <p class="hero__sub">
+        Votre plateforme de recommandation d'offres d'emploi Data — matching sémantique entre votre profil et 4 559 offres collectées en temps réel.
+      </p>
+      <div class="hero__cta">
+        <button class="glass-btn btn-primary" onclick="goTo('reco')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Trouver mes offres
+        </button>
+        <button class="glass-btn btn-ghost" onclick="goTo('powerbi')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Voir le Dashboard
+        </button>
+      </div>
+      <div class="hero__badge-row">
+        <span class="badge badge-cyan"><span class="dot"></span>Pipeline actif</span>
+        <span class="badge badge-violet">Multilingual MiniLM-L12</span>
+        <span class="badge badge-amber">Apache Airflow</span>
+        <span class="badge badge-lime">4 sources actives</span>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card anim-in" style="animation-delay:.1s">
+        <div class="stat-num">4 559</div>
+        <div class="stat-label">Offres uniques en base</div>
+      </div>
+      <div class="stat-card anim-in" style="animation-delay:.2s">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Sources collectées</div>
+      </div>
+      <div class="stat-card anim-in" style="animation-delay:.3s">
+        <div class="stat-num">MiniLM</div>
+        <div class="stat-label">Modèle d'embedding</div>
+      </div>
+      <div class="stat-card anim-in" style="animation-delay:.4s">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Open source</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FEATURES -->
+    <section>
+      <div style="margin-bottom:var(--sp-lg)">
+        <div class="section-sub">Fonctionnalités</div>
+        <h2 class="section-title">Comment ça marche ?</h2>
+      </div>
+      <div class="features-grid">
+        <div class="glass feature-card anim-in" style="animation-delay:.1s">
+          <div class="feature-icon feature-icon-cyan">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="feature-title">Upload de CV</div>
+          <div class="feature-desc">Déposez votre CV en PDF. Le parser extrait automatiquement votre profil : compétences, expériences, intitulé de poste.</div>
+        </div>
+        <div class="glass feature-card anim-in" style="animation-delay:.2s">
+          <div class="feature-icon feature-icon-violet">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <div class="feature-title">Matching Sémantique</div>
+          <div class="feature-desc">Le modèle Sentence Transformers encode votre profil et calcule la similarité cosinus avec l'ensemble des 4 559 offres.</div>
+        </div>
+        <div class="glass feature-card anim-in" style="animation-delay:.3s">
+          <div class="feature-icon feature-icon-amber">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="feature-title">Pipeline Airflow</div>
+          <div class="feature-desc">Le scraping s'exécute automatiquement via Apache Airflow, collectant et dédupliquant les offres depuis 7 sources à chaque run.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SOURCES -->
+    <section class="sources-section">
+      <div style="margin-bottom:var(--sp-lg)">
+        <div class="section-sub">Dernière collecte — 26 avril 2026</div>
+        <h2 class="section-title">Sources de données</h2>
+      </div>
+      <div class="sources-grid">
+        <div class="source-card anim-in" style="animation-delay:.1s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div class="source-name">France Travail</div>
+          <div class="source-count">1 549</div>
+          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
+        </div>
+        <div class="source-card anim-in" style="animation-delay:.15s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <div class="source-name">The Muse</div>
+          <div class="source-count">400</div>
+          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
+        </div>
+        <div class="source-card anim-in" style="animation-delay:.2s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <div class="source-name">Arbeitnow</div>
+          <div class="source-count">247</div>
+          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
+        </div>
+        <div class="source-card anim-in" style="animation-delay:.25s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-rose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div class="source-name">Remotive</div>
+          <div class="source-count">21</div>
+          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
+        </div>
+        <div class="source-card anim-in" style="animation-delay:.3s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="source-name" style="opacity:.45">Adzuna</div>
+          <div class="source-count zero">0</div>
+          <span class="badge badge-gray" style="font-size:.60rem">Inactif</span>
+        </div>
+        <div class="source-card anim-in" style="animation-delay:.35s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="source-name" style="opacity:.45">JSearch</div>
+          <div class="source-count zero">0</div>
+          <span class="badge badge-gray" style="font-size:.60rem">Inactif</span>
+        </div>
+        <div class="source-card anim-in" style="animation-delay:.4s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="source-name" style="opacity:.45">SerpApi</div>
+          <div class="source-count zero">0</div>
+          <span class="badge badge-gray" style="font-size:.60rem">Inactif</span>
+        </div>
+      </div>
+      <p style="margin-top:var(--sp-md);font-size:0.74rem;opacity:0.40">
+        ⚠ Adzuna, JSearch et SerpApi ont retourné 0 résultats lors du dernier run. Vérifier les clés API ou quotas.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<!-- ============================================================
+     PAGE 2 — RECOMMANDATION
+     ============================================================ -->
+<main id="page-reco" class="page" aria-label="Page de recommandation">
+  <div class="container">
+    <div style="padding:var(--sp-2xl) 0 var(--sp-lg)">
+      <div class="section-sub">Moteur IA</div>
+      <h1 class="section-title">Recommandation d'offres</h1>
+      <p style="font-size:.88rem;opacity:.60;margin-top:var(--sp-xs)">Matching sémantique avec <strong>4 559 offres</strong> via Sentence Transformers multilingue</p>
+    </div>
+
+    <div class="reco-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="glass sidebar-card">
+          <div class="sidebar-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Votre profil
+          </div>
+
+          <!-- MODE TOGGLE -->
+          <div class="mode-toggle" role="group" aria-label="Mode de saisie">
+            <button class="mode-btn is-on" id="modeManuel" onclick="setMode('manuel')">Saisie manuelle</button>
+            <button class="mode-btn" id="modePDF" onclick="setMode('pdf')">Upload CV</button>
+          </div>
+
+          <!-- MANUEL -->
+          <div id="formManuel">
+            <div class="form-group">
+              <label for="poste">Poste recherché</label>
+              <input type="text" id="poste" class="glass-input" placeholder="Data Scientist, ML Engineer…">
+            </div>
+            <div class="form-group">
+              <label for="competences">Compétences</label>
+              <textarea id="competences" class="glass-textarea" placeholder="Python, SQL, Machine Learning, Pandas, Scikit-learn…" style="min-height:80px"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="lieu">Localisation (optionnel)</label>
+              <input type="text" id="lieu" class="glass-input" placeholder="Paris, Lyon, Remote…">
+            </div>
+          </div>
+
+          <!-- PDF -->
+          <div id="formPDF" style="display:none">
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('cvFile').click()">
+              <input type="file" id="cvFile" accept=".pdf" onchange="handleFile(event)">
+              <div id="uploadIdle">
+                <div class="upload-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><path d="M12 18v-6M9 15l3-3 3 3"/></svg>
+                </div>
+                <div class="upload-text">Glissez votre CV PDF<br>ou cliquez pour sélectionner</div>
+              </div>
+              <div id="uploadDone" style="display:none" class="upload-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-lime)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span id="fileName"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PARAMÈTRES -->
+          <div class="divider" style="margin:var(--sp-md) 0"></div>
+          <div class="slider-wrap">
+            <div class="slider-label">
+              <span>Nombre de résultats</span>
+              <span class="slider-val" id="topKVal">10</span>
+            </div>
+            <input type="range" class="glass-range" min="5" max="30" value="10" id="topKSlider" oninput="document.getElementById('topKVal').textContent=this.value">
+          </div>
+          <div class="slider-wrap" style="margin-top:var(--sp-md)">
+            <div class="slider-label">
+              <span>Score minimum</span>
+              <span class="slider-val" id="minScoreVal">0.20</span>
+            </div>
+            <input type="range" class="glass-range" min="0" max="100" value="20" id="minScoreSlider" oninput="document.getElementById('minScoreVal').textContent=(this.value/100).toFixed(2)">
+          </div>
+
+          <button class="glass-btn btn-primary" style="width:100%;justify-content:center;margin-top:var(--sp-lg)" onclick="runRecommendation()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Lancer la recommandation
+          </button>
+        </div>
+
+        <!-- TIPS -->
+        <div class="glass" style="border-radius:var(--radius-lg);padding:var(--sp-md);margin-top:var(--sp-sm)">
+          <div style="font-size:0.74rem;opacity:0.45;margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase">Conseils</div>
+          <ul style="font-size:0.76rem;opacity:0.55;line-height:1.8;list-style:none">
+            <li>→ Soyez précis sur vos compétences techniques</li>
+            <li>→ Mentionnez vos années d'expérience</li>
+            <li>→ Ajoutez le type de contrat souhaité (CDI, stage…)</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- MAIN RESULTS -->
+      <section class="reco-main">
+        <div class="reco-header">
+          <div>
+            <h2 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700">Résultats</h2>
+            <div class="results-count" id="resultsCount">En attente d'une recherche…</div>
+          </div>
+          <button class="glass-btn btn-ghost btn-sm" id="exportBtn" style="display:none" onclick="exportCSV()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export CSV
+          </button>
+        </div>
+
+        <div id="placeholder" class="placeholder-state">
+          <div class="placeholder-icon">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+          </div>
+          <div class="placeholder-text">Renseignez votre profil à gauche et lancez la recommandation pour découvrir vos meilleures offres.</div>
+        </div>
+
+        <div id="resultsGrid" class="results-grid" style="display:none"></div>
+
+        <div id="loadingState" style="display:none;text-align:center;padding:var(--sp-3xl) 0">
+          <div style="width:40px;height:40px;border:3px solid var(--glass-border);border-top-color:var(--accent-cyan);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto var(--sp-md)"></div>
+          <div style="font-size:0.82rem;opacity:0.50">Calcul des embeddings en cours…</div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- ============================================================
+     PAGE 3 — POWER BI DASHBOARD
+     ============================================================ -->
+<main id="page-powerbi" class="page" aria-label="Dashboard Power BI">
+  <div class="container">
+    <div class="pbi-header">
+      <div class="section-sub">Analytics · Microsoft Power BI</div>
+      <h1 class="section-title">Dashboard Marché de l'Emploi Data</h1>
+      <p style="font-size:.88rem;opacity:.60;margin-top:var(--sp-xs)">Embed interactif de votre rapport Power BI — analyses des offres, salaires, géographie et tendances</p>
+    </div>
+
+    <!-- FRAME -->
+    <div class="pbi-frame-wrap">
+      <div class="pbi-toolbar">
+        <div class="pbi-dots">
+          <div class="pbi-dot pbi-dot-1"></div>
+          <div class="pbi-dot pbi-dot-2"></div>
+          <div class="pbi-dot pbi-dot-3"></div>
+        </div>
+        <div class="pbi-url" id="pbiUrlDisplay">app.powerbi.com — Entrez votre lien d'embed</div>
+        <button class="glass-btn btn-ghost btn-sm" onclick="openPBI()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Ouvrir
+        </button>
+      </div>
+      <div class="pbi-iframe-container">
+        <div class="pbi-placeholder" id="pbiPlaceholder">
+          <div class="pbi-placeholder-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/><path d="M15 12v5M12 14v3M9 16v1"/></svg>
+          </div>
+          <div class="pbi-placeholder-title">Intégrez votre rapport Power BI</div>
+          <div class="pbi-placeholder-sub">Collez ici le lien d'embed de votre rapport Power BI pour l'afficher directement dans l'application.</div>
+          <div class="pbi-input-wrap">
+            <input type="text" class="glass-input" id="pbiInput" placeholder="https://app.powerbi.com/reportEmbed?reportId=…">
+            <button class="glass-btn btn-primary" onclick="loadPBI()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
+              Charger
+            </button>
+          </div>
+        </div>
+        <iframe id="pbiFrame" class="pbi-iframe" title="Dashboard Power BI" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="pbi-tip-grid" style="margin-top:var(--sp-xl)">
+      <div class="glass pbi-tip">
+        <div class="pbi-tip-icon">📊</div>
+        <div class="pbi-tip-title">Comment obtenir le lien embed ?</div>
+        <div class="pbi-tip-text">Dans Power BI Service → Fichier → Incorporer le rapport → Site web ou portail. Copiez l'URL de l'attribut <code>src</code> de l'iframe.</div>
+      </div>
+      <div class="glass pbi-tip">
+        <div class="pbi-tip-icon">🔒</div>
+        <div class="pbi-tip-title">Accès public requis</div>
+        <div class="pbi-tip-text">Le rapport doit être publié avec le mode "Publier sur le web" ou partagé avec les droits appropriés pour s'afficher ici sans authentification.</div>
+      </div>
+      <div class="glass pbi-tip">
+        <div class="pbi-tip-icon">📈</div>
+        <div class="pbi-tip-title">Données analysées</div>
+        <div class="pbi-tip-text">Votre dashboard peut visualiser : répartition par source, salaires par contrat, heat-map géographique, tendances par secteur et évolution temporelle.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============================================================
+     PAGE 4 — À PROPOS
+     ============================================================ -->
+<main id="page-about" class="page" aria-label="À propos du projet">
+  <div class="container">
+    <div class="about-hero">
+      <div class="section-sub">Projet de fin d'études · Data Science</div>
+      <h1 class="about-title">Architecture<br>Job Intelligent</h1>
+      <p class="about-sub">Une plateforme end-to-end de recommandation d'emploi dans le secteur Data : scraping automatisé, NLP avancé et interface moderne.</p>
+    </div>
+
+    <!-- STACK TECH -->
+    <section>
+      <div style="margin-bottom:var(--sp-lg)">
+        <div class="section-sub">Stack technique</div>
+        <h2 class="section-title">Technologies utilisées</h2>
+      </div>
+      <div class="tech-grid">
+        <div class="glass tech-card">
+          <div class="tech-icon">🐍</div>
+          <div class="tech-name">Python 3.13</div>
+          <div class="tech-desc">Langage principal — scraping, NLP, pipeline</div>
+        </div>
+        <div class="glass tech-card">
+          <div class="tech-icon">🌊</div>
+          <div class="tech-name">Apache Airflow</div>
+          <div class="tech-desc">Orchestration des DAGs de collecte</div>
+        </div>
+        <div class="glass tech-card">
+          <div class="tech-icon">🤗</div>
+          <div class="tech-name">Sentence Transformers</div>
+          <div class="tech-desc">paraphrase-multilingual-MiniLM-L12-v2</div>
+        </div>
+        <div class="glass tech-card">
+          <div class="tech-icon">🐘</div>
+          <div class="tech-name">PostgreSQL</div>
+          <div class="tech-desc">Base de données des offres + métadonnées</div>
+        </div>
+        <div class="glass tech-card">
+          <div class="tech-icon">🐳</div>
+          <div class="tech-name">Docker</div>
+          <div class="tech-desc">Conteneurisation et déploiement</div>
+        </div>
+        <div class="glass tech-card">
+          <div class="tech-icon">📊</div>
+          <div class="tech-name">Power BI</div>
+          <div class="tech-desc">Dashboard analytics et visualisation</div>
+        </div>
+        <div class="glass tech-card">
+          <div class="tech-icon">🔢</div>
+          <div class="tech-name">Pandas + NumPy</div>
+          <div class="tech-desc">Traitement des données et embeddings</div>
+        </div>
+        <div class="glass tech-card">
+          <div class="tech-icon">⚡</div>
+          <div class="tech-name">Scikit-learn</div>
+          <div class="tech-desc">Similarité cosinus et scoring</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PIPELINE -->
+    <section class="pipeline-section">
+      <div style="margin-bottom:var(--sp-lg)">
+        <div class="section-sub">scraping_pipeline_v2</div>
+        <h2 class="section-title">Pipeline Airflow</h2>
+      </div>
+      <div class="pipeline-steps">
+        <div class="glass pipeline-step">
+          <div class="step-node step-node-cyan">1</div>
+          <div>
+            <div class="step-title">Collecte multi-sources</div>
+            <div class="step-desc">France Travail, Arbeitnow, The Muse, Remotive, Adzuna, JSearch, SerpApi — en parallèle via tasks Airflow</div>
+          </div>
+          <span class="badge badge-lime" style="margin-left:auto;flex-shrink:0"><span class="dot"></span>Actif</span>
+        </div>
+        <div class="glass pipeline-step">
+          <div class="step-node step-node-violet">2</div>
+          <div>
+            <div class="step-title">Normalisation & Déduplication</div>
+            <div class="step-desc">Harmonisation des colonnes, génération de hash_id unique, merge inter-sources</div>
+          </div>
+        </div>
+        <div class="glass pipeline-step">
+          <div class="step-node step-node-amber">3</div>
+          <div>
+            <div class="step-title">Génération des Embeddings</div>
+            <div class="step-desc">Encoding de titre + description + tags avec MiniLM-L12, stockage dans embeddings.pkl</div>
+          </div>
+        </div>
+        <div class="glass pipeline-step">
+          <div class="step-node step-node-lime">4</div>
+          <div>
+            <div class="step-title">Rapport final</div>
+            <div class="step-desc">Log du bilan de collecte (sources, totaux, insertions DB), retourne 0 si succès</div>
+          </div>
+          <span class="badge badge-lime" style="margin-left:auto;flex-shrink:0"><span class="dot"></span>SUCCESS</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STATUT SOURCES -->
+    <section>
+      <div style="margin-bottom:var(--sp-lg)">
+        <div class="section-sub">Run du 26/04/2026 10:42</div>
+        <h2 class="section-title">État des sources</h2>
+      </div>
+      <div class="status-grid">
+        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">France Travail</div><div class="status-num">1 549 offres</div></div></div>
+        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">The Muse</div><div class="status-num">400 offres</div></div></div>
+        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">Arbeitnow</div><div class="status-num">247 offres</div></div></div>
+        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">Remotive</div><div class="status-num">21 offres</div></div></div>
+        <div class="glass status-card"><div class="status-dot status-dot-off"></div><div><div class="status-name" style="opacity:.45">Adzuna</div><div class="status-num">0 offres — clé API ?</div></div></div>
+        <div class="glass status-card"><div class="status-dot status-dot-off"></div><div><div class="status-name" style="opacity:.45">JSearch</div><div class="status-num">0 offres — quota ?</div></div></div>
+        <div class="glass status-card"><div class="status-dot status-dot-off"></div><div><div class="status-name" style="opacity:.45">SerpApi</div><div class="status-num">0 offres — à vérifier</div></div></div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ROADMAP -->
+    <section class="roadmap-section">
+      <div style="margin-bottom:var(--sp-lg)">
+        <div class="section-sub">Prochaines étapes</div>
+        <h2 class="section-title">Roadmap</h2>
+      </div>
+      <div class="roadmap-list">
+        <div class="glass roadmap-item">
+          <span class="badge badge-lime roadmap-badge"><span class="dot"></span>Fait</span>
+          <div><div class="roadmap-title">Pipeline Airflow multi-sources</div><div class="roadmap-sub">Scraping automatisé, déduplication, rapport</div></div>
+        </div>
+        <div class="glass roadmap-item">
+          <span class="badge badge-lime roadmap-badge"><span class="dot"></span>Fait</span>
+          <div><div class="roadmap-title">Modèle de recommandation NLP</div><div class="roadmap-sub">Embeddings Sentence Transformers + cosine similarity</div></div>
+        </div>
+        <div class="glass roadmap-item">
+          <span class="badge badge-lime roadmap-badge"><span class="dot"></span>Fait</span>
+          <div><div class="roadmap-title">Interface Streamlit</div><div class="roadmap-sub">Multi-pages, upload CV, export CSV</div></div>
+        </div>
+        <div class="glass roadmap-item">
+          <span class="badge badge-amber roadmap-badge">En cours</span>
+          <div><div class="roadmap-title">Dashboard Power BI</div><div class="roadmap-sub">Analyses géographiques, salaires, tendances</div></div>
+        </div>
+        <div class="glass roadmap-item">
+          <span class="badge badge-violet roadmap-badge">Prévu</span>
+          <div><div class="roadmap-title">Réparation sources inactives</div><div class="roadmap-sub">Debugger Adzuna, JSearch, SerpApi (clés API / quotas)</div></div>
+        </div>
+        <div class="glass roadmap-item">
+          <span class="badge badge-violet roadmap-badge">Prévu</span>
+          <div><div class="roadmap-title">Insertion DB opérationnelle</div><div class="roadmap-sub">Résoudre le bug 0 insertions malgré 4 559 offres uniques</div></div>
+        </div>
+        <div class="glass roadmap-item">
+          <span class="badge badge-gray roadmap-badge">Idée</span>
+          <div><div class="roadmap-title">Alertes mail personnalisées</div><div class="roadmap-sub">Notification quand de nouvelles offres matchent le profil</div></div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="padding:var(--sp-2xl) 0;text-align:center;opacity:0.28;font-size:0.72rem;letter-spacing:.06em">
+      Job Intelligent — Projet Data Science · Airflow · Sentence Transformers · Python 3.13
+    </footer>
+  </div>
+</main>
+
+<!-- ── TOAST REGION ── -->
+<div class="toast-region" id="toastRegion" aria-live="polite"></div>
+
+<!-- ── THEME TOGGLE ── -->
+<button class="theme-btn" id="themeBtn" title="Changer le thème" aria-label="Basculer thème clair/sombre">
+  <span id="themeIcon">☀️</span>
+</button>
+
+<style>
+@keyframes spin { to { transform:rotate(360deg); } }
+</style>
+
+<script>
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function goTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('is-active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('is-active'));
+  const page = document.getElementById('page-' + pageId);
+  if (page) { page.classList.add('is-active'); window.scrollTo(0,0); }
+  const btn = document.querySelector(`[data-page="${pageId}"]`);
+  if (btn) btn.classList.add('is-active');
+}
+
+document.querySelectorAll('.nav-item[data-page]').forEach(btn => {
+  btn.addEventListener('click', () => goTo(btn.dataset.page));
+});
+
+/* ============================================================
+   THEME
+   ============================================================ */
+const themeBtn = document.getElementById('themeBtn');
+const themeIcon = document.getElementById('themeIcon');
+const root = document.documentElement;
+const savedTheme = localStorage.getItem('ji-theme') || 'dark';
+root.setAttribute('data-theme', savedTheme);
+themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+themeBtn.addEventListener('click', () => {
+  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('ji-theme', next);
+  themeIcon.textContent = next === 'dark' ? '☀️' : '🌙';
+});
+
+/* ============================================================
+   REFRESH BTN
+   ============================================================ */
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  toast('Pipeline Airflow relancé (simulation)', 'success');
+});
+
+/* ============================================================
+   RECOMMANDATION — MODE
+   ============================================================ */
+function setMode(mode) {
+  document.getElementById('formManuel').style.display = mode === 'manuel' ? 'block' : 'none';
+  document.getElementById('formPDF').style.display    = mode === 'pdf'    ? 'block' : 'none';
+  document.getElementById('modeManuel').classList.toggle('is-on', mode === 'manuel');
+  document.getElementById('modePDF').classList.toggle('is-on', mode === 'pdf');
+}
+
+/* ============================================================
+   FILE UPLOAD
+   ============================================================ */
+const uploadZone = document.getElementById('uploadZone');
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') showFile(file);
+});
+
+function handleFile(event) { const file = event.target.files[0]; if (file) showFile(file); }
+function showFile(file) {
+  document.getElementById('uploadIdle').style.display = 'none';
+  document.getElementById('uploadDone').style.display = 'flex';
+  document.getElementById('fileName').textContent = file.name;
+  toast(`CV chargé : ${file.name}`, 'success');
+}
+
+/* ============================================================
+   MOCK RECOMMENDATION ENGINE
+   ============================================================ */
+const MOCK_OFFERS = [
+  { titre:"Data Scientist Senior", entreprise:"BNP Paribas", lieu:"Paris 8e", contrat:"CDI", remote:"Hybride", score:0.92, tags:"Python, Scikit-learn, SQL, NLP", lien:"#" },
+  { titre:"Machine Learning Engineer", entreprise:"Dataiku", lieu:"Paris 17e", contrat:"CDI", remote:"Remote", score:0.88, tags:"Python, MLflow, Docker, Kubernetes", lien:"#" },
+  { titre:"Data Scientist — NLP", entreprise:"Thales", lieu:"Vélizy-Villacoublay", contrat:"CDI", remote:"Hybride", score:0.85, tags:"NLP, Python, Transformers, BERT", lien:"#" },
+  { titre:"Ingénieur Data / ML", entreprise:"Criteo", lieu:"Paris 9e", contrat:"CDI", remote:"Hybride", score:0.82, tags:"Python, Spark, MLflow, A/B Testing", lien:"#" },
+  { titre:"Data Analyst Python", entreprise:"ManoMano", lieu:"Paris 8e", contrat:"CDI", remote:"Hybride", score:0.79, tags:"Python, SQL, Power BI, Pandas", lien:"#" },
+  { titre:"Junior Data Scientist", entreprise:"Société Générale", lieu:"La Défense", contrat:"CDI", remote:"Sur site", score:0.76, tags:"Python, R, Statistics, SQL", lien:"#" },
+  { titre:"ML Engineer Remote", entreprise:"Hugging Face", lieu:"Paris (Remote)", contrat:"CDI", remote:"Full Remote", score:0.74, tags:"PyTorch, Transformers, Python, NLP", lien:"#" },
+  { titre:"Data Science Consultant", entreprise:"Capgemini", lieu:"Lyon", contrat:"CDI", remote:"Hybride", score:0.71, tags:"Python, Power BI, SQL, Machine Learning", lien:"#" },
+  { titre:"Stage Data Science", entreprise:"Renault Group", lieu:"Guyancourt", contrat:"Stage", remote:"Sur site", score:0.68, tags:"Python, Computer Vision, Deep Learning", lien:"#" },
+  { titre:"Alternance Data Engineer", entreprise:"Orange", lieu:"Châtillon", contrat:"Alternance", remote:"Hybride", score:0.65, tags:"Python, Airflow, Spark, SQL", lien:"#" },
+];
+
+const contratColors = { CDI:'badge-cyan', Stage:'badge-amber', Alternance:'badge-violet', Freelance:'badge-rose' };
+const remoteColors  = { 'Remote':'badge-lime', 'Full Remote':'badge-lime', 'Hybride':'badge-cyan', 'Sur site':'badge-gray' };
+
+function runRecommendation() {
+  const poste = document.getElementById('poste').value.trim();
+  const comp   = document.getElementById('competences').value.trim();
+  const topK   = parseInt(document.getElementById('topKSlider').value);
+  const minScore = parseFloat(document.getElementById('minScoreSlider').value) / 100;
+  const hasPDF = document.getElementById('uploadDone').style.display === 'flex';
+
+  if (!poste && !comp && !hasPDF) { toast('Renseignez votre profil ou uploadez un CV', 'error'); return; }
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('resultsGrid').style.display = 'none';
+  document.getElementById('loadingState').style.display = 'block';
+  document.getElementById('exportBtn').style.display = 'none';
+
+  setTimeout(() => {
+    const results = MOCK_OFFERS
+      .filter(o => o.score >= minScore)
+      .slice(0, topK);
+
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('resultsGrid').style.display = 'flex';
+    document.getElementById('resultsCount').textContent = `${results.length} offres trouvées (simulation locale)`;
+    document.getElementById('exportBtn').style.display = 'inline-flex';
+
+    const grid = document.getElementById('resultsGrid');
+    grid.innerHTML = '';
+    results.forEach((offer, i) => {
+      const pct = Math.round(offer.score * 100);
+      const cClass = contratColors[offer.contrat] || 'badge-gray';
+      const rClass  = remoteColors[offer.remote]  || 'badge-gray';
+      const tags = (offer.tags || '').split(',').map(t => t.trim()).filter(Boolean)
+        .map(t => `<span class="badge badge-gray" style="font-size:.62rem">${t}</span>`).join('');
+
+      const card = document.createElement('div');
+      card.className = 'result-card';
+      card.style.animationDelay = `${i * 60}ms`;
+      card.innerHTML = `
+        <div class="result-card-top">
+          <div>
+            <div class="result-title">${offer.titre}</div>
+            <div class="result-company">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              ${offer.entreprise}
+              &nbsp;&nbsp;
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${offer.lieu}
+            </div>
+          </div>
+          <div class="score-wrap">
+            <div class="score-num">${pct}%</div>
+            <div class="score-bar"><div class="score-fill" style="width:${pct}%;animation:progress-grow .8s ${i*60+200}ms var(--ease-liquid) both"></div></div>
+          </div>
+        </div>
+        <div class="result-meta">
+          <span class="badge ${cClass}">${offer.contrat}</span>
+          <span class="badge ${rClass}">${offer.remote}</span>
+          ${tags}
+        </div>
+        <div class="result-actions">
+          <a href="${offer.lien}" class="glass-btn btn-primary btn-sm" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Voir l'offre
+          </a>
+          <button class="glass-btn btn-ghost btn-sm" onclick="toast('Offre sauvegardée ✓', 'success')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            Sauvegarder
+          </button>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    window._lastResults = results;
+    toast(`${results.length} offres trouvées !`, 'success');
+  }, 1400);
+}
+
+/* ============================================================
+   EXPORT CSV
+   ============================================================ */
+function exportCSV() {
+  const results = window._lastResults || [];
+  if (!results.length) return;
+  const header = ['Titre','Entreprise','Lieu','Contrat','Remote','Score','Tags','Lien'];
+  const rows = results.map(o => [o.titre, o.entreprise, o.lieu, o.contrat, o.remote, o.score, o.tags, o.lien].map(v => `"${v}"`).join(','));
+  const csv = [header.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'recommandations_job_intelligent.csv';
+  a.click();
+  toast('Export CSV téléchargé', 'success');
+}
+
+/* ============================================================
+   POWER BI
+   ============================================================ */
+function loadPBI() {
+  const url = document.getElementById('pbiInput').value.trim();
+  if (!url || !url.startsWith('http')) { toast('URL Power BI invalide', 'error'); return; }
+  document.getElementById('pbiPlaceholder').style.display = 'none';
+  const frame = document.getElementById('pbiFrame');
+  frame.src = url;
+  frame.style.display = 'block';
+  document.getElementById('pbiUrlDisplay').textContent = url;
+  toast('Dashboard Power BI chargé', 'success');
+}
+function openPBI() {
+  const url = document.getElementById('pbiInput').value.trim() || document.getElementById('pbiFrame').src;
+  if (url && url.startsWith('http')) window.open(url, '_blank');
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg, type = 'success') {
+  const region = document.getElementById('toastRegion');
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  const icons = { success:'✓', error:'✕' };
+  el.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ'}</span><span class="toast-body">${msg}</span><span class="toast-close">✕</span>`;
+  region.appendChild(el);
+  const dismiss = () => {
+    el.classList.add('is-out');
+    el.addEventListener('animationend', () => el.remove(), {once:true});
+  };
+  el.addEventListener('click', dismiss);
+  setTimeout(dismiss, 3500);
+}
+
+/* ============================================================
+   ENTER KEY ON RECOMMENDATION FORM
+   ============================================================ */
+document.getElementById('poste')?.addEventListener('keydown', e => { if(e.key==='Enter') runRecommendation(); });
+</script>
+</body>
+</html>
