@@ -4,7 +4,7 @@ import hashlib
 from datetime import datetime
 import os
 
-API_KEY = "TA_CLE_SERPAPI"
+API_KEY = "31885b1e3964b261a01f617531b82d6cc035ec9fad3f7a5fc125853a84a079b7"
 OUTPUT_PATH = "/opt/airflow/data/offres_serpapi.csv"
 
 QUERIES = [

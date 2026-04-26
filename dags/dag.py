@@ -4,25 +4,21 @@ from datetime import datetime, timedelta
 import sys
 import os
 
-# ─── VARIABLES ENV (option debug) ─────────────────────────────────────────────
-os.environ["ADZUNA_APP_ID"] = "xxxx"
-os.environ["ADZUNA_APP_KEY"] = "xxxx"
-os.environ["RAPIDAPI_KEY"] = "xxxx"
+os.environ["RAPIDAPI_KEY"]   = "xxxx"
 
 # ─── PATH SCRAPERS ────────────────────────────────────────────────────────────
 sys.path.insert(0, "/opt/airflow/scrapers")
 
 # ─── IMPORT SCRAPERS ──────────────────────────────────────────────────────────
-from france_travail import scraper_france_travail_task
-from cadremploi    import scraper_cadremploi
-from jsearch       import scraper_jsearch_multi_postes
-from adzuna        import scraper_adzuna_task
-from themuse       import scraper_themuse_task
-from remotive      import scraper_remotive_task   # ✅ AJOUT
-from serpapi import scraper_serpapi_task
+from france_travail    import scraper_france_travail_task
+from cadremploi        import scraper_cadremploi
+from themuse           import scraper_themuse_task
+from remotive          import scraper_remotive_task
+from serpapi           import scraper_serpapi_task
+from kaggle_linkedin   import scraper_kaggle_linkedin_task   # ✅ NOUVEAU
 
-from fusion        import fusionner_offres_task, sauvegarder_en_db_task
-from transform     import transformer_offres_task
+from fusion            import fusionner_offres_task, sauvegarder_en_db_task
+from transform         import transformer_offres_task
 
 
 default_args = {
@@ -66,10 +62,6 @@ def task_arbeitnow():
     return 0
 
 
-def task_adzuna():
-    n = scraper_adzuna_task()
-    print(f"Adzuna : {n} offres")
-    return n
 
 
 def task_themuse():
@@ -78,21 +70,26 @@ def task_themuse():
     return n
 
 
-def task_jsearch():
-    offres = scraper_jsearch_multi_postes(pages_max=5)
-    return len(offres)
 
-
-# ✅ NOUVELLE TASK REMOTIVE
 def task_remotive():
     n = scraper_remotive_task()
     print(f"Remotive : {n} offres")
     return n
 
+
 def task_serpapi():
     n = scraper_serpapi_task()
     print(f"SerpAPI : {n} offres")
     return n
+
+
+# ✅ NOUVELLE TASK KAGGLE LINKEDIN
+def task_kaggle_linkedin():
+    n = scraper_kaggle_linkedin_task()
+    print(f"Kaggle LinkedIn : {n} offres")
+    return n
+
+
 # ─── FUSION & DB ──────────────────────────────────────────────────────────────
 
 def task_fusion():
@@ -119,17 +116,16 @@ def rapport_final(**context):
     ti = context["ti"]
 
     n_ft      = ti.xcom_pull(task_ids="scrape_france_travail") or 0
-    n_arbeit  = ti.xcom_pull(task_ids="scrape_arbeitnow") or 0
-    n_adzuna  = ti.xcom_pull(task_ids="scrape_adzuna") or 0
-    n_themuse = ti.xcom_pull(task_ids="scrape_themuse") or 0
-    n_jsearch = ti.xcom_pull(task_ids="scrape_jsearch") or 0
-    n_remotive = ti.xcom_pull(task_ids="scrape_remotive") or 0  # ✅ AJOUT
-    n_serpapi = ti.xcom_pull(task_ids="scrape_serpapi") or 0  # ✅ AJOUT
+    n_arbeit  = ti.xcom_pull(task_ids="scrape_arbeitnow")      or 0
+    n_themuse = ti.xcom_pull(task_ids="scrape_themuse")        or 0
+    n_remotive= ti.xcom_pull(task_ids="scrape_remotive")       or 0
+    n_serpapi = ti.xcom_pull(task_ids="scrape_serpapi")        or 0
+    n_kaggle  = ti.xcom_pull(task_ids="scrape_kaggle_linkedin")or 0  # ✅
 
-    n_fusion  = ti.xcom_pull(task_ids="fusionner_offres") or 0
-    n_db      = ti.xcom_pull(task_ids="sauvegarder_db") or 0
+    n_fusion  = ti.xcom_pull(task_ids="fusionner_offres")      or 0
+    n_db      = ti.xcom_pull(task_ids="sauvegarder_db")        or 0
 
-    total_brut = n_ft + n_arbeit + n_adzuna + n_themuse + n_jsearch + n_remotive + n_serpapi
+    total_brut = n_ft + n_arbeit +  n_themuse + n_remotive + n_serpapi + n_kaggle
 
     rapport = f"""
 ╔══════════════════════════════════════════════════╗
@@ -137,16 +133,15 @@ def rapport_final(**context):
 ╠══════════════════════════════════════════════════╣
 ║  France Travail  : {str(n_ft).rjust(6)} offres               ║
 ║  Arbeitnow       : {str(n_arbeit).rjust(6)} offres               ║
-║  Adzuna          : {str(n_adzuna).rjust(6)} offres               ║
 ║  The Muse        : {str(n_themuse).rjust(6)} offres               ║
-║  JSearch         : {str(n_jsearch).rjust(6)} offres               ║
-║  Remotive        : {str(n_remotive).rjust(6)} offres  
-║  SerpApi        : {str(n_serpapi).rjust(6)} offres  
+║  Remotive        : {str(n_remotive).rjust(6)} offres               ║
+║  SerpApi         : {str(n_serpapi).rjust(6)} offres               ║
+║  Kaggle LinkedIn : {str(n_kaggle).rjust(6)} offres               ║
 ╠══════════════════════════════════════════════════╣
 ║  Total brut      : {str(total_brut).rjust(6)} offres               ║
 ║  Après fusion    : {str(n_fusion).rjust(6)} offres uniques        ║
 ║  Insérées en DB  : {str(n_db).rjust(6)}                       ║
-╚═════════════════════════════════════════════════╝
+╚══════════════════════════════════════════════════╝
 """
     print(rapport)
     return n_db
@@ -162,19 +157,17 @@ with DAG(
     tags=["scraping", "jobs"],
 ) as dag:
 
-    t_ft = PythonOperator(task_id="scrape_france_travail", python_callable=task_france_travail)
-    t_arbeit = PythonOperator(task_id="scrape_arbeitnow", python_callable=task_arbeitnow)
-    t_adzuna = PythonOperator(task_id="scrape_adzuna", python_callable=task_adzuna)
-    t_themuse = PythonOperator(task_id="scrape_themuse", python_callable=task_themuse)
-    t_jsearch = PythonOperator(task_id="scrape_jsearch", python_callable=task_jsearch)
+    t_ft      = PythonOperator(task_id="scrape_france_travail",   python_callable=task_france_travail)
+    t_arbeit  = PythonOperator(task_id="scrape_arbeitnow",        python_callable=task_arbeitnow)
+    t_themuse = PythonOperator(task_id="scrape_themuse",          python_callable=task_themuse)
+    t_remotive= PythonOperator(task_id="scrape_remotive",         python_callable=task_remotive)
+    t_serpapi = PythonOperator(task_id="scrape_serpapi",          python_callable=task_serpapi)
+    t_kaggle  = PythonOperator(task_id="scrape_kaggle_linkedin",  python_callable=task_kaggle_linkedin)  # ✅
 
-    # ✅ AJOUT
-    t_remotive = PythonOperator(task_id="scrape_remotive", python_callable=task_remotive)
-    t_serpapi = PythonOperator(task_id="scrape_serpapi", python_callable=task_serpapi)
-    t_fusion = PythonOperator(task_id="fusionner_offres", python_callable=task_fusion)
-    t_transform = PythonOperator(task_id="transformer_offres", python_callable=task_transform)
-    t_db = PythonOperator(task_id="sauvegarder_db", python_callable=task_db)
-    t_rapport = PythonOperator(task_id="rapport_final", python_callable=rapport_final, provide_context=True)
+    t_fusion  = PythonOperator(task_id="fusionner_offres",        python_callable=task_fusion)
+    t_transform=PythonOperator(task_id="transformer_offres",      python_callable=task_transform)
+    t_db      = PythonOperator(task_id="sauvegarder_db",          python_callable=task_db)
+    t_rapport = PythonOperator(task_id="rapport_final",           python_callable=rapport_final, provide_context=True)
 
     # 🔥 PIPELINE
-    [t_ft, t_arbeit, t_adzuna, t_themuse, t_jsearch, t_remotive, t_serpapi] >> t_fusion >> t_transform >> t_db >> t_rapport
+    [t_ft, t_arbeit, t_themuse, t_remotive, t_serpapi, t_kaggle] >> t_fusion >> t_transform >> t_db >> t_rapport
