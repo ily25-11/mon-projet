@@ -19,4 +19,10 @@ def recommend(user_text: str, top_k: int = 10):
 
     results = df.iloc[top_indices].copy()
     results["score"] = scores[top_indices]
-    return results[["titre", "entreprise", "localisation", "lien", "score"]].to_dict(orient="records")
+
+    cols = ["titre", "entreprise", "lieu", "contrat", "remote", "tags", "lien", "score"]
+    return (
+        results[cols]
+        .where(results[cols].notna(), other=None)  # ← remplace NaN par None
+        .to_dict(orient="records")
+    )

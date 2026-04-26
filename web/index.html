@@ -552,6 +552,92 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.18); border-radius:var(--radius-full); }
+
+/* ============================================================
+   MES OFFRES — SAVED JOBS
+   ============================================================ */
+.saved-count-badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:18px;
+  height:18px;
+  padding:0 5px;
+  background:var(--accent-violet);
+  color:#fff;
+  font-size:.62rem;
+  font-weight:700;
+  border-radius:var(--radius-full);
+  margin-left:5px;
+  vertical-align:middle;
+}
+.saved-count-badge:empty, .saved-count-badge[data-count="0"] { display:none; }
+
+.saved-grid {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:var(--sp-md);
+  margin-top:var(--sp-xl);
+}
+
+.saved-card {
+  display:flex;
+  align-items:flex-start;
+  gap:var(--sp-md);
+  padding:var(--sp-lg);
+  border-radius:var(--radius-lg);
+}
+
+.saved-card-body { flex:1; min-width:0; }
+.saved-card-title {
+  font-family:var(--font-display);
+  font-size:1rem;
+  font-weight:600;
+  color:var(--color-text);
+  margin-bottom:2px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.saved-card-company { font-size:.82rem; color:var(--color-text-muted); margin-bottom:8px; }
+.saved-card-actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+
+.saved-score-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:3px 10px;
+  border-radius:var(--radius-full);
+  background:rgba(180,144,245,0.15);
+  border:1px solid rgba(180,144,245,0.28);
+  font-size:.75rem;
+  font-weight:600;
+  color:var(--accent-violet);
+  white-space:nowrap;
+}
+
+.saved-empty {
+  text-align:center;
+  padding:var(--sp-2xl) 0;
+  color:var(--color-text-muted);
+}
+.saved-empty svg { opacity:.3; margin-bottom:var(--sp-md); }
+.saved-empty-title { font-family:var(--font-display); font-size:1.1rem; color:var(--color-text); margin-bottom:8px; }
+.saved-empty-sub { font-size:.88rem; }
+
+.saved-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:var(--sp-sm);
+  margin-bottom:var(--sp-lg);
+}
+
+.btn-danger {
+  background:rgba(247,100,120,0.15);
+  border:1px solid rgba(247,100,120,0.30);
+  color:#f76478;
+}
+.btn-danger:hover { background:rgba(247,100,120,0.28); }
 </style>
 </head>
 <body>
@@ -590,6 +676,11 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
       À propos
     </button>
+    <button class="nav-item" data-page="saved">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      Mes offres
+      <span class="saved-count-badge" id="navSavedBadge"></span>
+    </button>
   </div>
   <div class="nav-actions">
     <button class="btn-icon" id="refreshBtn" title="Rafraîchir les données">
@@ -609,7 +700,7 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
       <span class="hero__kicker">Propulsé par IA · Sentence Transformers · Airflow</span>
       <h1 class="hero__title">Job<br>Intelligent</h1>
       <p class="hero__sub">
-        Votre plateforme de recommandation d'offres d'emploi Data — matching sémantique entre votre profil et 4 559 offres collectées en temps réel.
+        Votre plateforme de recommandation d'offres d'emploi Data — matching sémantique entre votre profil et <span id="heroTotal">…</span> offres collectées en temps réel.
       </p>
       <div class="hero__cta">
         <button class="glass-btn btn-primary" onclick="goTo('reco')">
@@ -625,18 +716,18 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
         <span class="badge badge-cyan"><span class="dot"></span>Pipeline actif</span>
         <span class="badge badge-violet">Multilingual MiniLM-L12</span>
         <span class="badge badge-amber">Apache Airflow</span>
-        <span class="badge badge-lime">4 sources actives</span>
+        <span class="badge badge-lime" id="heroActiveSources">… sources actives</span>
       </div>
     </section>
 
     <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card anim-in" style="animation-delay:.1s">
-        <div class="stat-num">4 559</div>
+        <div class="stat-num" id="statTotal">…</div>
         <div class="stat-label">Offres uniques en base</div>
       </div>
       <div class="stat-card anim-in" style="animation-delay:.2s">
-        <div class="stat-num">7</div>
+        <div class="stat-num" id="statSources">…</div>
         <div class="stat-label">Sources collectées</div>
       </div>
       <div class="stat-card anim-in" style="animation-delay:.3s">
@@ -670,7 +761,7 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
           </div>
           <div class="feature-title">Matching Sémantique</div>
-          <div class="feature-desc">Le modèle Sentence Transformers encode votre profil et calcule la similarité cosinus avec l'ensemble des 4 559 offres.</div>
+          <div class="feature-desc">Le modèle Sentence Transformers encode votre profil et calcule la similarité cosinus avec l'ensemble des <span id="featureTotal">…</span> offres.</div>
         </div>
         <div class="glass feature-card anim-in" style="animation-delay:.3s">
           <div class="feature-icon feature-icon-amber">
@@ -687,56 +778,14 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
     <!-- SOURCES -->
     <section class="sources-section">
       <div style="margin-bottom:var(--sp-lg)">
-        <div class="section-sub">Dernière collecte — 26 avril 2026</div>
+        <div class="section-sub" id="lastUpdateLabel">Dernière collecte — chargement…</div>
         <h2 class="section-title">Sources de données</h2>
       </div>
-      <div class="sources-grid">
-        <div class="source-card anim-in" style="animation-delay:.1s">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <div class="source-name">France Travail</div>
-          <div class="source-count">1 549</div>
-          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
-        </div>
-        <div class="source-card anim-in" style="animation-delay:.15s">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          <div class="source-name">The Muse</div>
-          <div class="source-count">400</div>
-          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
-        </div>
-        <div class="source-card anim-in" style="animation-delay:.2s">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <div class="source-name">Arbeitnow</div>
-          <div class="source-count">247</div>
-          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
-        </div>
-        <div class="source-card anim-in" style="animation-delay:.25s">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-rose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          <div class="source-name">Remotive</div>
-          <div class="source-count">21</div>
-          <span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>
-        </div>
-        <div class="source-card anim-in" style="animation-delay:.3s">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <div class="source-name" style="opacity:.45">Adzuna</div>
-          <div class="source-count zero">0</div>
-          <span class="badge badge-gray" style="font-size:.60rem">Inactif</span>
-        </div>
-        <div class="source-card anim-in" style="animation-delay:.35s">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <div class="source-name" style="opacity:.45">JSearch</div>
-          <div class="source-count zero">0</div>
-          <span class="badge badge-gray" style="font-size:.60rem">Inactif</span>
-        </div>
-        <div class="source-card anim-in" style="animation-delay:.4s">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <div class="source-name" style="opacity:.45">SerpApi</div>
-          <div class="source-count zero">0</div>
-          <span class="badge badge-gray" style="font-size:.60rem">Inactif</span>
-        </div>
+      <div class="sources-grid" id="sourcesGrid">
+        <!-- Rempli dynamiquement par loadStats() -->
+        <div style="opacity:.4;font-size:.85rem;padding:var(--sp-md)">Chargement des sources…</div>
       </div>
-      <p style="margin-top:var(--sp-md);font-size:0.74rem;opacity:0.40">
-        ⚠ Adzuna, JSearch et SerpApi ont retourné 0 résultats lors du dernier run. Vérifier les clés API ou quotas.
-      </p>
+      <p style="margin-top:var(--sp-md);font-size:0.74rem;opacity:0.40" id="sourcesWarning"></p>
     </section>
 
   </div>
@@ -1099,6 +1148,29 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
   </div>
 </main>
 
+<!-- ── PAGE MES OFFRES ── -->
+<main id="page-saved" class="page" aria-label="Mes offres sauvegardées" style="padding-top:100px;padding-bottom:var(--sp-3xl);">
+  <div class="container">
+    <div class="saved-header">
+      <div>
+        <div class="section-sub">Bibliothèque personnelle</div>
+        <h2 class="section-title">Mes offres sauvegardées</h2>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="glass-btn btn-ghost btn-sm" onclick="exportSavedCSV()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="glass-btn btn-sm btn-danger" onclick="clearAllSaved()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          Tout effacer
+        </button>
+      </div>
+    </div>
+    <div id="savedGrid" class="saved-grid"></div>
+  </div>
+</main>
+
 <!-- ── TOAST REGION ── -->
 <div class="toast-region" id="toastRegion" aria-live="polite"></div>
 
@@ -1122,6 +1194,7 @@ function goTo(pageId) {
   if (page) { page.classList.add('is-active'); window.scrollTo(0,0); }
   const btn = document.querySelector(`[data-page="${pageId}"]`);
   if (btn) btn.classList.add('is-active');
+  if (pageId === 'saved') renderSavedGrid();
 }
 
 document.querySelectorAll('.nav-item[data-page]').forEach(btn => {
@@ -1183,98 +1256,249 @@ function showFile(file) {
 }
 
 /* ============================================================
-   MOCK RECOMMENDATION ENGINE
+   CONFIGURATION API
    ============================================================ */
-const MOCK_OFFERS = [
-  { titre:"Data Scientist Senior", entreprise:"BNP Paribas", lieu:"Paris 8e", contrat:"CDI", remote:"Hybride", score:0.92, tags:"Python, Scikit-learn, SQL, NLP", lien:"#" },
-  { titre:"Machine Learning Engineer", entreprise:"Dataiku", lieu:"Paris 17e", contrat:"CDI", remote:"Remote", score:0.88, tags:"Python, MLflow, Docker, Kubernetes", lien:"#" },
-  { titre:"Data Scientist — NLP", entreprise:"Thales", lieu:"Vélizy-Villacoublay", contrat:"CDI", remote:"Hybride", score:0.85, tags:"NLP, Python, Transformers, BERT", lien:"#" },
-  { titre:"Ingénieur Data / ML", entreprise:"Criteo", lieu:"Paris 9e", contrat:"CDI", remote:"Hybride", score:0.82, tags:"Python, Spark, MLflow, A/B Testing", lien:"#" },
-  { titre:"Data Analyst Python", entreprise:"ManoMano", lieu:"Paris 8e", contrat:"CDI", remote:"Hybride", score:0.79, tags:"Python, SQL, Power BI, Pandas", lien:"#" },
-  { titre:"Junior Data Scientist", entreprise:"Société Générale", lieu:"La Défense", contrat:"CDI", remote:"Sur site", score:0.76, tags:"Python, R, Statistics, SQL", lien:"#" },
-  { titre:"ML Engineer Remote", entreprise:"Hugging Face", lieu:"Paris (Remote)", contrat:"CDI", remote:"Full Remote", score:0.74, tags:"PyTorch, Transformers, Python, NLP", lien:"#" },
-  { titre:"Data Science Consultant", entreprise:"Capgemini", lieu:"Lyon", contrat:"CDI", remote:"Hybride", score:0.71, tags:"Python, Power BI, SQL, Machine Learning", lien:"#" },
-  { titre:"Stage Data Science", entreprise:"Renault Group", lieu:"Guyancourt", contrat:"Stage", remote:"Sur site", score:0.68, tags:"Python, Computer Vision, Deep Learning", lien:"#" },
-  { titre:"Alternance Data Engineer", entreprise:"Orange", lieu:"Châtillon", contrat:"Alternance", remote:"Hybride", score:0.65, tags:"Python, Airflow, Spark, SQL", lien:"#" },
-];
+const API_BASE = 'http://localhost:8000';
 
 const contratColors = { CDI:'badge-cyan', Stage:'badge-amber', Alternance:'badge-violet', Freelance:'badge-rose' };
 const remoteColors  = { 'Remote':'badge-lime', 'Full Remote':'badge-lime', 'Hybride':'badge-cyan', 'Sur site':'badge-gray' };
 
-function runRecommendation() {
-  const poste = document.getElementById('poste').value.trim();
-  const comp   = document.getElementById('competences').value.trim();
-  const topK   = parseInt(document.getElementById('topKSlider').value);
-  const minScore = parseFloat(document.getElementById('minScoreSlider').value) / 100;
-  const hasPDF = document.getElementById('uploadDone').style.display === 'flex';
+/* ============================================================
+   STATS DYNAMIQUES — appel /stats au chargement
+   ============================================================ */
+const SOURCE_ICONS = {
+  'France Travail':  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  'The Muse':        `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+  'Arbeitnow':       `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  'Remotive':        `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-rose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+  'Kaggle LinkedIn': `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
+  'SerpApi':         `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>`,
+  'Adzuna':          `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  'JSearch':         `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+};
 
-  if (!poste && !comp && !hasPDF) { toast('Renseignez votre profil ou uploadez un CV', 'error'); return; }
+async function loadStats() {
+  try {
+    const res = await fetch(`${API_BASE}/stats`);
+    if (!res.ok) throw new Error('API non joignable');
+    const s = await res.json();
 
-  document.getElementById('placeholder').style.display = 'none';
-  document.getElementById('resultsGrid').style.display = 'none';
-  document.getElementById('loadingState').style.display = 'block';
-  document.getElementById('exportBtn').style.display = 'none';
+    // Formatage du total avec espace comme séparateur de milliers
+    const totalFmt = s.total.toLocaleString('fr-FR');
 
-  setTimeout(() => {
-    const results = MOCK_OFFERS
-      .filter(o => o.score >= minScore)
-      .slice(0, topK);
-
-    document.getElementById('loadingState').style.display = 'none';
-    document.getElementById('resultsGrid').style.display = 'flex';
-    document.getElementById('resultsCount').textContent = `${results.length} offres trouvées (simulation locale)`;
-    document.getElementById('exportBtn').style.display = 'inline-flex';
-
-    const grid = document.getElementById('resultsGrid');
-    grid.innerHTML = '';
-    results.forEach((offer, i) => {
-      const pct = Math.round(offer.score * 100);
-      const cClass = contratColors[offer.contrat] || 'badge-gray';
-      const rClass  = remoteColors[offer.remote]  || 'badge-gray';
-      const tags = (offer.tags || '').split(',').map(t => t.trim()).filter(Boolean)
-        .map(t => `<span class="badge badge-gray" style="font-size:.62rem">${t}</span>`).join('');
-
-      const card = document.createElement('div');
-      card.className = 'result-card';
-      card.style.animationDelay = `${i * 60}ms`;
-      card.innerHTML = `
-        <div class="result-card-top">
-          <div>
-            <div class="result-title">${offer.titre}</div>
-            <div class="result-company">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-              ${offer.entreprise}
-              &nbsp;&nbsp;
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              ${offer.lieu}
-            </div>
-          </div>
-          <div class="score-wrap">
-            <div class="score-num">${pct}%</div>
-            <div class="score-bar"><div class="score-fill" style="width:${pct}%;animation:progress-grow .8s ${i*60+200}ms var(--ease-liquid) both"></div></div>
-          </div>
-        </div>
-        <div class="result-meta">
-          <span class="badge ${cClass}">${offer.contrat}</span>
-          <span class="badge ${rClass}">${offer.remote}</span>
-          ${tags}
-        </div>
-        <div class="result-actions">
-          <a href="${offer.lien}" class="glass-btn btn-primary btn-sm" target="_blank" rel="noopener">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Voir l'offre
-          </a>
-          <button class="glass-btn btn-ghost btn-sm" onclick="toast('Offre sauvegardée ✓', 'success')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            Sauvegarder
-          </button>
-        </div>`;
-      grid.appendChild(card);
+    // Mise à jour des éléments texte
+    ['statTotal','heroTotal','featureTotal'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = totalFmt;
     });
 
-    window._lastResults = results;
-    toast(`${results.length} offres trouvées !`, 'success');
-  }, 1400);
+    const sourceEntries = Object.entries(s.sources || {});
+    const nbSources = sourceEntries.length;
+    const activeSources = sourceEntries.filter(([,c]) => c > 0).length;
+
+    document.getElementById('statSources')?.textContent && (document.getElementById('statSources').textContent = nbSources);
+    document.getElementById('heroActiveSources') && (document.getElementById('heroActiveSources').textContent = `${activeSources} sources actives`);
+
+    // Date dernière collecte
+    if (s.last_update && s.last_update !== 'N/A') {
+      const d = new Date(s.last_update);
+      const label = d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
+      const el = document.getElementById('lastUpdateLabel');
+      if (el) el.textContent = `Dernière collecte — ${label}`;
+    }
+
+    // Grille des sources
+    const grid = document.getElementById('sourcesGrid');
+    if (grid && sourceEntries.length) {
+      const inactive = [];
+      grid.innerHTML = sourceEntries
+        .sort((a,b) => b[1]-a[1])
+        .map(([name, count], i) => {
+          const active = count > 0;
+          if (!active) inactive.push(name);
+          const icon = SOURCE_ICONS[name] || SOURCE_ICONS['SerpApi'];
+          const countFmt = count.toLocaleString('fr-FR');
+          return `
+            <div class="source-card anim-in" style="animation-delay:${i*50}ms">
+              ${icon}
+              <div class="source-name" style="${!active ? 'opacity:.45' : ''}">${name}</div>
+              <div class="source-count ${!active ? 'zero' : ''}">${active ? countFmt : '0'}</div>
+              ${active
+                ? `<span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>`
+                : `<span class="badge badge-gray" style="font-size:.60rem">Inactif</span>`}
+            </div>`;
+        }).join('');
+
+      // Avertissement sources inactives
+      const warn = document.getElementById('sourcesWarning');
+      if (warn && inactive.length) {
+        warn.textContent = `⚠ ${inactive.join(', ')} ont retourné 0 résultats lors du dernier run. Vérifier les clés API ou quotas.`;
+      }
+    }
+
+  } catch {
+    // API pas lancée : afficher les valeurs en fallback silencieux
+    ['statTotal','heroTotal','featureTotal'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '—';
+    });
+    const grid = document.getElementById('sourcesGrid');
+    if (grid) grid.innerHTML = `<div style="opacity:.4;font-size:.82rem;padding:var(--sp-md)">⚠ API non joignable — lancez uvicorn pour voir les stats en temps réel.</div>`;
+  }
+}
+
+// Chargement au démarrage
+loadStats();
+
+/* ============================================================
+   MOTEUR DE RECOMMANDATION — VRAI APPEL API
+   ============================================================ */
+async function runRecommendation() {
+  const poste    = document.getElementById('poste').value.trim();
+  const comp     = document.getElementById('competences').value.trim();
+  const topK     = parseInt(document.getElementById('topKSlider').value);
+  const minScore = parseFloat(document.getElementById('minScoreSlider').value) / 100;
+  const hasPDF   = document.getElementById('uploadDone').style.display === 'flex';
+  const pdfFile  = document.getElementById('cvFile')?.files?.[0];
+
+  if (!poste && !comp && !hasPDF) {
+    toast('Renseignez votre profil ou uploadez un CV', 'error');
+    return;
+  }
+
+  document.getElementById('placeholder').style.display    = 'none';
+  document.getElementById('resultsGrid').style.display    = 'none';
+  document.getElementById('loadingState').style.display   = 'block';
+  document.getElementById('exportBtn').style.display      = 'none';
+
+  try {
+    let data;
+
+    // ── Cas 1 : PDF uploadé → /recommend/cv ──────────────────────────────
+    if (hasPDF && pdfFile) {
+      const form = new FormData();
+      form.append('file', pdfFile);
+      form.append('top_k', topK);
+      form.append('min_score', minScore);
+
+      const res = await fetch(`${API_BASE}/recommend/cv`, {
+        method: 'POST',
+        body: form,
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || `Erreur serveur ${res.status}`);
+      }
+      data = await res.json();
+
+    // ── Cas 2 : Texte libre → /recommend ─────────────────────────────────
+    } else {
+      const user_text = [poste, comp].filter(Boolean).join(' — ');
+      const res = await fetch(`${API_BASE}/recommend`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_text, top_k: topK, min_score: minScore }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || `Erreur serveur ${res.status}`);
+      }
+      data = await res.json();
+    }
+
+    renderResults(data.results || []);
+
+  } catch (err) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('placeholder').style.display  = 'block';
+
+    // Message d'erreur clair selon le type
+    if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+      toast('⚠️ API non joignable — lancez : uvicorn api:app --port 8000', 'error');
+    } else {
+      toast(`Erreur : ${err.message}`, 'error');
+    }
+    console.error('[JobIA] Erreur recommandation :', err);
+  }
+}
+
+/* ============================================================
+   RENDU DES RÉSULTATS (partagé texte + PDF)
+   ============================================================ */
+function renderResults(results) {
+  document.getElementById('loadingState').style.display = 'none';
+
+  if (!results.length) {
+    document.getElementById('placeholder').style.display = 'block';
+    document.getElementById('resultsCount').textContent  = 'Aucune offre trouvée pour ces critères.';
+    toast('Aucun résultat — essayez un score minimum plus bas', 'error');
+    return;
+  }
+
+  document.getElementById('resultsGrid').style.display  = 'flex';
+  document.getElementById('resultsCount').textContent   = `${results.length} offres trouvées`;
+  document.getElementById('exportBtn').style.display    = 'inline-flex';
+
+  const grid = document.getElementById('resultsGrid');
+  grid.innerHTML = '';
+
+  results.forEach((offer, i) => {
+    const pct    = Math.round((offer.score || 0) * 100);
+    // Le recommender retourne "localisation" — on harmonise
+    const lieu   = offer.localisation || offer.lieu || '—';
+    const contrat = offer.contrat || '—';
+    const remote  = offer.remote  || '—';
+    const tags    = offer.tags    || '';
+
+    const cClass = contratColors[contrat] || 'badge-gray';
+    const rClass = remoteColors[remote]   || 'badge-gray';
+    const tagsHtml = tags.split(',').map(t => t.trim()).filter(Boolean)
+      .map(t => `<span class="badge badge-gray" style="font-size:.62rem">${t}</span>`).join('');
+
+    // Objet normalisé pour saveJob
+    const offerNorm = { titre: offer.titre, entreprise: offer.entreprise,
+                        lieu, contrat, remote, score: offer.score, tags, lien: offer.lien };
+
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.style.animationDelay = `${i * 60}ms`;
+    card.innerHTML = `
+      <div class="result-card-top">
+        <div>
+          <div class="result-title">${offer.titre}</div>
+          <div class="result-company">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            ${offer.entreprise}
+            &nbsp;&nbsp;
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${lieu}
+          </div>
+        </div>
+        <div class="score-wrap">
+          <div class="score-num">${pct}%</div>
+          <div class="score-bar"><div class="score-fill" style="width:${pct}%;animation:progress-grow .8s ${i*60+200}ms var(--ease-liquid) both"></div></div>
+        </div>
+      </div>
+      <div class="result-meta">
+        <span class="badge ${cClass}">${contrat}</span>
+        <span class="badge ${rClass}">${remote}</span>
+        ${tagsHtml}
+      </div>
+      <div class="result-actions">
+        <a href="${offer.lien}" class="glass-btn btn-primary btn-sm" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Voir l'offre
+        </a>
+        <button class="glass-btn btn-ghost btn-sm" onclick="saveJob(${JSON.stringify(offerNorm).replace(/"/g,'&quot;')})">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          Sauvegarder
+        </button>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  window._lastResults = results.map(o => ({...o, lieu: o.localisation || o.lieu || '—'}));
+  toast(`${results.length} offres trouvées !`, 'success');
 }
 
 /* ============================================================
@@ -1333,6 +1557,132 @@ function toast(msg, type = 'success') {
    ENTER KEY ON RECOMMENDATION FORM
    ============================================================ */
 document.getElementById('poste')?.addEventListener('keydown', e => { if(e.key==='Enter') runRecommendation(); });
+
+/* ============================================================
+   SAVED JOBS — localStorage
+   ============================================================ */
+const SAVED_KEY = 'ji-saved-jobs';
+
+function getSaved() {
+  try { return JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function setSaved(arr) {
+  localStorage.setItem(SAVED_KEY, JSON.stringify(arr));
+  updateSavedBadge();
+}
+
+function updateSavedBadge() {
+  const badge = document.getElementById('navSavedBadge');
+  if (!badge) return;
+  const count = getSaved().length;
+  badge.textContent = count > 0 ? count : '';
+}
+
+function saveJob(offer) {
+  const saved = getSaved();
+  const alreadySaved = saved.some(o => o.lien === offer.lien && o.titre === offer.titre);
+  if (alreadySaved) { toast('Offre déjà dans vos favoris', 'error'); return; }
+  offer._savedAt = new Date().toLocaleDateString('fr-FR');
+  saved.unshift(offer);
+  setSaved(saved);
+  toast('Offre sauvegardée ✓ — retrouvez-la dans "Mes offres"', 'success');
+}
+
+function removeSaved(lien, titre) {
+  const updated = getSaved().filter(o => !(o.lien === lien && o.titre === titre));
+  setSaved(updated);
+  renderSavedGrid();
+  toast('Offre supprimée', 'error');
+}
+
+function clearAllSaved() {
+  if (!getSaved().length) { toast('Aucune offre à effacer', 'error'); return; }
+  if (!confirm('Supprimer toutes vos offres sauvegardées ?')) return;
+  setSaved([]);
+  renderSavedGrid();
+  toast('Toutes les offres effacées', 'error');
+}
+
+function exportSavedCSV() {
+  const saved = getSaved();
+  if (!saved.length) { toast('Aucune offre à exporter', 'error'); return; }
+  const header = ['Titre','Entreprise','Lieu','Contrat','Remote','Score','Tags','Lien','Sauvegardé le'];
+  const rows = saved.map(o => [o.titre,o.entreprise,o.lieu,o.contrat,o.remote,o.score,o.tags,o.lien,o._savedAt||''].map(v=>`"${v||''}"`).join(','));
+  const csv = [header.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'mes_offres_sauvegardees.csv';
+  a.click();
+  toast('Export CSV téléchargé', 'success');
+}
+
+function renderSavedGrid() {
+  const grid = document.getElementById('savedGrid');
+  if (!grid) return;
+  const saved = getSaved();
+
+  if (!saved.length) {
+    grid.innerHTML = `
+      <div class="saved-empty">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <div class="saved-empty-title">Aucune offre sauvegardée</div>
+        <div class="saved-empty-sub">Cliquez sur "Sauvegarder" depuis la page Recommandation pour retrouver vos offres ici.</div>
+        <button class="glass-btn btn-primary btn-sm" style="margin-top:20px" onclick="goTo('reco')">
+          Aller aux recommandations
+        </button>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = saved.map((o, i) => {
+    // Sécurisation de toutes les valeurs potentiellement null/undefined
+    const titre    = o.titre    || 'Sans titre';
+    const entreprise = o.entreprise || '—';
+    const lieu     = o.lieu     || o.localisation || '—';
+    const contrat  = o.contrat  || '—';
+    const remote   = o.remote   || '—';
+    const lien     = o.lien     || '#';
+    const tags_str = o.tags     || '';
+    const pct      = Math.round((o.score || 0) * 100);
+
+    const contratMap = { 'CDI':'badge-lime','CDD':'badge-amber','Alternance':'badge-violet','Stage':'badge-cyan','Freelance':'badge-rose' };
+    const cClass = contratMap[contrat] || 'badge-violet';
+    const tags = tags_str.split(',').filter(Boolean).slice(0,3).map(t=>`<span class="badge badge-violet">${t.trim()}</span>`).join('');
+
+    const lienSafe  = lien.replace(/'/g,"\\'");
+    const titreSafe = titre.replace(/'/g,"\\'");
+
+    return `
+      <div class="glass saved-card anim-in" style="animation-delay:${i*50}ms">
+        <div class="saved-card-body">
+          <div class="saved-card-title">${titre}</div>
+          <div class="saved-card-company">${entreprise} · ${lieu}</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+            <span class="badge ${cClass}">${contrat}</span>
+            <span class="badge">${remote}</span>
+            ${tags}
+          </div>
+          ${o._savedAt ? `<div style="font-size:.72rem;color:var(--color-text-subtle)">Sauvegardé le ${o._savedAt}</div>` : ''}
+          <div class="saved-card-actions">
+            <a href="${lien}" class="glass-btn btn-primary btn-sm" target="_blank" rel="noopener">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Voir l'offre
+            </a>
+            <button class="glass-btn btn-sm btn-danger" onclick="removeSaved('${lienSafe}','${titreSafe}')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+              Supprimer
+            </button>
+          </div>
+        </div>
+        <div class="saved-score-pill">${pct}%</div>
+      </div>`;
+  }).join('');
+}
+
+// Initialisation au chargement
+updateSavedBadge();
 </script>
 </body>
 </html>
