@@ -1,23 +1,3 @@
-"""
-fusion.py — Moteur de fusion et nettoyage des offres
-======================================================
-Ce module :
-  1. Charge tous les CSV sources (france_travail, arbeitnow, adzuna, themuse, jsearch)
-  2. Unifie les colonnes dans un schéma commun
-  3. Déduplique par hash_id (titre+url) — plus robuste que titre+entreprise
-  4. Nettoie et normalise les salaires
-  5. Catégorise les offres sans secteur dans un secteur standardisé
-  6. Sauvegarde offres_all.csv + injecte en PostgreSQL
-  7. ✅ NOUVEAU : lit offres_transformees.csv si disponible (après transform.py)
-
-Schéma unifié de sortie :
-  hash_id, titre, titre_normalise, entreprise, lieu, region, pays,
-  salaire_min, salaire_max, salaire_brut, salaire_annuel_estime,
-  remote, contrat, contrat_type, secteur, categorie, competences_extraites,
-  description, lien, tags, niveau, rome_code,
-  date_creation, date_scraping, source, poste_recherche
-"""
-
 import os
 import re
 import hashlib
@@ -25,11 +5,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
-# ─── CONFIG ───────────────────────────────────────────────────────────────────
-
-DATA_DIR          = "/opt/airflow/data"
-OUTPUT_PATH       = f"{DATA_DIR}/offres_all.csv"
-OUTPUT_TRANSFORME = f"{DATA_DIR}/offres_transformees.csv"
+DATA_DIR = "/opt/airflow/data"
+OUTPUT_PATH = f"{DATA_DIR}/offres_all.csv"
 
 SOURCES = {
     "france_travail": f"{DATA_DIR}/offres_france_travail.csv",
@@ -37,524 +14,180 @@ SOURCES = {
     "adzuna":         f"{DATA_DIR}/offres_adzuna.csv",
     "themuse":        f"{DATA_DIR}/offres_themuse.csv",
     "jsearch":        f"{DATA_DIR}/offres_jsearch.csv",
+    "remotive":       f"{DATA_DIR}/offres_remotive.csv",
+    "serpapi":        f"{DATA_DIR}/offres_serpapi.csv",
 }
 
-SCHEMA = [
-    "hash_id",
-    "titre",
-    "titre_normalise",
-    "entreprise",
-    "lieu",
-    "region",
-    "pays",
-    "salaire_min",
-    "salaire_max",
-    "salaire_brut",
-    "salaire_annuel_estime",
-    "remote",
-    "contrat",
-    "contrat_type",
-    "secteur",
-    "categorie",
-    "competences_extraites",
-    "description",
-    "lien",
-    "tags",
-    "niveau",
-    "rome_code",
-    "date_creation",
-    "date_scraping",
-    "source",
-    "poste_recherche",
-]
+# ─────────────────────────────────────────────
 
-# ─── MAPPING SECTEUR FALLBACK ─────────────────────────────────────────────────
-# ✅ Mots-clés précis pour éviter les faux positifs
-
-SECTEUR_KEYWORDS = {
-    "Informatique / Tech": [
-        "data scientist", "data engineer", "data analyst",
-        "machine learning", "deep learning", "nlp engineer",
-        "développeur python", "développeur java", "développeur react",
-        "developer", "software engineer", "fullstack",
-        "devops", "mlops", "dataops", "sre",
-        "cloud architect", "aws", "azure", "gcp",
-        "cybersécurité", "cybersecurity",
-        "intelligence artificielle", "ai engineer",
-        "data architect", "business intelligence",
-        "infrastructure it", "scrum master it",
-        "product manager tech", "ingénieur data",
-    ],
-    "Finance / Comptabilité": [
-        "finance", "comptabl", "audit", "trésor", "contrôleur",
-        "analyste financier", "risk manager", "banque", "assurance",
-        "gestion de patrimoine", "portfolio",
-    ],
-    "Marketing / Communication": [
-        "marketing", "communication", "seo", "sem", "content manager",
-        "brand manager", "social media manager", "rédact",
-        "traffic manager", "growth hacker",
-    ],
-    "Commercial / Ventes": [
-        "commercial", "vente", "sales", "account manager",
-        "business developer", "ingénieur commercial",
-        "technico-commercial", "key account",
-    ],
-    "Ressources Humaines": [
-        "ressources humaines", "recrutement", "recruteur",
-        "talent acquisition", "responsable paie", "hrbp",
-    ],
-    "Ingénierie": [
-        "ingénieur mécanique", "ingénieur électrique",
-        "ingénieur industriel", "automatisme",
-        "bureau d'études", "ingénieur production",
-        "ingénieur qualité", "ingénieur travaux",
-    ],
-    "Santé / Médical": [
-        "infirmier", "médecin", "pharmacien", "soignant", "aide-soignant",
-        "kiné", "clinique", "hôpital", "paramédical",
-    ],
-    "Juridique": [
-        "juriste", "avocat", "droit", "compliance officer",
-        "notaire", "paralegal",
-    ],
-    "Logistique / Supply Chain": [
-        "logistique", "supply chain", "entrepôt", "transport",
-        "approvisionn", "cariste", "import export",
-    ],
-    "Management / Opérations": [
-        "directeur général", "directeur opérations",
-        "chef de projet", "project manager",
-        "responsable de site", "lean manager",
-    ],
-    "Education / Formation": [
-        "formateur", "enseignant", "pédagogie",
-        "professeur", "éducation",
-    ],
-    "Commerce / Distribution": [
-        "commerce", "distribution", "acheteur",
-        "merchandis", "retail",
-    ],
-    "Conseil": [
-        "consultant stratégie", "consultant management",
-        "consultant transformation", "consulting",
-    ],
-    "Immobilier / BTP": [
-        "immobilier", "btp", "conducteur de travaux", "architecte",
-        "bâtiment", "chantier", "génie civil",
-    ],
-    "Hôtellerie / Restauration": [
-        "hôtel", "restauration", "cuisine", "serveur",
-        "réception", "hébergement",
-    ],
-    "R&D / Scientifique": [
-        "chercheur", "scientifique", "laboratoire",
-        "biologie", "chimie", "physique", "biotech",
-    ],
-}
-
-
-# ─── CHARGEMENT & NORMALISATION ───────────────────────────────────────────────
-
-def charger_source(nom_source: str, chemin: str) -> pd.DataFrame | None:
+def charger_source(nom, chemin):
     if not os.path.exists(chemin):
-        print(f"  [fusion] Fichier manquant : {chemin}")
+        print(f"[fusion] ❌ manquant : {chemin}")
         return None
+
     try:
         df = pd.read_csv(chemin, low_memory=False)
-        print(f"  [fusion] {nom_source} : {len(df)} lignes chargées")
-        df["source"] = nom_source
-        if "hash_id" not in df.columns:
-            df["hash_id"] = df.apply(
-                lambda r: hashlib.sha1(
-                    f"{r.get('titre', '')}|{r.get('lien', '')}".encode()
-                ).hexdigest()[:16],
-                axis=1,
-            )
-        return df
+        print(f"[fusion] {nom} : {len(df)} lignes")
     except Exception as e:
-        print(f"  [fusion] Erreur lecture {nom_source} : {e}")
+        print(f"[fusion] ❌ erreur lecture {nom} : {e}")
         return None
 
+    df["source"] = nom
 
-def normaliser_colonnes(df: pd.DataFrame, source: str) -> pd.DataFrame:
-    rename_maps = {
-        "jsearch": {
-            "salaire_devise": "salaire_brut",
-            "date_offre":     "date_creation",
-        },
-    }
-    if source in rename_maps:
-        df = df.rename(columns=rename_maps[source])
+    if "hash_id" not in df.columns:
+        df["hash_id"] = df.apply(
+            lambda r: hashlib.sha1(
+                f"{r.get('titre','')}|{r.get('entreprise','')}|{r.get('lien','')}".encode()
+            ).hexdigest()[:16],
+            axis=1
+        )
 
-    defaults = {
-        "hash_id":               "",
-        "titre":                 "N/A",
-        "titre_normalise":       None,
-        "entreprise":            "N/A",
-        "lieu":                  "N/A",
-        "region":                "N/A",
-        "pays":                  "France",
-        "salaire_min":           None,
-        "salaire_max":           None,
-        "salaire_brut":          "",
-        "salaire_annuel_estime": None,
-        "remote":                False,
-        "contrat":               "N/A",
-        "contrat_type":          "N/A",
-        "secteur":               "Autre",
-        "categorie":             "N/A",
-        "competences_extraites": None,
-        "description":           "",
-        "lien":                  "N/A",
-        "tags":                  "",
-        "niveau":                "N/A",
-        "rome_code":             "",
-        "date_creation":         "",
-        "date_scraping":         datetime.now().strftime("%Y-%m-%d"),
-        "source":                source,
-        "poste_recherche":       "N/A",
-    }
+    return df
 
-    for col, default in defaults.items():
+
+# ─────────────────────────────────────────────
+
+def normaliser_colonnes(df):
+    colonnes = [
+        "hash_id", "titre", "entreprise", "lieu", "secteur",
+        "salaire_min", "salaire_max", "remote",
+        "description", "lien", "date_scraping", "source"
+    ]
+
+    for col in colonnes:
         if col not in df.columns:
-            df[col] = default
+            df[col] = None
 
-    return df[[c for c in SCHEMA if c in df.columns] +
-               [c for c in df.columns if c not in SCHEMA]]
-
-
-# ─── NETTOYAGE SALAIRES ───────────────────────────────────────────────────────
-
-def nettoyer_salaires(df: pd.DataFrame) -> pd.DataFrame:
-    def parse_libelle(libelle: str):
-        if not libelle or pd.isna(libelle):
-            return None, None
-        libelle  = str(libelle)
-        mensuel  = "mensuel" in libelle.lower()
-        nombres  = re.findall(r"\d+(?:[,. ]\d+)*", libelle)
-        nombres  = [float(n.replace(",", ".").replace(" ", "")) for n in nombres if n]
-        if not nombres:
-            return None, None
-        if mensuel:
-            nombres = [n * 12 for n in nombres]
-        return (min(nombres), max(nombres)) if len(nombres) > 1 else (nombres[0], nombres[0])
-
-    mask_missing = df["salaire_min"].isna() & df["salaire_brut"].notna()
-    if mask_missing.any():
-        parsed = df.loc[mask_missing, "salaire_brut"].apply(parse_libelle)
-        df.loc[mask_missing, "salaire_min"] = parsed.apply(lambda x: x[0])
-        df.loc[mask_missing, "salaire_max"] = parsed.apply(lambda x: x[1])
-
-    df["salaire_min"] = pd.to_numeric(df["salaire_min"], errors="coerce")
-    df["salaire_max"] = pd.to_numeric(df["salaire_max"], errors="coerce")
-
-    df.loc[df["salaire_min"] < 8_000,   "salaire_min"] = None
-    df.loc[df["salaire_min"] > 500_000, "salaire_min"] = None
-    df.loc[df["salaire_max"] < 8_000,   "salaire_max"] = None
-    df.loc[df["salaire_max"] > 500_000, "salaire_max"] = None
-
-    df["salaire_annuel_estime"] = df[["salaire_min", "salaire_max"]].mean(axis=1)
     return df
 
 
-# ─── INFÉRENCE DU SECTEUR ─────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
 
-def inferer_secteur(titre: str) -> str:
-    if not titre or pd.isna(titre):
-        return "Autre"
-    titre_lower = str(titre).lower()
-    for secteur, keywords in SECTEUR_KEYWORDS.items():
-        if any(kw in titre_lower for kw in keywords):
-            return secteur
-    return "Autre"
+def nettoyer_dataframe(df):
 
-
-def corriger_secteurs(df: pd.DataFrame) -> pd.DataFrame:
-    mask = df["secteur"].isin(["Autre", "N/A", "", None]) | df["secteur"].isna()
-    if mask.any():
-        df.loc[mask, "secteur"] = df.loc[mask, "titre"].apply(inferer_secteur)
-        print(f"  [fusion] Secteur inféré pour {mask.sum()} offres")
-    return df
-
-
-# ─── DÉDUPLICATION ────────────────────────────────────────────────────────────
-
-def dedupliquer(df: pd.DataFrame) -> pd.DataFrame:
-    avant = len(df)
-
-    df = df.drop_duplicates(subset=["hash_id"], keep="first")
-
-    df["_titre_norm"] = (
-        df["titre"].str.lower()
-        .str.replace(r"[^\w\s]", "", regex=True)
-        .str.strip()
-    )
-    df["_ent_norm"] = (
-        df["entreprise"].str.lower()
-        .str.replace(r"[^\w\s]", "", regex=True)
-        .str.strip()
-    )
-
-    source_priority = {
-        "france_travail": 0,
-        "adzuna":         1,
-        "jsearch":        2,
-        "themuse":        3,
-        "arbeitnow":      4,
-    }
-    df["_prio"] = df["source"].map(source_priority).fillna(5)
-    df = df.sort_values("_prio")
-    df = df.drop_duplicates(subset=["_titre_norm", "_ent_norm"], keep="first")
-    df = df.drop(columns=["_titre_norm", "_ent_norm", "_prio"])
-
-    apres = len(df)
-    print(f"  [fusion] Deduplication : {avant} → {apres} offres uniques "
-          f"({avant - apres} supprimées)")
-    return df
-
-
-# ─── NETTOYAGE GÉNÉRAL ────────────────────────────────────────────────────────
-
-def nettoyer_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df = df.replace({"nan": None, "N/A": None, "": None})
-    df = df.where(pd.notnull(df), None)
+    df = df.replace({np.nan: None})
+
+    df["entreprise"] = df["entreprise"].fillna("Non spécifiée")
 
     df["description"] = df["description"].apply(
         lambda x: str(x)[:500] if x else None
     )
+
+    df["remote"] = df["remote"].fillna(False)
     df["remote"] = df["remote"].apply(
-        lambda x: True if str(x).lower() in ("true", "1", "oui", "yes") else False
-    )
-    df["titre"] = df["titre"].apply(
-        lambda x: re.sub(r"\s+", " ", str(x)).strip() if x else None
+        lambda x: True if str(x).lower() in ("true","1","oui") else False
     )
 
-    today = datetime.now().strftime("%Y-%m-%d")
-    df["date_scraping"] = df["date_scraping"].fillna(today)
+    df["secteur"] = df["secteur"].fillna("Autre")
+
     return df
 
 
-# ─── FONCTION PRINCIPALE FUSION ───────────────────────────────────────────────
+# ─────────────────────────────────────────────
 
-def fusionner_offres(sources: dict | None = None) -> pd.DataFrame:
-    if sources is None:
-        sources = SOURCES
+def nettoyer_salaires(df):
 
-    print("=" * 55)
-    print(f"FUSION — démarrage ({len(sources)} sources)")
-    print("=" * 55)
+    df["salaire_min"] = pd.to_numeric(df.get("salaire_min"), errors="coerce")
+    df["salaire_max"] = pd.to_numeric(df.get("salaire_max"), errors="coerce")
+
+    df.loc[df["salaire_min"] < 8000, "salaire_min"] = None
+    df.loc[df["salaire_max"] < 8000, "salaire_max"] = None
+
+    df["salaire_annuel_estime"] = df[["salaire_min","salaire_max"]].mean(axis=1)
+
+    return df
+
+
+# ─────────────────────────────────────────────
+
+def dedupliquer(df):
+
+    avant = len(df)
+
+    df = df.drop_duplicates(subset=["hash_id"])
+
+    print(f"[fusion] dedup : {avant} → {len(df)}")
+
+    return df
+
+
+# ─────────────────────────────────────────────
+
+def filtre_it(df):
+
+    mask = (
+        df["secteur"] == "Informatique / Tech"
+    ) | (
+        df["titre"].str.contains(
+            "data|engineer|developer|devops|ml|ai",
+            case=False,
+            na=False
+        )
+    )
+
+    avant = len(df)
+    df = df[mask]
+
+    print(f"[fusion] filtre IT : {avant} → {len(df)}")
+
+    return df
+
+
+# ─────────────────────────────────────────────
+
+def fusionner_offres():
+
+    print("\n===== FUSION =====")
 
     dfs = []
-    for nom, chemin in sources.items():
-        df = charger_source(nom, chemin)
+
+    for nom, path in SOURCES.items():
+        df = charger_source(nom, path)
+
         if df is not None and len(df) > 0:
-            df = normaliser_colonnes(df, nom)
+            df = normaliser_colonnes(df)
             dfs.append(df)
 
     if not dfs:
-        raise RuntimeError("Aucun fichier CSV trouvé — tous les scrapers ont échoué.")
+        raise Exception("❌ aucune source valide")
+
+    print("\nSources chargées :")
+    for d in dfs:
+        print("-", d["source"].iloc[0], len(d))
 
     df_all = pd.concat(dfs, ignore_index=True)
-    print(f"\nTotal brut : {len(df_all)} offres de {len(dfs)} sources")
 
-    print("\n-- Nettoyage salaires --")
+    print("\nTotal brut :", len(df_all))
+
     df_all = nettoyer_salaires(df_all)
-
-    print("-- Correction secteurs --")
-    df_all = corriger_secteurs(df_all)
-
-    print("-- Deduplication --")
     df_all = dedupliquer(df_all)
-
-    print("-- Nettoyage final --")
     df_all = nettoyer_dataframe(df_all)
-
-    cols_finales = [c for c in SCHEMA if c in df_all.columns]
-    df_all = df_all[cols_finales]
-
-    # ✅ Garder uniquement les offres IT/Data
-    avant_filtre = len(df_all)
-    df_all = df_all[df_all["secteur"] == "Informatique / Tech"]
-    print(f"Filtre IT : {avant_filtre} → {len(df_all)} offres conservées")
+    df_all = filtre_it(df_all)
 
     os.makedirs(DATA_DIR, exist_ok=True)
-    df_all.to_csv(OUTPUT_PATH, index=False, encoding="utf-8")
+    df_all.to_csv(OUTPUT_PATH, index=False)
 
-    print("\n" + "=" * 55)
-    print(f"FUSION TERMINÉE : {len(df_all)} offres uniques")
-    print(f"Fichier : {OUTPUT_PATH}")
-    print("\nRépartition par source :")
-    for src, n in df_all["source"].value_counts().items():
-        print(f"  {src:<20} : {n:>5} offres")
-    print("\nRépartition par secteur (top 10) :")
-    for sec, n in df_all["secteur"].value_counts().head(10).items():
-        print(f"  {str(sec):<35} : {n:>5} offres")
-    print(f"\nAvec salaire : {df_all['salaire_annuel_estime'].notna().sum()} offres")
-    print(f"Remote       : {df_all['remote'].sum()} offres")
-    print("=" * 55)
+    print("\nTop entreprises :")
+    print(df_all["entreprise"].value_counts().head(10))
+
+    print("\nSources :")
+    print(df_all["source"].value_counts())
+
+    print("\nTOTAL FINAL :", len(df_all))
 
     return df_all
 
 
-def fusionner_offres_task() -> int:
+# ─────────────────────────────────────────────
+
+def fusionner_offres_task():
     df = fusionner_offres()
     return len(df)
 
 
-# ─── INJECTION POSTGRESQL ─────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
 
-def sauvegarder_en_db(df: pd.DataFrame | None = None) -> int:
-    import psycopg2
-
-    DB_CONFIG = {
-        "host":     os.getenv("POSTGRES_HOST", "postgres"),
-        "database": os.getenv("POSTGRES_DB",   "airflow"),
-        "user":     os.getenv("POSTGRES_USER",  "airflow"),
-        "password": os.getenv("POSTGRES_PASSWORD", "airflow"),
-        "port":     int(os.getenv("POSTGRES_PORT", 5432)),
-    }
-
-    if df is None:
-        fichier = OUTPUT_TRANSFORME if os.path.exists(OUTPUT_TRANSFORME) else OUTPUT_PATH
-        print(f"📂 Lecture : {fichier}")
-        df = pd.read_csv(fichier, low_memory=False)
-        df = df.where(pd.notnull(df), None)
-
-    print(f"PostgreSQL — insertion de {len(df)} offres...")
-
-    conn   = psycopg2.connect(**DB_CONFIG)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS offres_emploi (
-            id                    SERIAL PRIMARY KEY,
-            hash_id               VARCHAR(32) UNIQUE,
-            titre                 VARCHAR(500),
-            titre_normalise       VARCHAR(200),
-            entreprise            VARCHAR(500),
-            lieu                  VARCHAR(500),
-            region                VARCHAR(200),
-            pays                  VARCHAR(100) DEFAULT 'France',
-            salaire_min           FLOAT,
-            salaire_max           FLOAT,
-            salaire_brut          VARCHAR(300),
-            salaire_annuel_estime FLOAT,
-            remote                BOOLEAN,
-            contrat               VARCHAR(200),
-            contrat_type          VARCHAR(100),
-            secteur               VARCHAR(200),
-            categorie             VARCHAR(500),
-            competences_extraites TEXT,
-            description           TEXT,
-            lien                  TEXT,
-            tags                  TEXT,
-            niveau                VARCHAR(200),
-            rome_code             VARCHAR(10),
-            date_creation         DATE,
-            date_scraping         DATE,
-            source                VARCHAR(100),
-            poste_recherche       VARCHAR(300),
-            created_at            TIMESTAMP DEFAULT NOW(),
-            updated_at            TIMESTAMP DEFAULT NOW()
-        )
-    """)
-
-    for col_sql in [
-        "ALTER TABLE offres_emploi ADD COLUMN IF NOT EXISTS titre_normalise VARCHAR(200);",
-        "ALTER TABLE offres_emploi ADD COLUMN IF NOT EXISTS competences_extraites TEXT;",
-    ]:
-        try:
-            cursor.execute(col_sql)
-        except Exception:
-            pass
-
-    conn.commit()
-
-    inseres = mises_a_jour = erreurs = 0
-
-    def clean(val):
-        if val is None:
-            return None
-        s = str(val)
-        return None if s in ("nan", "None", "N/A", "") else val
-
-    for _, row in df.iterrows():
-        try:
-            cursor.execute("""
-                INSERT INTO offres_emploi
-                  (hash_id, titre, titre_normalise, entreprise, lieu, region, pays,
-                   salaire_min, salaire_max, salaire_brut, salaire_annuel_estime,
-                   remote, contrat, contrat_type, secteur, categorie,
-                   competences_extraites, description, lien, tags, niveau, rome_code,
-                   date_creation, date_scraping, source, poste_recherche)
-                VALUES
-                  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                ON CONFLICT (hash_id) DO UPDATE SET
-                  salaire_min           = EXCLUDED.salaire_min,
-                  salaire_max           = EXCLUDED.salaire_max,
-                  salaire_annuel_estime = EXCLUDED.salaire_annuel_estime,
-                  titre_normalise       = EXCLUDED.titre_normalise,
-                  competences_extraites = EXCLUDED.competences_extraites,
-                  tags                  = EXCLUDED.tags,
-                  updated_at            = NOW()
-            """, (
-                clean(row.get("hash_id")),
-                clean(row.get("titre")),
-                clean(row.get("titre_normalise")),
-                clean(row.get("entreprise")),
-                clean(row.get("lieu")),
-                clean(row.get("region")),
-                clean(row.get("pays")) or "France",
-                row.get("salaire_min"),
-                row.get("salaire_max"),
-                clean(row.get("salaire_brut")),
-                row.get("salaire_annuel_estime"),
-                bool(row.get("remote")),
-                clean(row.get("contrat")),
-                clean(row.get("contrat_type")),
-                clean(row.get("secteur")) or "Autre",
-                clean(row.get("categorie")),
-                clean(row.get("competences_extraites")),
-                clean(row.get("description")),
-                clean(row.get("lien")),
-                clean(row.get("tags")),
-                clean(row.get("niveau")),
-                clean(row.get("rome_code")),
-                clean(row.get("date_creation")),
-                clean(row.get("date_scraping")),
-                clean(row.get("source")),
-                clean(row.get("poste_recherche")),
-            ))
-
-            if cursor.rowcount > 0:
-                inseres += 1
-            else:
-                mises_a_jour += 1
-
-        except Exception as e:
-            erreurs += 1
-            conn.rollback()
-            if erreurs <= 3:
-                print(f"  ⚠️ Erreur insertion : {e}")
-            continue
-
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-    print(f"✅ DB : {inseres} insérées | {mises_a_jour} mises à jour | {erreurs} erreurs")
-    return inseres + mises_a_jour
-
-
-def sauvegarder_en_db_task() -> int:
-    """Wrapper Airflow — lit offres_transformees.csv en priorité."""
+def sauvegarder_en_db_task():
+    from save_to_db import sauvegarder_en_db
     return sauvegarder_en_db()
-
-
-# ─── TEST LOCAL ───────────────────────────────────────────────────────────────
-
-if __name__ == "__main__":
-    df = fusionner_offres()
-    print(f"\nPrêt pour insertion : {len(df)} offres")
-    print(df[["source", "secteur", "titre", "salaire_annuel_estime"]].head(10).to_string())

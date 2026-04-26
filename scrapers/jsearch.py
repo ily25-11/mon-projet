@@ -5,142 +5,155 @@ import requests
 import pandas as pd
 from datetime import datetime
 
+# ─── CONFIG ───────────────────────────────────────────────────────────────────
 
-API_KEY    = os.getenv("RAPIDAPI_KEY", "")
+API_KEY = os.getenv("RAPIDAPI_KEY", "")
 OUTPUT_DIR = "/opt/airflow/data"
 
-# ✅ Uniquement postes IT/Data
 POSTES = [
-    "data scientist France",
-    "data engineer France",
-    "data analyst France",
-    "machine learning engineer France",
-    "devops engineer France",
-    "cloud architect France",
-    "cybersecurity engineer France",
-    "fullstack developer France",
-    "AI engineer France",
+    "data scientist",
+    "data engineer",
+    "data analyst",
 ]
 
+BASE_URL = "https://jsearch.p.rapidapi.com/search"
 
-def scraper_jsearch_task(
-    poste: str = "data scientist",
-    pages_max: int = 5,
-    source_name: str = "jsearch",
-) -> list[dict]:
+
+# ─── SCRAPER PRINCIPAL ────────────────────────────────────────────────────────
+
+def scraper_jsearch(pages_max=5):
+
     if not API_KEY:
-        raise EnvironmentError("Variable RAPIDAPI_KEY manquante")
+        raise EnvironmentError("❌ RAPIDAPI_KEY manquante")
 
-    print(f"JSearch — recherche : {poste}")
-    offres  = []
     headers = {
-        "X-RapidAPI-Key":  API_KEY,
+        "X-RapidAPI-Key": API_KEY,
         "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
     }
 
-    for page in range(1, pages_max + 1):
-        params = {
-            "query":       poste,
-            "page":        str(page),
-            "num_pages":   "1",
-            "country":     "fr",
-            "date_posted": "month",
-        }
+    toutes = []
 
-        try:
-            resp = requests.get(
-                "https://jsearch.p.rapidapi.com/search",
-                headers=headers,
-                params=params,
-                timeout=20,
-            )
+    for poste in POSTES:
+        print(f"\n🔎 Recherche : {poste}")
 
-            if resp.status_code == 429:
-                print(f"⚠️  Quota JSearch dépassé à la page {page}. Arrêt.")
+        for page in range(1, pages_max + 1):
+
+            params = {
+                "query": poste,
+                "page": str(page),
+                "country": "fr",
+                "date_posted": "month",
+            }
+
+            try:
+                resp = requests.get(
+                    BASE_URL,
+                    headers=headers,
+                    params=params,
+                    timeout=15,
+                )
+
+                # 🔴 DEBUG IMPORTANT
+                if resp.status_code == 429:
+                    print("⚠️ Quota atteint JSearch")
+                    return toutes
+
+                if resp.status_code != 200:
+                    print(f"\n❌ HTTP {resp.status_code}")
+                    print(resp.text[:400])
+                    break
+
+                data = resp.json().get("data", [])
+
+                # ⚠️ NE PAS BREAK → juste skip
+                if not data:
+                    print(f"Page {page} vide")
+                    continue
+
+                for job in data:
+
+                    titre = job.get("job_title", "N/A")
+                    entreprise = job.get("employer_name")
+
+                    # ✅ FIX entreprise NULL
+                    if not entreprise or str(entreprise).strip() == "":
+                        entreprise = "Non spécifiée"
+
+                    lien = job.get("job_apply_link", "N/A")
+
+                    hash_id = hashlib.sha1(
+                        f"{titre}|{entreprise}|{lien}".encode()
+                    ).hexdigest()[:16]
+
+                    toutes.append({
+                        "hash_id": hash_id,
+                        "titre": titre,
+                        "entreprise": entreprise,
+                        "lieu": job.get("job_city") or job.get("job_country", "N/A"),
+                        "pays": job.get("job_country", "N/A"),
+                        "secteur": "Informatique / Tech",
+                        "salaire_min": job.get("job_min_salary"),
+                        "salaire_max": job.get("job_max_salary"),
+                        "salaire_devise": job.get("job_salary_currency", "EUR"),
+                        "remote": job.get("job_is_remote", False),
+                        "contrat": job.get("job_employment_type", "N/A"),
+                        "description": (job.get("job_description") or "")[:400],
+                        "lien": lien,
+                        "date_offre": (job.get("job_posted_at_datetime_utc") or "")[:10],
+                        "date_scraping": datetime.now().strftime("%Y-%m-%d"),
+                        "source": "jsearch",
+                        "poste_recherche": poste,
+                    })
+
+                print(f"Page {page} → {len(data)} offres")
+                time.sleep(1)
+
+            except requests.Timeout:
+                print(f"⏱️ Timeout page {page}, on continue")
+                continue
+            except Exception as e:
+                print(f"❌ Erreur : {e}")
                 break
 
-            if resp.status_code != 200:
-                print(f"❌ Erreur HTTP {resp.status_code} page {page} : {resp.text[:200]}")
-                break
+    # ─── POST TRAITEMENT ──────────────────────────────────────────────────────
 
-            data = resp.json().get("data", [])
-            if not data:
-                print(f"  Page {page} : aucune donnée, arrêt.")
-                break
+    if not toutes:
+        print("❌ Aucune donnée récupérée JSearch")
+        return []
 
-            for job in data:
-                titre     = job.get("job_title", "N/A")
-                entreprise = job.get("employer_name", "N/A")
-                lien      = job.get("job_apply_link", "N/A")
+    df = pd.DataFrame(toutes)
 
-                # ✅ Hash unique pour déduplication croisée
-                hash_id = hashlib.sha1(
-                    f"{titre}|{entreprise}|{lien}".encode()
-                ).hexdigest()[:16]
+    avant = len(df)
+    df.drop_duplicates(subset=["hash_id"], inplace=True)
 
-                offres.append({
-                    "hash_id":        hash_id,
-                    "titre":          titre,
-                    "entreprise":     entreprise,
-                    "lieu":           job.get("job_city") or job.get("job_country", "N/A"),
-                    "pays":           job.get("job_country", "N/A"),
-                    "secteur":        "Informatique / Tech",  # ✅ forcé IT
-                    "salaire_min":    job.get("job_min_salary"),
-                    "salaire_max":    job.get("job_max_salary"),
-                    "salaire_devise": job.get("job_salary_currency", "EUR"),
-                    "remote":         job.get("job_is_remote", False),
-                    "contrat":        job.get("job_employment_type", "N/A"),
-                    "description":    (job.get("job_description") or "")[:500],
-                    "lien":           lien,
-                    "date_offre":     (job.get("job_posted_at_datetime_utc") or "")[:10],
-                    "date_scraping":  datetime.now().strftime("%Y-%m-%d"),
-                    "source":         source_name,
-                    "poste_recherche": poste,
-                })
-
-            print(f"  Page {page} : {len(data)} offres récupérées")
-            time.sleep(1)
-
-        except requests.Timeout:
-            print(f"  Page {page} : timeout, on passe à la suivante")
-            continue
-        except Exception as e:
-            print(f"  Page {page} : erreur inattendue — {e}")
-            break
+    print(f"\n📊 Deduplication : {avant} → {len(df)}")
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    if offres:
-        chemin = f"{OUTPUT_DIR}/offres_{source_name}.csv"
-        pd.DataFrame(offres).to_csv(chemin, index=False, encoding="utf-8")
-        print(f"💾 {len(offres)} offres sauvegardées → {chemin}")
-    else:
-        print("❌ Aucune offre JSearch récupérée")
+    path = f"{OUTPUT_DIR}/offres_jsearch.csv"
+    df.to_csv(path, index=False, encoding="utf-8")
 
-    return offres
+    print(f"💾 Sauvegarde : {len(df)} offres → {path}")
+
+    return df.to_dict("records")
 
 
-def scraper_jsearch_multi_postes(pages_max: int = 5) -> list[dict]:
-    """Lance JSearch sur plusieurs postes IT et déduplique."""
-    toutes = []
-    for poste in POSTES:
-        offres = scraper_jsearch_task(poste, pages_max=pages_max, source_name="jsearch")
-        toutes.extend(offres)
-        time.sleep(2)
+# ─── AIRFLOW TASK ────────────────────────────────────────────────────────────
 
-    if toutes:
-        df = pd.DataFrame(toutes)
-        avant = len(df)
-        df.drop_duplicates(subset=["hash_id"], keep="first", inplace=True)
-        print(f"JSearch multi-postes : {avant} → {len(df)} offres uniques")
-        chemin = f"{OUTPUT_DIR}/offres_jsearch.csv"
-        df.to_csv(chemin, index=False, encoding="utf-8")
-        return df.to_dict("records")
+def scraper_jsearch_task():
+    offres = scraper_jsearch(pages_max=5)
+    print(f"JSearch task : {len(offres)} offres")
+    return len(offres)
 
-    return []
-
+def scraper_jsearch_multi_postes(pages_max=5):
+    return scraper_jsearch(pages_max)
+# ─── TEST LOCAL ───────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    offres = scraper_jsearch_multi_postes(pages_max=3)
-    print(f"\nTotal : {len(offres)} offres")
-    for o in offres[:3]:
-        print(f"  - {o['titre']} | {o['entreprise']} | {o['lieu']}")
+    print("API KEY:", "OK" if API_KEY else "EMPTY")
+
+    data = scraper_jsearch(pages_max=3)
+
+    print(f"\nTOTAL : {len(data)} offres")
+
+    for o in data[:3]:
+        print(f"- {o['titre']} | {o['entreprise']} | {o['lieu']}")
