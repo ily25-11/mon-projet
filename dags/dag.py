@@ -3,23 +3,20 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import sys
 import os
+import pandas as pd
 
-os.environ["RAPIDAPI_KEY"]   = "xxxx"
+os.environ["RAPIDAPI_KEY"] = "xxxx"
 
-# ─── PATH SCRAPERS ────────────────────────────────────────────────────────────
 sys.path.insert(0, "/opt/airflow/scrapers")
 
-# ─── IMPORT SCRAPERS ──────────────────────────────────────────────────────────
-from france_travail    import scraper_france_travail_task
-from cadremploi        import scraper_cadremploi
-from themuse           import scraper_themuse_task
-from remotive          import scraper_remotive_task
-from serpapi           import scraper_serpapi_task
-from kaggle_linkedin   import scraper_kaggle_linkedin_task   # ✅ NOUVEAU
-
-from fusion            import fusionner_offres_task, sauvegarder_en_db_task
-from transform         import transformer_offres_task
-
+from france_travail  import scraper_france_travail_task
+from cadremploi      import scraper_cadremploi
+from themuse         import scraper_themuse_task
+from remotive        import scraper_remotive_task
+from serpapi         import scraper_serpapi_task
+from kaggle_linkedin import scraper_kaggle_linkedin_task
+from fusion          import fusionner_offres_task, sauvegarder_en_db_task
+from transform       import transformer_offres_task
 
 default_args = {
     "owner": "job_intelligent",
@@ -35,97 +32,74 @@ def task_france_travail():
     print(f"France Travail : {n} offres")
     return n
 
-
 def task_arbeitnow():
-    import pandas as pd
-
     domaines = [
         "data scientist", "data engineer", "data analyst",
         "machine learning engineer", "MLOps", "AI engineer",
         "software engineer", "devops", "cloud engineer",
         "fullstack developer", "backend developer", "cybersecurity",
     ]
-
     toutes = []
     for d in domaines:
         offres = scraper_cadremploi(d)
         toutes.extend(offres)
-
     if toutes:
         df = pd.DataFrame(toutes)
         df.drop_duplicates(subset=["titre", "entreprise"], inplace=True)
-        chemin = "/opt/airflow/data/offres_cadremploi.csv"
-        df.to_csv(chemin, index=False, encoding="utf-8")
+        df.to_csv("/opt/airflow/data/offres_cadremploi.csv", index=False, encoding="utf-8")
         print(f"Arbeitnow : {len(df)} offres")
         return len(df)
-
     return 0
-
-
-
 
 def task_themuse():
     n = scraper_themuse_task()
     print(f"The Muse : {n} offres")
     return n
 
-
-
 def task_remotive():
     n = scraper_remotive_task()
     print(f"Remotive : {n} offres")
     return n
-
 
 def task_serpapi():
     n = scraper_serpapi_task()
     print(f"SerpAPI : {n} offres")
     return n
 
-
-# ✅ NOUVELLE TASK KAGGLE LINKEDIN
 def task_kaggle_linkedin():
     n = scraper_kaggle_linkedin_task()
     print(f"Kaggle LinkedIn : {n} offres")
     return n
 
-
-# ─── FUSION & DB ──────────────────────────────────────────────────────────────
+# ─── FUSION ───────────────────────────────────────────────────────────────────
 
 def task_fusion():
     n = fusionner_offres_task()
     print(f"Fusion : {n} offres uniques")
     return n
 
+# ─── TRANSFORM + DB + SCHÉMA EN ÉTOILE (tout en un) ─────────────────────────
 
 def task_transform():
-    n = transformer_offres_task()
-    print(f"Transform : {n} offres nettoyées")
+    n = transformer_offres_task()   # <-- fait tout : nettoyage + CSV + DB + dims
+    print(f"Transform + Schéma étoile : {n} offres traitées")
     return n
-
-
-def task_db():
-    n = sauvegarder_en_db_task()
-    print(f"DB : {n} offres")
-    return n
-
 
 # ─── RAPPORT FINAL ────────────────────────────────────────────────────────────
 
 def rapport_final(**context):
     ti = context["ti"]
 
-    n_ft      = ti.xcom_pull(task_ids="scrape_france_travail") or 0
-    n_arbeit  = ti.xcom_pull(task_ids="scrape_arbeitnow")      or 0
-    n_themuse = ti.xcom_pull(task_ids="scrape_themuse")        or 0
-    n_remotive= ti.xcom_pull(task_ids="scrape_remotive")       or 0
-    n_serpapi = ti.xcom_pull(task_ids="scrape_serpapi")        or 0
-    n_kaggle  = ti.xcom_pull(task_ids="scrape_kaggle_linkedin")or 0  # ✅
+    n_ft       = ti.xcom_pull(task_ids="scrape_france_travail")    or 0
+    n_arbeit   = ti.xcom_pull(task_ids="scrape_arbeitnow")         or 0
+    n_themuse  = ti.xcom_pull(task_ids="scrape_themuse")           or 0
+    n_remotive = ti.xcom_pull(task_ids="scrape_remotive")          or 0
+    n_serpapi  = ti.xcom_pull(task_ids="scrape_serpapi")           or 0
+    n_kaggle   = ti.xcom_pull(task_ids="scrape_kaggle_linkedin")   or 0
+    n_fusion   = ti.xcom_pull(task_ids="fusionner_offres")         or 0
+    n_transform= ti.xcom_pull(task_ids="transformer_offres")       or 0
 
-    n_fusion  = ti.xcom_pull(task_ids="fusionner_offres")      or 0
-    n_db      = ti.xcom_pull(task_ids="sauvegarder_db")        or 0
-
-    total_brut = n_ft + n_arbeit +  n_themuse + n_remotive + n_serpapi + n_kaggle
+    total_brut = n_ft + n_arbeit + n_themuse + n_remotive + n_serpapi + n_kaggle
 
     rapport = f"""
 ╔══════════════════════════════════════════════════╗
@@ -140,12 +114,11 @@ def rapport_final(**context):
 ╠══════════════════════════════════════════════════╣
 ║  Total brut      : {str(total_brut).rjust(6)} offres               ║
 ║  Après fusion    : {str(n_fusion).rjust(6)} offres uniques        ║
-║  Insérées en DB  : {str(n_db).rjust(6)}                       ║
+║  Après transform : {str(n_transform).rjust(6)} offres en DB         ║
 ╚══════════════════════════════════════════════════╝
 """
     print(rapport)
-    return n_db
-
+    return n_transform
 
 # ─── DAG ──────────────────────────────────────────────────────────────────────
 
@@ -157,17 +130,16 @@ with DAG(
     tags=["scraping", "jobs"],
 ) as dag:
 
-    t_ft      = PythonOperator(task_id="scrape_france_travail",   python_callable=task_france_travail)
-    t_arbeit  = PythonOperator(task_id="scrape_arbeitnow",        python_callable=task_arbeitnow)
-    t_themuse = PythonOperator(task_id="scrape_themuse",          python_callable=task_themuse)
-    t_remotive= PythonOperator(task_id="scrape_remotive",         python_callable=task_remotive)
-    t_serpapi = PythonOperator(task_id="scrape_serpapi",          python_callable=task_serpapi)
-    t_kaggle  = PythonOperator(task_id="scrape_kaggle_linkedin",  python_callable=task_kaggle_linkedin)  # ✅
+    t_ft       = PythonOperator(task_id="scrape_france_travail",  python_callable=task_france_travail)
+    t_arbeit   = PythonOperator(task_id="scrape_arbeitnow",       python_callable=task_arbeitnow)
+    t_themuse  = PythonOperator(task_id="scrape_themuse",         python_callable=task_themuse)
+    t_remotive = PythonOperator(task_id="scrape_remotive",        python_callable=task_remotive)
+    t_serpapi  = PythonOperator(task_id="scrape_serpapi",         python_callable=task_serpapi)
+    t_kaggle   = PythonOperator(task_id="scrape_kaggle_linkedin", python_callable=task_kaggle_linkedin)
 
-    t_fusion  = PythonOperator(task_id="fusionner_offres",        python_callable=task_fusion)
-    t_transform=PythonOperator(task_id="transformer_offres",      python_callable=task_transform)
-    t_db      = PythonOperator(task_id="sauvegarder_db",          python_callable=task_db)
-    t_rapport = PythonOperator(task_id="rapport_final",           python_callable=rapport_final, provide_context=True)
+    t_fusion   = PythonOperator(task_id="fusionner_offres",       python_callable=task_fusion)
+    t_transform= PythonOperator(task_id="transformer_offres",     python_callable=task_transform)
+    t_rapport  = PythonOperator(task_id="rapport_final",          python_callable=rapport_final, provide_context=True)
 
-    # 🔥 PIPELINE
-    [t_ft, t_arbeit, t_themuse, t_remotive, t_serpapi, t_kaggle] >> t_fusion >> t_transform >> t_db >> t_rapport
+    # ─── PIPELINE — sauvegarder_db supprimé, transform fait tout ─────────────
+    [t_ft, t_arbeit, t_themuse, t_remotive, t_serpapi, t_kaggle] >> t_fusion >> t_transform >> t_rapport

@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 def scraper_cadremploi(poste="data scientist"):
-    print(f"🔍 Démarrage Arbeitnow API : {poste}")
+    print(f" Démarrage Arbeitnow API : {poste}")
 
     offres = []
 
@@ -17,7 +17,7 @@ def scraper_cadremploi(poste="data scientist"):
             }
 
             response = requests.get(url, params=params, timeout=30)
-            print(f"📡 Page {page} - Status : {response.status_code}")
+            print(f" Page {page} - Status : {response.status_code}")
 
             jobs = response.json().get("data", [])
 
@@ -34,10 +34,10 @@ def scraper_cadremploi(poste="data scientist"):
                     "source": "arbeitnow"
                 })
 
-            print(f"✅ Page {page} : {len(jobs)} offres récupérées")
+            print(f" Page {page} : {len(jobs)} offres récupérées")
 
         except Exception as e:
-            print(f"❌ Erreur page {page} : {e}")
+            print(f" Erreur page {page} : {e}")
             continue
 
     os.makedirs("/opt/airflow/data", exist_ok=True)
@@ -46,16 +46,16 @@ def scraper_cadremploi(poste="data scientist"):
         df = pd.DataFrame(offres)
         chemin = "/opt/airflow/data/offres_cadremploi.csv"
         df.to_csv(chemin, index=False, encoding="utf-8")
-        print(f"💾 {len(offres)} offres sauvegardées dans {chemin}")
+        print(f" {len(offres)} offres sauvegardées dans {chemin}")
     else:
-        print("❌ Aucune offre récupérée")
+        print(" Aucune offre récupérée")
 
     return offres
 
 
 if __name__ == "__main__":
     offres = scraper_cadremploi("data scientist")
-    print(f"\n📊 Total : {len(offres)} offres")
+    print(f"\n Total : {len(offres)} offres")
     if offres:
         print("\nAperçu des 3 premières offres :")
         for o in offres[:3]:

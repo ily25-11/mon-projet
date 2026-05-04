@@ -29,7 +29,7 @@ SEARCH_URL  = "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/s
 OUTPUT_PATH = "/opt/airflow/data/offres_france_travail.csv"
 
 # ─── MÉTIERS IT/DATA UNIQUEMENT ───────────────────────────────────────────────
-# ✅ On garde uniquement le secteur IT/Data — conforme au projet Job Intelligent
+#  On garde uniquement le secteur IT/Data — conforme au projet Job Intelligent
 
 POSTES_PAR_SECTEUR = {
     "Informatique / Tech": [
@@ -242,7 +242,7 @@ def scraper_france_travail(
 ) -> list[dict]:
     """
     Point d'entrée principal — compatible DAG Airflow.
-    ✅ Scrape uniquement les métiers IT/Data.
+     Scrape uniquement les métiers IT/Data.
     """
     if postes is None:
         postes = POSTES

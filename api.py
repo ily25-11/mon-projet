@@ -4,52 +4,42 @@ Placer à la RACINE de mon-projet/ (même niveau que recommender/)
 
 Lancer :
     uvicorn api:app --host 0.0.0.0 --port 8000 --reload
-
-Dépendances à ajouter dans requirements.txt :
-    fastapi
-    uvicorn[standard]
-    python-multipart
 """
 
 import io
 import traceback
 import logging
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("jobIA")
 
-# ── Import du vrai moteur de recommandation ──────────────────────────────────
-from recommender.recommender import recommend, df  # on importe aussi df pour les stats
+from recommender.recommender import recommend, df
 
-# ── Tentative d'import du parser CV (optionnel) ───────────────────────────────
 try:
     from recommender.cv_parser import extract_text_from_pdf as parse_cv
     CV_PARSER_AVAILABLE = True
 except ImportError:
     CV_PARSER_AVAILABLE = False
 
-# ── Application ──────────────────────────────────────────────────────────────
 app = FastAPI(
     title="Job Intelligent API",
     description="Recommandation d'offres d'emploi Data via Sentence Transformers",
     version="1.0.0",
 )
 
-# CORS : autorise le fichier HTML local (file://) et localhost
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # restreindre en production
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# ── Schémas ───────────────────────────────────────────────────────────────────
 class RecoRequest(BaseModel):
-    user_text: str = Field(..., min_length=1, description="Texte libre : poste + compétences")
+    user_text: str = Field(..., min_length=1)
     top_k: int = Field(10, ge=1, le=50)
     min_score: float = Field(0.0, ge=0.0, le=1.0)
 
@@ -59,32 +49,21 @@ class HealthResponse(BaseModel):
     cv_parser: bool
 
 
-# ── Routes ────────────────────────────────────────────────────────────────────
 @app.get("/health", response_model=HealthResponse, tags=["Système"])
 def health():
-    """Vérifie que l'API est opérationnelle."""
     return {"status": "ok", "cv_parser": CV_PARSER_AVAILABLE}
 
 
 @app.post("/recommend", tags=["Recommandation"])
 def get_recommendations(req: RecoRequest):
-    """
-    Retourne les offres les plus proches sémantiquement du texte utilisateur.
-    - user_text  : combinaison poste + compétences (ou texte extrait du CV)
-    - top_k      : nombre d'offres à retourner
-    - min_score  : score cosinus minimum (0.0 → 1.0)
-    """
     if not req.user_text.strip():
         raise HTTPException(status_code=400, detail="user_text ne peut pas être vide")
-
     try:
         results = recommend(user_text=req.user_text, top_k=req.top_k)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur moteur : {str(e)}")
 
-    # Filtrage min_score côté API (le recommender ne l'applique pas encore)
     filtered = [r for r in results if r["score"] >= req.min_score]
-
     return {
         "count": len(filtered),
         "query": req.user_text,
@@ -95,18 +74,11 @@ def get_recommendations(req: RecoRequest):
 @app.post("/recommend/cv", tags=["Recommandation"])
 async def recommend_from_cv(
     file: UploadFile = File(...),
-    top_k: int = 10,
-    min_score: float = 0.0,
+    top_k: int = Form(10),
+    min_score: float = Form(0.0),
 ):
-    """
-    Upload d'un PDF → extraction du texte → recommandation.
-    Nécessite que recommender/cv_parser.py soit disponible.
-    """
     if not CV_PARSER_AVAILABLE:
-        raise HTTPException(
-            status_code=501,
-            detail="cv_parser non disponible. Installez pdfplumber ou PyMuPDF."
-        )
+        raise HTTPException(status_code=501, detail="cv_parser non disponible.")
 
     if not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Seuls les fichiers PDF sont acceptés")
@@ -131,21 +103,121 @@ async def recommend_from_cv(
         raise HTTPException(status_code=500, detail=f"Erreur moteur : {str(e)}")
 
     filtered = [r for r in results if r["score"] >= min_score]
+    return {                          # ← le return manquait ici
+        "count": len(filtered),
+        "cv_filename": file.filename,
+        "results": filtered,
+    }
 
+@app.get("/dashboard", tags=["Dashboard"])
+def get_dashboard():
+    """Retourne toutes les données pour les graphiques."""
+    
+    # 1. Offres par source
+    sources = {}
+    if "source" in df.columns:
+        sources = df["source"].value_counts().to_dict()
+        SOURCE_LABELS = {
+            "france_travail": "France Travail", "francetravail": "France Travail",
+            "arbeitnow": "Arbeitnow", "the_muse": "The Muse", "themuse": "The Muse",
+            "remotive": "Remotive", "serpapi": "SerpApi",
+            "kaggle_linkedin": "Kaggle LinkedIn", "kaggle": "Kaggle LinkedIn",
+        }
+        sources = {}
+        for k, v in df["source"].value_counts().to_dict().items():
+            label = SOURCE_LABELS.get(str(k).lower().strip(), str(k))
+            sources[label] = sources.get(label, 0) + int(v)
+
+    # 2. Offres par type de contrat
+    contrats = {}
+    col = "contrat_type" if "contrat_type" in df.columns else "contrat"
+    if col in df.columns:
+        REMOTE_KW = {"onsite", "hybrid", "remote", "hybride"}
+        CONTRAT_MAP = {
+            "fulltime": "CDI", "full_time": "CDI", "full-time": "CDI", "permanent": "CDI",
+            "parttime": "Temps partiel", "part_time": "Temps partiel",
+            "contract": "CDD", "contractor": "Freelance", "freelance": "Freelance",
+            "internship": "Stage", "intern": "Stage",
+            "apprenticeship": "Alternance", "temporary": "Intérim",
+            "cdi": "CDI", "cdd": "CDD", "stage": "Stage",
+            "alternance": "Alternance", "interim": "Intérim",
+        }
+        for val in df[col].dropna():
+            key = str(val).lower().strip()
+            if key in REMOTE_KW:
+                continue
+            label = CONTRAT_MAP.get(key, str(val))
+            contrats[label] = contrats.get(label, 0) + 1
+
+    # 3. Top 10 postes
+    postes = {}
+    if "poste_recherche" in df.columns:
+        postes = (
+            df["poste_recherche"]
+            .dropna()
+            .loc[lambda s: (s != "") & (s != "Non renseigné")]
+            .value_counts()
+            .head(10)
+            .to_dict()
+        )
+
+    # 4. Top 10 compétences
+    competences = {}
+    if "tags" in df.columns:
+        from collections import Counter
+        all_tags = []
+        for tags in df["tags"].dropna():
+            all_tags.extend([t.strip() for t in str(tags).split(",") if t.strip()])
+        competences = dict(Counter(all_tags).most_common(10))
+
+    # 5. Offres par mois
+    par_mois = {}
+    for col in ["date_scraping", "date_creation"]:
+        if col in df.columns:
+            try:
+                dates = pd.to_datetime(df[col], errors="coerce").dropna()
+                par_mois = (
+                    dates.dt.to_period("M")
+                    .astype(str)
+                    .value_counts()
+                    .sort_index()
+                    .to_dict()
+                )
+                break
+            except Exception:
+                pass
+
+    # 6. Remote vs Sur site
+    remote = {"Remote": 0, "Sur site": 0, "Hybride": 0}
+    if "remote" in df.columns:
+        for val in df["remote"].dropna():
+            if val is True or str(val).lower() in ("true", "1", "remote"):
+                remote["Remote"] += 1
+            else:
+                remote["Sur site"] += 1
+    if "contrat_type" in df.columns:
+        for val in df["contrat_type"].dropna():
+            if str(val).lower() == "hybrid":
+                remote["Hybride"] += 1
+                remote["Sur site"] = max(0, remote["Sur site"] - 1)
+
+    return {
+        "sources":     sources,
+        "contrats":    contrats,
+        "postes":      postes,
+        "competences": competences,
+        "par_mois":    par_mois,
+        "remote":      remote,
+        "total":       len(df),
+    }
 @app.get("/stats", tags=["Système"])
 def get_stats():
-    """
-    Retourne les statistiques réelles du DataFrame en mémoire :
-    total d'offres, répartition par source, date du dernier scraping.
-    """
     total = len(df)
 
-    # Répartition par source
     sources_raw = {}
     if "source" in df.columns:
         sources_raw = df["source"].value_counts().to_dict()
 
-    # Normalisation des noms de sources
     SOURCE_LABELS = {
         "france_travail":  "France Travail",
         "francetravail":   "France Travail",
@@ -166,7 +238,6 @@ def get_stats():
         label = SOURCE_LABELS.get(str(raw_name).lower().strip(), str(raw_name))
         sources[label] = sources.get(label, 0) + int(count)
 
-    # Date du dernier scraping
     last_update = None
     for col in ["date_scraping", "date_creation"]:
         if col in df.columns:

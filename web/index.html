@@ -408,10 +408,50 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
 .result-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--sp-md); margin-bottom:var(--sp-sm); }
 .result-title { font-family:var(--font-display); font-size:1rem; font-weight:700; line-height:1.3; }
 .result-company { font-size:0.80rem; opacity:0.55; margin-top:3px; }
-.score-wrap { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
-.score-num { font-family:var(--font-display); font-size:1.3rem; font-weight:800; background:linear-gradient(135deg,var(--accent-cyan),var(--accent-violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.score-wrap {
+  display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0;
+  position: relative;
+}
+.score-num { font-family:var(--font-display); font-size:1.3rem; font-weight:800; background:linear-gradient(135deg,var(--accent-cyan),var(--accent-violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; cursor:help; }
 .score-bar { width:80px; height:4px; border-radius:var(--radius-full); background:rgba(255,255,255,0.10); overflow:hidden; }
 .score-fill { height:100%; border-radius:var(--radius-full); background:linear-gradient(90deg,var(--accent-cyan),var(--accent-violet)); }
+/* ── Score tooltip ── */
+.score-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  width: 210px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(8, 12, 28, 0.96);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  font-size: 0.72rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.78);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur-fast) var(--ease-smooth), transform var(--dur-fast) var(--ease-smooth);
+  z-index: 200;
+  white-space: normal;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.50);
+}
+.score-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -5px; right: 18px;
+  width: 10px; height: 10px;
+  background: rgba(8,12,28,0.96);
+  border-right: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  transform: rotate(45deg);
+}
+.score-wrap:hover .score-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
 .result-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:var(--sp-sm); }
 .result-actions { display:flex; gap:8px; }
 .btn-sm { padding:6px 16px; font-size:0.74rem; }
@@ -420,43 +460,10 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
 .placeholder-text { font-size:0.88rem; line-height:1.6; max-width:300px; }
 
 /* ============================================================
-   PAGE 3 — DASHBOARD POWER BI
+   PAGE 3 — DASHBOARD
    ============================================================ */
 #page-powerbi { padding-top: 100px; padding-bottom: var(--sp-3xl); }
 .pbi-header { padding:var(--sp-2xl) 0 var(--sp-lg); }
-.pbi-frame-wrap {
-  border-radius:var(--radius-xl); overflow:hidden;
-  background:var(--glass-white); border:1px solid var(--glass-border);
-  backdrop-filter:var(--blur-md);
-  box-shadow:var(--shadow-float);
-  position:relative;
-}
-.pbi-toolbar {
-  display:flex; align-items:center; gap:var(--sp-sm);
-  padding:var(--sp-sm) var(--sp-md);
-  border-bottom:1px solid var(--glass-border-subtle);
-  background:rgba(255,255,255,0.04);
-}
-.pbi-dots { display:flex; gap:6px; }
-.pbi-dot { width:10px; height:10px; border-radius:50%; }
-.pbi-dot-1 { background:#ef4444; } .pbi-dot-2 { background:#fbbf24; } .pbi-dot-3 { background:#4ade80; }
-.pbi-url { flex:1; padding:4px 12px; border-radius:var(--radius-full); background:rgba(255,255,255,0.06); border:1px solid var(--glass-border-subtle); font-size:0.72rem; opacity:0.45; }
-.pbi-iframe-container { position:relative; }
-.pbi-placeholder {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:var(--sp-lg); height:600px; text-align:center; padding:var(--sp-2xl);
-}
-.pbi-placeholder-icon { font-size:4rem; }
-.pbi-placeholder-title { font-family:var(--font-display); font-size:1.6rem; font-weight:700; }
-.pbi-placeholder-sub { font-size:0.88rem; opacity:0.55; line-height:1.65; max-width:440px; }
-.pbi-input-wrap { display:flex; gap:var(--sp-sm); width:min(500px,90%); }
-.pbi-input-wrap input { flex:1; }
-.pbi-iframe { width:100%; height:600px; border:none; display:none; }
-.pbi-tip-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-md); margin-top:var(--sp-xl); }
-.pbi-tip { border-radius:var(--radius-lg); padding:var(--sp-lg); }
-.pbi-tip-icon { font-size:1.5rem; margin-bottom:var(--sp-sm); }
-.pbi-tip-title { font-size:0.88rem; font-weight:600; margin-bottom:4px; }
-.pbi-tip-text { font-size:0.78rem; opacity:0.58; line-height:1.55; }
 
 /* ============================================================
    PAGE 4 — À PROPOS
@@ -537,7 +544,6 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
   .sidebar { position:static; }
   .stats-grid { grid-template-columns:repeat(2,1fr); }
   .features-grid { grid-template-columns:1fr; }
-  .pbi-tip-grid { grid-template-columns:1fr; }
 }
 @media (max-width:640px) {
   .navbar { min-width:auto; width:calc(100vw - 32px); }
@@ -557,87 +563,29 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
    MES OFFRES — SAVED JOBS
    ============================================================ */
 .saved-count-badge {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:18px;
-  height:18px;
-  padding:0 5px;
-  background:var(--accent-violet);
-  color:#fff;
-  font-size:.62rem;
-  font-weight:700;
-  border-radius:var(--radius-full);
-  margin-left:5px;
-  vertical-align:middle;
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:18px; height:18px; padding:0 5px;
+  background:var(--accent-violet); color:#fff;
+  font-size:.62rem; font-weight:700;
+  border-radius:var(--radius-full); margin-left:5px; vertical-align:middle;
 }
 .saved-count-badge:empty, .saved-count-badge[data-count="0"] { display:none; }
-
-.saved-grid {
-  display:grid;
-  grid-template-columns:1fr;
-  gap:var(--sp-md);
-  margin-top:var(--sp-xl);
-}
-
-.saved-card {
-  display:flex;
-  align-items:flex-start;
-  gap:var(--sp-md);
-  padding:var(--sp-lg);
-  border-radius:var(--radius-lg);
-}
-
+.saved-grid { display:grid; grid-template-columns:1fr; gap:var(--sp-md); margin-top:var(--sp-xl); }
+.saved-card { display:flex; align-items:flex-start; gap:var(--sp-md); padding:var(--sp-lg); border-radius:var(--radius-lg); }
 .saved-card-body { flex:1; min-width:0; }
-.saved-card-title {
-  font-family:var(--font-display);
-  font-size:1rem;
-  font-weight:600;
-  color:var(--color-text);
-  margin-bottom:2px;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
+.saved-card-title { font-family:var(--font-display); font-size:1rem; font-weight:600; color:var(--color-text); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .saved-card-company { font-size:.82rem; color:var(--color-text-muted); margin-bottom:8px; }
 .saved-card-actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
-
-.saved-score-pill {
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:3px 10px;
-  border-radius:var(--radius-full);
-  background:rgba(180,144,245,0.15);
-  border:1px solid rgba(180,144,245,0.28);
-  font-size:.75rem;
-  font-weight:600;
-  color:var(--accent-violet);
-  white-space:nowrap;
-}
-
-.saved-empty {
-  text-align:center;
-  padding:var(--sp-2xl) 0;
-  color:var(--color-text-muted);
-}
+.saved-score-pill { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:var(--radius-full); background:rgba(180,144,245,0.15); border:1px solid rgba(180,144,245,0.28); font-size:.75rem; font-weight:600; color:var(--accent-violet); white-space:nowrap; }
+.saved-empty { text-align:center; padding:var(--sp-2xl) 0; color:var(--color-text-muted); }
 .saved-empty svg { opacity:.3; margin-bottom:var(--sp-md); }
 .saved-empty-title { font-family:var(--font-display); font-size:1.1rem; color:var(--color-text); margin-bottom:8px; }
 .saved-empty-sub { font-size:.88rem; }
-
-.saved-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:var(--sp-sm);
-  margin-bottom:var(--sp-lg);
-}
-
-.btn-danger {
-  background:rgba(247,100,120,0.15);
-  border:1px solid rgba(247,100,120,0.30);
-  color:#f76478;
-}
+.saved-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--sp-sm); margin-bottom:var(--sp-lg); }
+.btn-danger { background:rgba(247,100,120,0.15); border:1px solid rgba(247,100,120,0.30); color:#f76478; }
 .btn-danger:hover { background:rgba(247,100,120,0.28); }
+
+@keyframes spin { to { transform:rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -694,8 +642,6 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
      ============================================================ -->
 <main id="page-accueil" class="page is-active" aria-label="Page d'accueil">
   <div class="container">
-
-    <!-- HERO -->
     <section class="hero">
       <span class="hero__kicker">Propulsé par IA · Sentence Transformers · Airflow</span>
       <h1 class="hero__title">Job<br>Intelligent</h1>
@@ -720,7 +666,6 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
       </div>
     </section>
 
-    <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card anim-in" style="animation-delay:.1s">
         <div class="stat-num" id="statTotal">…</div>
@@ -742,7 +687,6 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
 
     <div class="divider"></div>
 
-    <!-- FEATURES -->
     <section>
       <div style="margin-bottom:var(--sp-lg)">
         <div class="section-sub">Fonctionnalités</div>
@@ -775,19 +719,16 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
 
     <div class="divider"></div>
 
-    <!-- SOURCES -->
     <section class="sources-section">
       <div style="margin-bottom:var(--sp-lg)">
         <div class="section-sub" id="lastUpdateLabel">Dernière collecte — chargement…</div>
         <h2 class="section-title">Sources de données</h2>
       </div>
       <div class="sources-grid" id="sourcesGrid">
-        <!-- Rempli dynamiquement par loadStats() -->
         <div style="opacity:.4;font-size:.85rem;padding:var(--sp-md)">Chargement des sources…</div>
       </div>
       <p style="margin-top:var(--sp-md);font-size:0.74rem;opacity:0.40" id="sourcesWarning"></p>
     </section>
-
   </div>
 </main>
 
@@ -799,11 +740,10 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
     <div style="padding:var(--sp-2xl) 0 var(--sp-lg)">
       <div class="section-sub">Moteur IA</div>
       <h1 class="section-title">Recommandation d'offres</h1>
-      <p style="font-size:.88rem;opacity:.60;margin-top:var(--sp-xs)">Matching sémantique avec <strong>4 559 offres</strong> via Sentence Transformers multilingue</p>
+      <p style="font-size:.88rem;opacity:.60;margin-top:var(--sp-xs)">Matching sémantique avec <strong id="recoTotal">…</strong> offres via Sentence Transformers multilingue</p>
     </div>
 
     <div class="reco-layout">
-      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="glass sidebar-card">
           <div class="sidebar-title">
@@ -811,13 +751,11 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
             Votre profil
           </div>
 
-          <!-- MODE TOGGLE -->
-          <div class="mode-toggle" role="group" aria-label="Mode de saisie">
+          <div class="mode-toggle" role="group">
             <button class="mode-btn is-on" id="modeManuel" onclick="setMode('manuel')">Saisie manuelle</button>
             <button class="mode-btn" id="modePDF" onclick="setMode('pdf')">Upload CV</button>
           </div>
 
-          <!-- MANUEL -->
           <div id="formManuel">
             <div class="form-group">
               <label for="poste">Poste recherché</label>
@@ -833,7 +771,6 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
             </div>
           </div>
 
-          <!-- PDF -->
           <div id="formPDF" style="display:none">
             <div class="upload-zone" id="uploadZone" onclick="document.getElementById('cvFile').click()">
               <input type="file" id="cvFile" accept=".pdf" onchange="handleFile(event)">
@@ -850,14 +787,13 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
             </div>
           </div>
 
-          <!-- PARAMÈTRES -->
           <div class="divider" style="margin:var(--sp-md) 0"></div>
           <div class="slider-wrap">
             <div class="slider-label">
               <span>Nombre de résultats</span>
               <span class="slider-val" id="topKVal">10</span>
             </div>
-            <input type="range" class="glass-range" min="5" max="30" value="10" id="topKSlider" oninput="document.getElementById('topKVal').textContent=this.value">
+            <input type="range" class="glass-range" min="5" max="50" value="10" id="topKSlider" oninput="document.getElementById('topKVal').textContent=this.value">
           </div>
           <div class="slider-wrap" style="margin-top:var(--sp-md)">
             <div class="slider-label">
@@ -873,7 +809,6 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
           </button>
         </div>
 
-        <!-- TIPS -->
         <div class="glass" style="border-radius:var(--radius-lg);padding:var(--sp-md);margin-top:var(--sp-sm)">
           <div style="font-size:0.74rem;opacity:0.45;margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase">Conseils</div>
           <ul style="font-size:0.76rem;opacity:0.55;line-height:1.8;list-style:none">
@@ -884,7 +819,6 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
         </div>
       </aside>
 
-      <!-- MAIN RESULTS -->
       <section class="reco-main">
         <div class="reco-header">
           <div>
@@ -916,66 +850,62 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
 </main>
 
 <!-- ============================================================
-     PAGE 3 — POWER BI DASHBOARD
+     PAGE 3 — DASHBOARD
      ============================================================ -->
-<main id="page-powerbi" class="page" aria-label="Dashboard Power BI">
+<main id="page-powerbi" class="page" aria-label="Dashboard">
   <div class="container">
     <div class="pbi-header">
-      <div class="section-sub">Analytics · Microsoft Power BI</div>
+      <div class="section-sub">Analytics · Données en temps réel</div>
       <h1 class="section-title">Dashboard Marché de l'Emploi Data</h1>
-      <p style="font-size:.88rem;opacity:.60;margin-top:var(--sp-xs)">Embed interactif de votre rapport Power BI — analyses des offres, salaires, géographie et tendances</p>
+      <p style="font-size:.88rem;opacity:.60;margin-top:var(--sp-xs)">
+        Visualisations générées depuis les <span id="dashTotal">…</span> offres collectées
+      </p>
     </div>
 
-    <!-- FRAME -->
-    <div class="pbi-frame-wrap">
-      <div class="pbi-toolbar">
-        <div class="pbi-dots">
-          <div class="pbi-dot pbi-dot-1"></div>
-          <div class="pbi-dot pbi-dot-2"></div>
-          <div class="pbi-dot pbi-dot-3"></div>
-        </div>
-        <div class="pbi-url" id="pbiUrlDisplay">app.powerbi.com — Entrez votre lien d'embed</div>
-        <button class="glass-btn btn-ghost btn-sm" onclick="openPBI()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Ouvrir
-        </button>
+    <div class="stats-grid" style="margin-bottom:var(--sp-xl)">
+      <div class="stat-card"><div class="stat-num" id="dashKpiTotal">…</div><div class="stat-label">Offres totales</div></div>
+      <div class="stat-card"><div class="stat-num" id="dashKpiSources">…</div><div class="stat-label">Sources actives</div></div>
+      <div class="stat-card"><div class="stat-num" id="dashKpiPostes">…</div><div class="stat-label">Types de postes</div></div>
+      <div class="stat-card"><div class="stat-num" id="dashKpiRemote">…</div><div class="stat-label">Offres Remote</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md);margin-bottom:var(--sp-md)">
+      <div class="glass" style="border-radius:var(--radius-xl);padding:var(--sp-xl)">
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:var(--sp-lg)">📊 Offres par source</div>
+        <canvas id="chartSources" height="260"></canvas>
       </div>
-      <div class="pbi-iframe-container">
-        <div class="pbi-placeholder" id="pbiPlaceholder">
-          <div class="pbi-placeholder-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/><path d="M15 12v5M12 14v3M9 16v1"/></svg>
-          </div>
-          <div class="pbi-placeholder-title">Intégrez votre rapport Power BI</div>
-          <div class="pbi-placeholder-sub">Collez ici le lien d'embed de votre rapport Power BI pour l'afficher directement dans l'application.</div>
-          <div class="pbi-input-wrap">
-            <input type="text" class="glass-input" id="pbiInput" placeholder="https://app.powerbi.com/reportEmbed?reportId=…">
-            <button class="glass-btn btn-primary" onclick="loadPBI()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
-              Charger
-            </button>
-          </div>
-        </div>
-        <iframe id="pbiFrame" class="pbi-iframe" title="Dashboard Power BI" allowfullscreen></iframe>
+      <div class="glass" style="border-radius:var(--radius-xl);padding:var(--sp-xl)">
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:var(--sp-lg)">📋 Types de contrat</div>
+        <canvas id="chartContrats" height="260"></canvas>
       </div>
     </div>
 
-    <!-- TIPS -->
-    <div class="pbi-tip-grid" style="margin-top:var(--sp-xl)">
-      <div class="glass pbi-tip">
-        <div class="pbi-tip-icon">📊</div>
-        <div class="pbi-tip-title">Comment obtenir le lien embed ?</div>
-        <div class="pbi-tip-text">Dans Power BI Service → Fichier → Incorporer le rapport → Site web ou portail. Copiez l'URL de l'attribut <code>src</code> de l'iframe.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md);margin-bottom:var(--sp-md)">
+      <div class="glass" style="border-radius:var(--radius-xl);padding:var(--sp-xl)">
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:var(--sp-lg)">💼 Top 10 postes recherchés</div>
+        <canvas id="chartPostes" height="300"></canvas>
       </div>
-      <div class="glass pbi-tip">
-        <div class="pbi-tip-icon">🔒</div>
-        <div class="pbi-tip-title">Accès public requis</div>
-        <div class="pbi-tip-text">Le rapport doit être publié avec le mode "Publier sur le web" ou partagé avec les droits appropriés pour s'afficher ici sans authentification.</div>
+      <div class="glass" style="border-radius:var(--radius-xl);padding:var(--sp-xl)">
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:var(--sp-lg)">🧠 Top 10 compétences</div>
+        <canvas id="chartCompetences" height="300"></canvas>
       </div>
-      <div class="glass pbi-tip">
-        <div class="pbi-tip-icon">📈</div>
-        <div class="pbi-tip-title">Données analysées</div>
-        <div class="pbi-tip-text">Votre dashboard peut visualiser : répartition par source, salaires par contrat, heat-map géographique, tendances par secteur et évolution temporelle.</div>
+    </div>
+
+    <!-- ✅ MODIFIÉ : Radar compétences + Remote (remplace Évolution par mois + Remote) -->
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:var(--sp-md);margin-bottom:var(--sp-md)">
+      <div class="glass" style="border-radius:var(--radius-xl);padding:var(--sp-xl)">
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:4px">🕸️ Radar des compétences demandées</div>
+        <div style="font-size:0.74rem;opacity:0.45;margin-bottom:var(--sp-lg)">Top 8 compétences · similarité cosinus · survol pour le détail</div>
+        <canvas id="chartRadar" height="220"></canvas>
       </div>
+      <div class="glass" style="border-radius:var(--radius-xl);padding:var(--sp-xl)">
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:var(--sp-lg)">🌍 Remote vs Sur site</div>
+        <canvas id="chartRemote" height="220"></canvas>
+      </div>
+    </div>
+
+    <div id="dashLoading" style="text-align:center;padding:var(--sp-3xl);opacity:.5;font-size:.88rem">
+      Chargement des données…
     </div>
   </div>
 </main>
@@ -991,59 +921,25 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
       <p class="about-sub">Une plateforme end-to-end de recommandation d'emploi dans le secteur Data : scraping automatisé, NLP avancé et interface moderne.</p>
     </div>
 
-    <!-- STACK TECH -->
     <section>
       <div style="margin-bottom:var(--sp-lg)">
         <div class="section-sub">Stack technique</div>
         <h2 class="section-title">Technologies utilisées</h2>
       </div>
       <div class="tech-grid">
-        <div class="glass tech-card">
-          <div class="tech-icon">🐍</div>
-          <div class="tech-name">Python 3.13</div>
-          <div class="tech-desc">Langage principal — scraping, NLP, pipeline</div>
-        </div>
-        <div class="glass tech-card">
-          <div class="tech-icon">🌊</div>
-          <div class="tech-name">Apache Airflow</div>
-          <div class="tech-desc">Orchestration des DAGs de collecte</div>
-        </div>
-        <div class="glass tech-card">
-          <div class="tech-icon">🤗</div>
-          <div class="tech-name">Sentence Transformers</div>
-          <div class="tech-desc">paraphrase-multilingual-MiniLM-L12-v2</div>
-        </div>
-        <div class="glass tech-card">
-          <div class="tech-icon">🐘</div>
-          <div class="tech-name">PostgreSQL</div>
-          <div class="tech-desc">Base de données des offres + métadonnées</div>
-        </div>
-        <div class="glass tech-card">
-          <div class="tech-icon">🐳</div>
-          <div class="tech-name">Docker</div>
-          <div class="tech-desc">Conteneurisation et déploiement</div>
-        </div>
-        <div class="glass tech-card">
-          <div class="tech-icon">📊</div>
-          <div class="tech-name">Power BI</div>
-          <div class="tech-desc">Dashboard analytics et visualisation</div>
-        </div>
-        <div class="glass tech-card">
-          <div class="tech-icon">🔢</div>
-          <div class="tech-name">Pandas + NumPy</div>
-          <div class="tech-desc">Traitement des données et embeddings</div>
-        </div>
-        <div class="glass tech-card">
-          <div class="tech-icon">⚡</div>
-          <div class="tech-name">Scikit-learn</div>
-          <div class="tech-desc">Similarité cosinus et scoring</div>
-        </div>
+        <div class="glass tech-card"><div class="tech-icon">🐍</div><div class="tech-name">Python 3.13</div><div class="tech-desc">Langage principal — scraping, NLP, pipeline</div></div>
+        <div class="glass tech-card"><div class="tech-icon">🌊</div><div class="tech-name">Apache Airflow</div><div class="tech-desc">Orchestration des DAGs de collecte</div></div>
+        <div class="glass tech-card"><div class="tech-icon">🤗</div><div class="tech-name">Sentence Transformers</div><div class="tech-desc">paraphrase-multilingual-MiniLM-L12-v2</div></div>
+        <div class="glass tech-card"><div class="tech-icon">🐘</div><div class="tech-name">PostgreSQL</div><div class="tech-desc">Base de données des offres + métadonnées</div></div>
+        <div class="glass tech-card"><div class="tech-icon">🐳</div><div class="tech-name">Docker</div><div class="tech-desc">Conteneurisation et déploiement</div></div>
+        <div class="glass tech-card"><div class="tech-icon">📊</div><div class="tech-name">Power BI</div><div class="tech-desc">Dashboard analytics et visualisation</div></div>
+        <div class="glass tech-card"><div class="tech-icon">🔢</div><div class="tech-name">Pandas + NumPy</div><div class="tech-desc">Traitement des données et embeddings</div></div>
+        <div class="glass tech-card"><div class="tech-icon">⚡</div><div class="tech-name">Scikit-learn</div><div class="tech-desc">Similarité cosinus et scoring</div></div>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- PIPELINE -->
     <section class="pipeline-section">
       <div style="margin-bottom:var(--sp-lg)">
         <div class="section-sub">scraping_pipeline_v2</div>
@@ -1052,32 +948,20 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
       <div class="pipeline-steps">
         <div class="glass pipeline-step">
           <div class="step-node step-node-cyan">1</div>
-          <div>
-            <div class="step-title">Collecte multi-sources</div>
-            <div class="step-desc">France Travail, Arbeitnow, The Muse, Remotive, Adzuna, JSearch, SerpApi — en parallèle via tasks Airflow</div>
-          </div>
+          <div><div class="step-title">Collecte multi-sources</div><div class="step-desc">France Travail, Arbeitnow, The Muse, Remotive, Adzuna, JSearch, SerpApi — en parallèle via tasks Airflow</div></div>
           <span class="badge badge-lime" style="margin-left:auto;flex-shrink:0"><span class="dot"></span>Actif</span>
         </div>
         <div class="glass pipeline-step">
           <div class="step-node step-node-violet">2</div>
-          <div>
-            <div class="step-title">Normalisation & Déduplication</div>
-            <div class="step-desc">Harmonisation des colonnes, génération de hash_id unique, merge inter-sources</div>
-          </div>
+          <div><div class="step-title">Normalisation & Déduplication</div><div class="step-desc">Harmonisation des colonnes, génération de hash_id unique, merge inter-sources</div></div>
         </div>
         <div class="glass pipeline-step">
           <div class="step-node step-node-amber">3</div>
-          <div>
-            <div class="step-title">Génération des Embeddings</div>
-            <div class="step-desc">Encoding de titre + description + tags avec MiniLM-L12, stockage dans embeddings.pkl</div>
-          </div>
+          <div><div class="step-title">Génération des Embeddings</div><div class="step-desc">Encoding de titre + description + tags avec MiniLM-L12, stockage dans embeddings.pkl</div></div>
         </div>
         <div class="glass pipeline-step">
           <div class="step-node step-node-lime">4</div>
-          <div>
-            <div class="step-title">Rapport final</div>
-            <div class="step-desc">Log du bilan de collecte (sources, totaux, insertions DB), retourne 0 si succès</div>
-          </div>
+          <div><div class="step-title">Rapport final</div><div class="step-desc">Log du bilan de collecte (sources, totaux, insertions DB), retourne 0 si succès</div></div>
           <span class="badge badge-lime" style="margin-left:auto;flex-shrink:0"><span class="dot"></span>SUCCESS</span>
         </div>
       </div>
@@ -1085,62 +969,17 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
 
     <div class="divider"></div>
 
-    <!-- STATUT SOURCES -->
     <section>
       <div style="margin-bottom:var(--sp-lg)">
-        <div class="section-sub">Run du 26/04/2026 10:42</div>
+        <div class="section-sub" id="aboutRunDate">Dernière collecte — chargement…</div>
         <h2 class="section-title">État des sources</h2>
       </div>
-      <div class="status-grid">
-        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">France Travail</div><div class="status-num">1 549 offres</div></div></div>
-        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">The Muse</div><div class="status-num">400 offres</div></div></div>
-        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">Arbeitnow</div><div class="status-num">247 offres</div></div></div>
-        <div class="glass status-card"><div class="status-dot status-dot-on"></div><div><div class="status-name">Remotive</div><div class="status-num">21 offres</div></div></div>
-        <div class="glass status-card"><div class="status-dot status-dot-off"></div><div><div class="status-name" style="opacity:.45">Adzuna</div><div class="status-num">0 offres — clé API ?</div></div></div>
-        <div class="glass status-card"><div class="status-dot status-dot-off"></div><div><div class="status-name" style="opacity:.45">JSearch</div><div class="status-num">0 offres — quota ?</div></div></div>
-        <div class="glass status-card"><div class="status-dot status-dot-off"></div><div><div class="status-name" style="opacity:.45">SerpApi</div><div class="status-num">0 offres — à vérifier</div></div></div>
+      <div class="status-grid" id="aboutSourcesGrid">
+        <div style="opacity:.4;font-size:.82rem;padding:var(--sp-sm)">Chargement…</div>
       </div>
     </section>
 
     <div class="divider"></div>
-
-    <!-- ROADMAP -->
-    <section class="roadmap-section">
-      <div style="margin-bottom:var(--sp-lg)">
-        <div class="section-sub">Prochaines étapes</div>
-        <h2 class="section-title">Roadmap</h2>
-      </div>
-      <div class="roadmap-list">
-        <div class="glass roadmap-item">
-          <span class="badge badge-lime roadmap-badge"><span class="dot"></span>Fait</span>
-          <div><div class="roadmap-title">Pipeline Airflow multi-sources</div><div class="roadmap-sub">Scraping automatisé, déduplication, rapport</div></div>
-        </div>
-        <div class="glass roadmap-item">
-          <span class="badge badge-lime roadmap-badge"><span class="dot"></span>Fait</span>
-          <div><div class="roadmap-title">Modèle de recommandation NLP</div><div class="roadmap-sub">Embeddings Sentence Transformers + cosine similarity</div></div>
-        </div>
-        <div class="glass roadmap-item">
-          <span class="badge badge-lime roadmap-badge"><span class="dot"></span>Fait</span>
-          <div><div class="roadmap-title">Interface Streamlit</div><div class="roadmap-sub">Multi-pages, upload CV, export CSV</div></div>
-        </div>
-        <div class="glass roadmap-item">
-          <span class="badge badge-amber roadmap-badge">En cours</span>
-          <div><div class="roadmap-title">Dashboard Power BI</div><div class="roadmap-sub">Analyses géographiques, salaires, tendances</div></div>
-        </div>
-        <div class="glass roadmap-item">
-          <span class="badge badge-violet roadmap-badge">Prévu</span>
-          <div><div class="roadmap-title">Réparation sources inactives</div><div class="roadmap-sub">Debugger Adzuna, JSearch, SerpApi (clés API / quotas)</div></div>
-        </div>
-        <div class="glass roadmap-item">
-          <span class="badge badge-violet roadmap-badge">Prévu</span>
-          <div><div class="roadmap-title">Insertion DB opérationnelle</div><div class="roadmap-sub">Résoudre le bug 0 insertions malgré 4 559 offres uniques</div></div>
-        </div>
-        <div class="glass roadmap-item">
-          <span class="badge badge-gray roadmap-badge">Idée</span>
-          <div><div class="roadmap-title">Alertes mail personnalisées</div><div class="roadmap-sub">Notification quand de nouvelles offres matchent le profil</div></div>
-        </div>
-      </div>
-    </section>
 
     <footer style="padding:var(--sp-2xl) 0;text-align:center;opacity:0.28;font-size:0.72rem;letter-spacing:.06em">
       Job Intelligent — Projet Data Science · Airflow · Sentence Transformers · Python 3.13
@@ -1148,7 +987,9 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
   </div>
 </main>
 
-<!-- ── PAGE MES OFFRES ── -->
+<!-- ============================================================
+     PAGE 5 — MES OFFRES
+     ============================================================ -->
 <main id="page-saved" class="page" aria-label="Mes offres sauvegardées" style="padding-top:100px;padding-bottom:var(--sp-3xl);">
   <div class="container">
     <div class="saved-header">
@@ -1179,9 +1020,8 @@ label { display:block; font-size:0.72rem; letter-spacing:0.06em; text-transform:
   <span id="themeIcon">☀️</span>
 </button>
 
-<style>
-@keyframes spin { to { transform:rotate(360deg); } }
-</style>
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 <script>
 /* ============================================================
@@ -1191,10 +1031,11 @@ function goTo(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('is-active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('is-active'));
   const page = document.getElementById('page-' + pageId);
-  if (page) { page.classList.add('is-active'); window.scrollTo(0,0); }
+  if (page) { page.classList.add('is-active'); window.scrollTo(0, 0); }
   const btn = document.querySelector(`[data-page="${pageId}"]`);
   if (btn) btn.classList.add('is-active');
   if (pageId === 'saved') renderSavedGrid();
+  if (pageId === 'powerbi') loadDashboard();
 }
 
 document.querySelectorAll('.nav-item[data-page]').forEach(btn => {
@@ -1204,9 +1045,9 @@ document.querySelectorAll('.nav-item[data-page]').forEach(btn => {
 /* ============================================================
    THEME
    ============================================================ */
-const themeBtn = document.getElementById('themeBtn');
+const themeBtn  = document.getElementById('themeBtn');
 const themeIcon = document.getElementById('themeIcon');
-const root = document.documentElement;
+const root      = document.documentElement;
 const savedTheme = localStorage.getItem('ji-theme') || 'dark';
 root.setAttribute('data-theme', savedTheme);
 themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
@@ -1224,6 +1065,24 @@ themeBtn.addEventListener('click', () => {
 document.getElementById('refreshBtn').addEventListener('click', () => {
   toast('Pipeline Airflow relancé (simulation)', 'success');
 });
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg, type = 'success') {
+  const region = document.getElementById('toastRegion');
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  const icons = { success: '✓', error: '✕' };
+  el.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ'}</span><span class="toast-body">${msg}</span><span class="toast-close">✕</span>`;
+  region.appendChild(el);
+  const dismiss = () => {
+    el.classList.add('is-out');
+    el.addEventListener('animationend', () => el.remove(), { once: true });
+  };
+  el.addEventListener('click', dismiss);
+  setTimeout(dismiss, 3500);
+}
 
 /* ============================================================
    RECOMMANDATION — MODE
@@ -1246,7 +1105,6 @@ uploadZone.addEventListener('drop', e => {
   const file = e.dataTransfer.files[0];
   if (file && file.type === 'application/pdf') showFile(file);
 });
-
 function handleFile(event) { const file = event.target.files[0]; if (file) showFile(file); }
 function showFile(file) {
   document.getElementById('uploadIdle').style.display = 'none';
@@ -1256,15 +1114,14 @@ function showFile(file) {
 }
 
 /* ============================================================
-   CONFIGURATION API
+   API CONFIG
    ============================================================ */
 const API_BASE = 'http://localhost:8000';
-
-const contratColors = { CDI:'badge-cyan', Stage:'badge-amber', Alternance:'badge-violet', Freelance:'badge-rose' };
+const contratColors = { 'CDI':'badge-cyan', 'Stage':'badge-amber', 'Alternance':'badge-violet', 'Freelance':'badge-rose' };
 const remoteColors  = { 'Remote':'badge-lime', 'Full Remote':'badge-lime', 'Hybride':'badge-cyan', 'Sur site':'badge-gray' };
 
 /* ============================================================
-   STATS DYNAMIQUES — appel /stats au chargement
+   SOURCE ICONS
    ============================================================ */
 const SOURCE_ICONS = {
   'France Travail':  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
@@ -1277,17 +1134,17 @@ const SOURCE_ICONS = {
   'JSearch':         `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
 };
 
+/* ============================================================
+   STATS DYNAMIQUES
+   ============================================================ */
 async function loadStats() {
   try {
     const res = await fetch(`${API_BASE}/stats`);
     if (!res.ok) throw new Error('API non joignable');
     const s = await res.json();
-
-    // Formatage du total avec espace comme séparateur de milliers
     const totalFmt = s.total.toLocaleString('fr-FR');
 
-    // Mise à jour des éléments texte
-    ['statTotal','heroTotal','featureTotal'].forEach(id => {
+    ['statTotal','heroTotal','featureTotal','recoTotal'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = totalFmt;
     });
@@ -1296,18 +1153,21 @@ async function loadStats() {
     const nbSources = sourceEntries.length;
     const activeSources = sourceEntries.filter(([,c]) => c > 0).length;
 
-    document.getElementById('statSources')?.textContent && (document.getElementById('statSources').textContent = nbSources);
-    document.getElementById('heroActiveSources') && (document.getElementById('heroActiveSources').textContent = `${activeSources} sources actives`);
+    const elSources = document.getElementById('statSources');
+    if (elSources) elSources.textContent = nbSources;
+    const elHeroSrc = document.getElementById('heroActiveSources');
+    if (elHeroSrc) elHeroSrc.textContent = `${activeSources} sources actives`;
 
-    // Date dernière collecte
+    let dateLabel = 'N/A';
     if (s.last_update && s.last_update !== 'N/A') {
       const d = new Date(s.last_update);
-      const label = d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
-      const el = document.getElementById('lastUpdateLabel');
-      if (el) el.textContent = `Dernière collecte — ${label}`;
+      dateLabel = d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
     }
+    const elLastUpdate = document.getElementById('lastUpdateLabel');
+    if (elLastUpdate) elLastUpdate.textContent = `Dernière collecte — ${dateLabel}`;
+    const elAboutDate = document.getElementById('aboutRunDate');
+    if (elAboutDate) elAboutDate.textContent = `Dernière collecte — ${dateLabel}`;
 
-    // Grille des sources
     const grid = document.getElementById('sourcesGrid');
     if (grid && sourceEntries.length) {
       const inactive = [];
@@ -1317,41 +1177,55 @@ async function loadStats() {
           const active = count > 0;
           if (!active) inactive.push(name);
           const icon = SOURCE_ICONS[name] || SOURCE_ICONS['SerpApi'];
-          const countFmt = count.toLocaleString('fr-FR');
           return `
             <div class="source-card anim-in" style="animation-delay:${i*50}ms">
               ${icon}
               <div class="source-name" style="${!active ? 'opacity:.45' : ''}">${name}</div>
-              <div class="source-count ${!active ? 'zero' : ''}">${active ? countFmt : '0'}</div>
+              <div class="source-count ${!active ? 'zero' : ''}">${active ? count.toLocaleString('fr-FR') : '0'}</div>
               ${active
                 ? `<span class="badge badge-lime" style="font-size:.60rem"><span class="dot"></span>Actif</span>`
                 : `<span class="badge badge-gray" style="font-size:.60rem">Inactif</span>`}
             </div>`;
         }).join('');
-
-      // Avertissement sources inactives
       const warn = document.getElementById('sourcesWarning');
       if (warn && inactive.length) {
-        warn.textContent = `⚠ ${inactive.join(', ')} ont retourné 0 résultats lors du dernier run. Vérifier les clés API ou quotas.`;
+        warn.textContent = `⚠ ${inactive.join(', ')} ont retourné 0 résultats lors du dernier run.`;
       }
     }
 
+    const aboutGrid = document.getElementById('aboutSourcesGrid');
+    if (aboutGrid && sourceEntries.length) {
+      aboutGrid.innerHTML = sourceEntries
+        .sort((a,b) => b[1]-a[1])
+        .map(([name, count]) => {
+          const active = count > 0;
+          return `
+            <div class="glass status-card">
+              <div class="status-dot ${active ? 'status-dot-on' : 'status-dot-off'}"></div>
+              <div>
+                <div class="status-name" style="${!active ? 'opacity:.45' : ''}">${name}</div>
+                <div class="status-num">${active ? count.toLocaleString('fr-FR') + ' offres' : '0 offres — inactif'}</div>
+              </div>
+            </div>`;
+        }).join('');
+    }
+
   } catch {
-    // API pas lancée : afficher les valeurs en fallback silencieux
-    ['statTotal','heroTotal','featureTotal'].forEach(id => {
+    ['statTotal','heroTotal','featureTotal','recoTotal'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = '—';
     });
     const grid = document.getElementById('sourcesGrid');
-    if (grid) grid.innerHTML = `<div style="opacity:.4;font-size:.82rem;padding:var(--sp-md)">⚠ API non joignable — lancez uvicorn pour voir les stats en temps réel.</div>`;
+    if (grid) grid.innerHTML = `<div style="opacity:.4;font-size:.82rem;padding:var(--sp-md)">⚠ API non joignable — lancez uvicorn pour voir les stats.</div>`;
+    const aboutGrid = document.getElementById('aboutSourcesGrid');
+    if (aboutGrid) aboutGrid.innerHTML = `<div style="opacity:.4;font-size:.82rem;padding:var(--sp-sm)">⚠ API non joignable</div>`;
   }
 }
 
-// Chargement au démarrage
 loadStats();
 
 /* ============================================================
-   MOTEUR DE RECOMMANDATION — VRAI APPEL API
+   RECOMMANDATION — APPEL API
    ============================================================ */
 async function runRecommendation() {
   const poste    = document.getElementById('poste').value.trim();
@@ -1366,43 +1240,30 @@ async function runRecommendation() {
     return;
   }
 
-  document.getElementById('placeholder').style.display    = 'none';
-  document.getElementById('resultsGrid').style.display    = 'none';
-  document.getElementById('loadingState').style.display   = 'block';
-  document.getElementById('exportBtn').style.display      = 'none';
+  document.getElementById('placeholder').style.display  = 'none';
+  document.getElementById('resultsGrid').style.display  = 'none';
+  document.getElementById('loadingState').style.display = 'block';
+  document.getElementById('exportBtn').style.display    = 'none';
 
   try {
     let data;
 
-    // ── Cas 1 : PDF uploadé → /recommend/cv ──────────────────────────────
     if (hasPDF && pdfFile) {
       const form = new FormData();
       form.append('file', pdfFile);
-      form.append('top_k', topK);
-      form.append('min_score', minScore);
-
-      const res = await fetch(`${API_BASE}/recommend/cv`, {
-        method: 'POST',
-        body: form,
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.detail || `Erreur serveur ${res.status}`);
-      }
+      form.append('top_k', String(topK));
+      form.append('min_score', String(minScore));
+      const res = await fetch(`${API_BASE}/recommend/cv`, { method:'POST', body: form });
+      if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.detail || `Erreur ${res.status}`); }
       data = await res.json();
-
-    // ── Cas 2 : Texte libre → /recommend ─────────────────────────────────
     } else {
       const user_text = [poste, comp].filter(Boolean).join(' — ');
       const res = await fetch(`${API_BASE}/recommend`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type':'application/json' },
         body: JSON.stringify({ user_text, top_k: topK, min_score: minScore }),
       });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.detail || `Erreur serveur ${res.status}`);
-      }
+      if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.detail || `Erreur ${res.status}`); }
       data = await res.json();
     }
 
@@ -1411,8 +1272,6 @@ async function runRecommendation() {
   } catch (err) {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('placeholder').style.display  = 'block';
-
-    // Message d'erreur clair selon le type
     if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
       toast('⚠️ API non joignable — lancez : uvicorn api:app --port 8000', 'error');
     } else {
@@ -1422,8 +1281,11 @@ async function runRecommendation() {
   }
 }
 
+document.getElementById('poste')?.addEventListener('keydown', e => { if (e.key === 'Enter') runRecommendation(); });
+
 /* ============================================================
-   RENDU DES RÉSULTATS (partagé texte + PDF)
+   RENDU DES RÉSULTATS
+   ✅ AJOUT : tooltip d'explication du score de matching
    ============================================================ */
 function renderResults(results) {
   document.getElementById('loadingState').style.display = 'none';
@@ -1435,60 +1297,116 @@ function renderResults(results) {
     return;
   }
 
-  document.getElementById('resultsGrid').style.display  = 'flex';
-  document.getElementById('resultsCount').textContent   = `${results.length} offres trouvées`;
-  document.getElementById('exportBtn').style.display    = 'inline-flex';
+  document.getElementById('resultsGrid').style.display = 'flex';
+  document.getElementById('resultsCount').textContent  = `${results.length} offres trouvées`;
+  document.getElementById('exportBtn').style.display   = 'inline-flex';
 
   const grid = document.getElementById('resultsGrid');
   grid.innerHTML = '';
 
   results.forEach((offer, i) => {
-    const pct    = Math.round((offer.score || 0) * 100);
-    // Le recommender retourne "localisation" — on harmonise
-    const lieu   = offer.localisation || offer.lieu || '—';
-    const contrat = offer.contrat || '—';
-    const remote  = offer.remote  || '—';
+    const pct     = Math.round((offer.score || 0) * 100);
+    const lieu    = offer.localisation || offer.lieu || '—';
+    const contrat = offer.contrat || null;
+    const remote  = offer.remote  || null;
     const tags    = offer.tags    || '';
+    const desc    = offer.description || '';
+    const salaire = offer.salaire_annuel_estime
+                    ? Math.round(offer.salaire_annuel_estime / 1000) + 'K€/an'
+                    : null;
+    const secteur = offer.categorie || offer.secteur || null;
+    const date    = offer.date_creation
+                    ? new Date(offer.date_creation).toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'})
+                    : null;
+    const hasLien = offer.lien && offer.lien !== 'None' && offer.lien !== '';
 
     const cClass = contratColors[contrat] || 'badge-gray';
     const rClass = remoteColors[remote]   || 'badge-gray';
+
     const tagsHtml = tags.split(',').map(t => t.trim()).filter(Boolean)
+      .slice(0,4)
       .map(t => `<span class="badge badge-gray" style="font-size:.62rem">${t}</span>`).join('');
 
-    // Objet normalisé pour saveJob
-    const offerNorm = { titre: offer.titre, entreprise: offer.entreprise,
-                        lieu, contrat, remote, score: offer.score, tags, lien: offer.lien };
+    const metaBadges = [
+      contrat ? `<span class="badge ${cClass}">${contrat}</span>` : '',
+      remote  ? `<span class="badge ${rClass}">${remote}</span>`  : '',
+      salaire ? `<span class="badge badge-amber">💶 ${salaire}</span>` : '',
+      secteur ? `<span class="badge badge-violet" style="font-size:.62rem">${secteur}</span>` : '',
+      date    ? `<span class="badge badge-gray" style="font-size:.60rem">📅 ${date}</span>` : '',
+    ].filter(Boolean).join('');
+
+    const descHtml = desc ? `
+      <details style="margin-top:10px">
+        <summary style="font-size:.76rem;opacity:.55;cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Voir la description
+        </summary>
+        <div style="margin-top:8px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);font-size:.78rem;line-height:1.65;opacity:.75;max-height:160px;overflow-y:auto;">
+          ${desc.substring(0,600)}${desc.length > 600 ? '…' : ''}
+        </div>
+      </details>` : '';
+
+    /* ── Couleur et label du matching ── */
+    const matchColor = pct >= 70 ? 'var(--accent-lime)' : pct >= 50 ? 'var(--accent-amber)' : 'var(--accent-rose)';
+    const matchLabel = pct >= 70 ? '🟢 Très bon matching' : pct >= 50 ? '🟡 Matching correct' : '🔴 Matching faible';
+    const matchTip   = pct >= 70
+      ? 'Votre profil correspond très bien à cette offre.'
+      : pct >= 50
+      ? 'Bon niveau de correspondance — quelques écarts mineurs.'
+      : 'Faible correspondance — certaines compétences manquent.';
+
+    const offerNorm = {
+      titre: offer.titre, entreprise: offer.entreprise,
+      lieu, contrat, remote, score: offer.score, tags, lien: offer.lien || ''
+    };
 
     const card = document.createElement('div');
     card.className = 'result-card';
     card.style.animationDelay = `${i * 60}ms`;
     card.innerHTML = `
       <div class="result-card-top">
-        <div>
+        <div style="flex:1;min-width:0">
           <div class="result-title">${offer.titre}</div>
           <div class="result-company">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-            ${offer.entreprise}
+            ${offer.entreprise || '—'}
             &nbsp;&nbsp;
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             ${lieu}
           </div>
         </div>
+
+        <!-- ✅ Score wrap avec tooltip -->
         <div class="score-wrap">
-          <div class="score-num">${pct}%</div>
-          <div class="score-bar"><div class="score-fill" style="width:${pct}%;animation:progress-grow .8s ${i*60+200}ms var(--ease-liquid) both"></div></div>
+          <div class="score-num" title="Survolez pour comprendre ce score">${pct}%</div>
+          <div class="score-bar">
+            <div class="score-fill" style="width:${pct}%;animation:progress-grow .8s ${i*60+200}ms var(--ease-liquid) both"></div>
+          </div>
+          <div class="score-tooltip">
+            <div style="font-size:0.74rem;font-weight:600;color:var(--accent-cyan);margin-bottom:6px">Score de similarité : ${pct}%</div>
+            <div style="margin-bottom:8px;opacity:.85">Calculé par <strong>similarité cosinus</strong> entre l'embedding de votre profil et celui de l'offre (modèle MiniLM-L12).</div>
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10)">
+              <span style="font-size:0.80rem">${matchLabel}</span>
+            </div>
+            <div style="margin-top:8px;opacity:.60;font-size:0.70rem">${matchTip}</div>
+            <div style="margin-top:6px;opacity:.40;font-size:0.68rem">💡 Un score ≥ 70% indique un excellent match.</div>
+          </div>
         </div>
       </div>
-      <div class="result-meta">
-        <span class="badge ${cClass}">${contrat}</span>
-        <span class="badge ${rClass}">${remote}</span>
+
+      <div class="result-meta" style="flex-wrap:wrap;gap:6px">
+        ${metaBadges}
         ${tagsHtml}
       </div>
-      <div class="result-actions">
-        <a href="${offer.lien}" class="glass-btn btn-primary btn-sm" target="_blank" rel="noopener">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Voir l'offre
-        </a>
+      ${descHtml}
+      <div class="result-actions" style="margin-top:10px">
+        ${hasLien
+          ? `<a href="${offer.lien}" class="glass-btn btn-primary btn-sm" target="_blank" rel="noopener">
+               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+               Voir l'offre
+             </a>`
+          : `<span class="badge badge-gray" style="font-size:.70rem;padding:6px 12px">📄 Offre sans lien externe</span>`
+        }
         <button class="glass-btn btn-ghost btn-sm" onclick="saveJob(${JSON.stringify(offerNorm).replace(/"/g,'&quot;')})">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
           Sauvegarder
@@ -1508,7 +1426,11 @@ function exportCSV() {
   const results = window._lastResults || [];
   if (!results.length) return;
   const header = ['Titre','Entreprise','Lieu','Contrat','Remote','Score','Tags','Lien'];
-  const rows = results.map(o => [o.titre, o.entreprise, o.lieu, o.contrat, o.remote, o.score, o.tags, o.lien].map(v => `"${v}"`).join(','));
+  const rows = results.map(o =>
+    [o.titre, o.entreprise, o.lieu, o.contrat, o.remote, o.score, o.tags, o.lien]
+    .map(v => `"${v || ''}"`)
+    .join(',')
+  );
   const csv = [header.join(','), ...rows].join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
@@ -1518,45 +1440,151 @@ function exportCSV() {
 }
 
 /* ============================================================
-   POWER BI
+   DASHBOARD — Chart.js
+   ✅ MODIFIÉ : chartMois → chartRadar (Radar compétences)
    ============================================================ */
-function loadPBI() {
-  const url = document.getElementById('pbiInput').value.trim();
-  if (!url || !url.startsWith('http')) { toast('URL Power BI invalide', 'error'); return; }
-  document.getElementById('pbiPlaceholder').style.display = 'none';
-  const frame = document.getElementById('pbiFrame');
-  frame.src = url;
-  frame.style.display = 'block';
-  document.getElementById('pbiUrlDisplay').textContent = url;
-  toast('Dashboard Power BI chargé', 'success');
-}
-function openPBI() {
-  const url = document.getElementById('pbiInput').value.trim() || document.getElementById('pbiFrame').src;
-  if (url && url.startsWith('http')) window.open(url, '_blank');
+let dashCharts = {};
+
+const CHART_COLORS = [
+  'rgba(94,231,223,0.80)', 'rgba(180,144,245,0.80)', 'rgba(255,210,127,0.80)',
+  'rgba(247,168,196,0.80)', 'rgba(168,240,138,0.80)', 'rgba(99,179,237,0.80)',
+  'rgba(252,129,74,0.80)', 'rgba(154,230,180,0.80)', 'rgba(237,137,54,0.80)', 'rgba(129,140,248,0.80)',
+];
+
+const CHART_DEFAULTS = {
+  plugins: {
+    legend: { labels: { color:'rgba(255,255,255,0.70)', font:{ family:'DM Sans', size:12 } } },
+    tooltip: { backgroundColor:'rgba(0,0,0,0.75)', titleFont:{ family:'Syne' }, bodyFont:{ family:'DM Sans' } }
+  },
+  scales: {
+    x: { ticks:{ color:'rgba(255,255,255,0.55)', font:{ family:'DM Sans', size:11 } }, grid:{ color:'rgba(255,255,255,0.06)' } },
+    y: { ticks:{ color:'rgba(255,255,255,0.55)', font:{ family:'DM Sans', size:11 } }, grid:{ color:'rgba(255,255,255,0.06)' } }
+  }
+};
+
+function destroyChart(id) {
+  if (dashCharts[id]) { dashCharts[id].destroy(); delete dashCharts[id]; }
 }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
-function toast(msg, type = 'success') {
-  const region = document.getElementById('toastRegion');
-  const el = document.createElement('div');
-  el.className = `toast toast-${type}`;
-  const icons = { success:'✓', error:'✕' };
-  el.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ'}</span><span class="toast-body">${msg}</span><span class="toast-close">✕</span>`;
-  region.appendChild(el);
-  const dismiss = () => {
-    el.classList.add('is-out');
-    el.addEventListener('animationend', () => el.remove(), {once:true});
-  };
-  el.addEventListener('click', dismiss);
-  setTimeout(dismiss, 3500);
-}
+async function loadDashboard() {
+  const loadingEl = document.getElementById('dashLoading');
+  if (loadingEl) loadingEl.style.display = 'block';
+  try {
+    const res = await fetch(`${API_BASE}/dashboard`);
+    if (!res.ok) throw new Error('API non joignable');
+    const d = await res.json();
 
-/* ============================================================
-   ENTER KEY ON RECOMMENDATION FORM
-   ============================================================ */
-document.getElementById('poste')?.addEventListener('keydown', e => { if(e.key==='Enter') runRecommendation(); });
+    if (loadingEl) loadingEl.style.display = 'none';
+
+    document.getElementById('dashTotal').textContent      = d.total.toLocaleString('fr-FR');
+    document.getElementById('dashKpiTotal').textContent   = d.total.toLocaleString('fr-FR');
+    document.getElementById('dashKpiSources').textContent = Object.keys(d.sources).length;
+    document.getElementById('dashKpiPostes').textContent  = Object.keys(d.postes).length;
+    const remotePct = d.remote?.Remote
+      ? Math.round(d.remote.Remote / d.total * 100) + '%' : '—';
+    document.getElementById('dashKpiRemote').textContent = remotePct;
+
+    /* Offres par source */
+    destroyChart('sources');
+    dashCharts['sources'] = new Chart(document.getElementById('chartSources'), {
+      type: 'bar',
+      data: { labels: Object.keys(d.sources), datasets: [{ data: Object.values(d.sources), backgroundColor: CHART_COLORS, borderRadius:8, borderSkipped:false }] },
+      options: { ...CHART_DEFAULTS, indexAxis:'y', plugins:{ ...CHART_DEFAULTS.plugins, legend:{ display:false } } }
+    });
+
+    /* Types de contrat */
+    destroyChart('contrats');
+    dashCharts['contrats'] = new Chart(document.getElementById('chartContrats'), {
+      type: 'doughnut',
+      data: { labels: Object.keys(d.contrats), datasets: [{ data: Object.values(d.contrats), backgroundColor: CHART_COLORS, borderWidth:2, borderColor:'rgba(0,0,0,0.3)' }] },
+      options: { plugins:{ ...CHART_DEFAULTS.plugins, legend:{ position:'right', labels:{ color:'rgba(255,255,255,0.70)', font:{ family:'DM Sans', size:11 }, padding:12 } } }, cutout:'65%' }
+    });
+
+    /* Top postes */
+    destroyChart('postes');
+    dashCharts['postes'] = new Chart(document.getElementById('chartPostes'), {
+      type: 'bar',
+      data: { labels: Object.keys(d.postes), datasets: [{ data: Object.values(d.postes), backgroundColor: CHART_COLORS, borderRadius:6, borderSkipped:false }] },
+      options: { ...CHART_DEFAULTS, indexAxis:'y', plugins:{ ...CHART_DEFAULTS.plugins, legend:{ display:false } } }
+    });
+
+    /* Top compétences */
+    destroyChart('competences');
+    dashCharts['competences'] = new Chart(document.getElementById('chartCompetences'), {
+      type: 'bar',
+      data: { labels: Object.keys(d.competences), datasets: [{ data: Object.values(d.competences), backgroundColor: CHART_COLORS, borderRadius:6 }] },
+      options: { ...CHART_DEFAULTS, plugins:{ ...CHART_DEFAULTS.plugins, legend:{ display:false } }, scales:{ ...CHART_DEFAULTS.scales, x:{ ...CHART_DEFAULTS.scales.x, ticks:{ ...CHART_DEFAULTS.scales.x.ticks, maxRotation:35, minRotation:25 } } } }
+    });
+
+    /* ✅ NOUVEAU : Radar des compétences (remplace l'évolution par mois) */
+    destroyChart('radar');
+    const radarLabels = Object.keys(d.competences).slice(0, 8);
+    const radarData   = radarLabels.map(k => d.competences[k]);
+    const radarMax    = Math.max(...radarData);
+    dashCharts['radar'] = new Chart(document.getElementById('chartRadar'), {
+      type: 'radar',
+      data: {
+        labels: radarLabels,
+        datasets: [{
+          label: 'Offres mentionnant la compétence',
+          data: radarData,
+          backgroundColor: 'rgba(180,144,245,0.18)',
+          borderColor: 'rgba(180,144,245,0.90)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(94,231,223,1)',
+          pointBorderColor: 'rgba(94,231,223,0.40)',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(94,231,223,1)',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          r: {
+            min: 0,
+            max: radarMax,
+            ticks: {
+              display: false,
+              backdropColor: 'transparent',
+            },
+            grid:        { color: 'rgba(255,255,255,0.10)' },
+            angleLines:  { color: 'rgba(255,255,255,0.14)' },
+            pointLabels: {
+              color: 'rgba(255,255,255,0.72)',
+              font:  { family: 'DM Sans', size: 11, weight: '400' },
+              padding: 8,
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.80)',
+            titleFont: { family: 'Syne', size: 13 },
+            bodyFont:  { family: 'DM Sans', size: 12 },
+            padding: 12,
+            callbacks: {
+              label: ctx => ` ${ctx.raw.toLocaleString('fr-FR')} offres mentionnent cette compétence`
+            }
+          }
+        }
+      }
+    });
+
+    /* Remote vs sur site */
+    destroyChart('remote');
+    dashCharts['remote'] = new Chart(document.getElementById('chartRemote'), {
+      type: 'pie',
+      data: { labels: Object.keys(d.remote), datasets: [{ data: Object.values(d.remote), backgroundColor:['rgba(168,240,138,0.80)','rgba(180,144,245,0.80)','rgba(94,231,223,0.80)'], borderWidth:2, borderColor:'rgba(0,0,0,0.3)' }] },
+      options: { plugins:{ ...CHART_DEFAULTS.plugins, legend:{ position:'bottom', labels:{ color:'rgba(255,255,255,0.70)', font:{ family:'DM Sans', size:11 }, padding:14 } } } }
+    });
+
+  } catch(e) {
+    if (loadingEl) loadingEl.textContent = '⚠ API non joignable — lancez uvicorn pour voir le dashboard.';
+  }
+}
 
 /* ============================================================
    SAVED JOBS — localStorage
@@ -1567,12 +1595,10 @@ function getSaved() {
   try { return JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'); }
   catch { return []; }
 }
-
 function setSaved(arr) {
   localStorage.setItem(SAVED_KEY, JSON.stringify(arr));
   updateSavedBadge();
 }
-
 function updateSavedBadge() {
   const badge = document.getElementById('navSavedBadge');
   if (!badge) return;
@@ -1582,8 +1608,8 @@ function updateSavedBadge() {
 
 function saveJob(offer) {
   const saved = getSaved();
-  const alreadySaved = saved.some(o => o.lien === offer.lien && o.titre === offer.titre);
-  if (alreadySaved) { toast('Offre déjà dans vos favoris', 'error'); return; }
+  const already = saved.some(o => o.lien === offer.lien && o.titre === offer.titre);
+  if (already) { toast('Offre déjà dans vos favoris', 'error'); return; }
   offer._savedAt = new Date().toLocaleDateString('fr-FR');
   saved.unshift(offer);
   setSaved(saved);
@@ -1609,7 +1635,10 @@ function exportSavedCSV() {
   const saved = getSaved();
   if (!saved.length) { toast('Aucune offre à exporter', 'error'); return; }
   const header = ['Titre','Entreprise','Lieu','Contrat','Remote','Score','Tags','Lien','Sauvegardé le'];
-  const rows = saved.map(o => [o.titre,o.entreprise,o.lieu,o.contrat,o.remote,o.score,o.tags,o.lien,o._savedAt||''].map(v=>`"${v||''}"`).join(','));
+  const rows = saved.map(o =>
+    [o.titre,o.entreprise,o.lieu,o.contrat,o.remote,o.score,o.tags,o.lien,o._savedAt||'']
+    .map(v => `"${v||''}"`).join(',')
+  );
   const csv = [header.join(','), ...rows].join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
@@ -1629,28 +1658,24 @@ function renderSavedGrid() {
         <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
         <div class="saved-empty-title">Aucune offre sauvegardée</div>
         <div class="saved-empty-sub">Cliquez sur "Sauvegarder" depuis la page Recommandation pour retrouver vos offres ici.</div>
-        <button class="glass-btn btn-primary btn-sm" style="margin-top:20px" onclick="goTo('reco')">
-          Aller aux recommandations
-        </button>
+        <button class="glass-btn btn-primary btn-sm" style="margin-top:20px" onclick="goTo('reco')">Aller aux recommandations</button>
       </div>`;
     return;
   }
 
   grid.innerHTML = saved.map((o, i) => {
-    // Sécurisation de toutes les valeurs potentiellement null/undefined
-    const titre    = o.titre    || 'Sans titre';
+    const titre      = o.titre    || 'Sans titre';
     const entreprise = o.entreprise || '—';
-    const lieu     = o.lieu     || o.localisation || '—';
-    const contrat  = o.contrat  || '—';
-    const remote   = o.remote   || '—';
-    const lien     = o.lien     || '#';
-    const tags_str = o.tags     || '';
-    const pct      = Math.round((o.score || 0) * 100);
-
+    const lieu       = o.lieu     || o.localisation || '—';
+    const contrat    = o.contrat  || '—';
+    const remote     = o.remote   || '—';
+    const lien       = o.lien     || '#';
+    const tags_str   = o.tags     || '';
+    const pct        = Math.round((o.score || 0) * 100);
     const contratMap = { 'CDI':'badge-lime','CDD':'badge-amber','Alternance':'badge-violet','Stage':'badge-cyan','Freelance':'badge-rose' };
     const cClass = contratMap[contrat] || 'badge-violet';
-    const tags = tags_str.split(',').filter(Boolean).slice(0,3).map(t=>`<span class="badge badge-violet">${t.trim()}</span>`).join('');
-
+    const tags = tags_str.split(',').filter(Boolean).slice(0,3)
+      .map(t => `<span class="badge badge-violet">${t.trim()}</span>`).join('');
     const lienSafe  = lien.replace(/'/g,"\\'");
     const titreSafe = titre.replace(/'/g,"\\'");
 
@@ -1681,7 +1706,7 @@ function renderSavedGrid() {
   }).join('');
 }
 
-// Initialisation au chargement
+// Init
 updateSavedBadge();
 </script>
 </body>

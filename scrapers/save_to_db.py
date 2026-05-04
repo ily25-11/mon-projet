@@ -74,25 +74,25 @@ def sauvegarder_en_db():
 
     # 1. Chargement CSV fusionné
     if not os.path.exists(INPUT_PATH):
-        print(f"[save_to_db] ❌ Fichier introuvable : {INPUT_PATH}")
+        print(f"[save_to_db]  Fichier introuvable : {INPUT_PATH}")
         return 0
 
     df = pd.read_csv(INPUT_PATH, low_memory=False)
 
     if df.empty:
-        print("[save_to_db] ⚠️  CSV vide, rien à insérer")
+        print("[save_to_db]   CSV vide, rien à insérer")
         return 0
 
-    print(f"[save_to_db] 📂 {len(df)} offres à insérer")
+    print(f"[save_to_db]  {len(df)} offres à insérer")
 
     # 2. Connexion PostgreSQL
     try:
         conn = psycopg2.connect(**DB_CONFIG)
         conn.autocommit = False
         cur = conn.cursor()
-        print("[save_to_db] ✅ Connexion DB OK")
+        print("[save_to_db]  Connexion DB OK")
     except Exception as e:
-        print(f"[save_to_db] ❌ Connexion DB échouée : {e}")
+        print(f"[save_to_db]  Connexion DB échouée : {e}")
         return 0
 
     try:
@@ -116,12 +116,12 @@ def sauvegarder_en_db():
         cur.execute("SELECT COUNT(*) FROM offres_emploi;")
         total_db = cur.fetchone()[0]
 
-        print(f"[save_to_db] ✅ Insertion OK — total en DB : {total_db}")
+        print(f"[save_to_db]  Insertion OK — total en DB : {total_db}")
         return len(lignes)
 
     except Exception as e:
         conn.rollback()
-        print(f"[save_to_db] ❌ Erreur insertion : {e}")
+        print(f"[save_to_db]  Erreur insertion : {e}")
         return 0
 
     finally:

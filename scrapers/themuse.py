@@ -162,7 +162,7 @@ def scraper_themuse(
 ) -> list[dict]:
     """
     Point d'entrée principal — compatible DAG Airflow.
-    ✅ Scrape uniquement les catégories IT/Data.
+     Scrape uniquement les catégories IT/Data.
     """
     if categories is None:
         categories = CATEGORIES

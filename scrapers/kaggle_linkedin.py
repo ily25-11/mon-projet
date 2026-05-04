@@ -36,10 +36,10 @@ def scraper_kaggle_linkedin():
 
     # 1. Chargement job_postings.csv
     if not os.path.exists(INPUT_POSTINGS):
-        print(f"❌ Fichier introuvable : {INPUT_POSTINGS}")
+        print(f" Fichier introuvable : {INPUT_POSTINGS}")
         return []
 
-    print(f"📂 Chargement job_postings.csv...")
+    print(f" Chargement job_postings.csv...")
     df = pd.read_csv(INPUT_POSTINGS, low_memory=False)
     print(f"   → {len(df)} lignes brutes")
 
@@ -49,13 +49,13 @@ def scraper_kaggle_linkedin():
 
     # 3. Merge avec job_skills si disponible
     if os.path.exists(INPUT_SKILLS):
-        print(f"📂 Chargement job_skills.csv...")
+        print(f" Chargement job_skills.csv...")
         df_skills = pd.read_csv(INPUT_SKILLS, low_memory=False)
         df = df.merge(df_skills, on="job_link", how="left")
         print(f"   → Merge skills OK")
     else:
         df["job_skills"] = None
-        print(f"⚠️  job_skills.csv introuvable, skills ignorés")
+        print(f"  job_skills.csv introuvable, skills ignorés")
 
     # 4. Normalisation vers le format standard
     offres = []
@@ -106,18 +106,18 @@ def scraper_kaggle_linkedin():
         })
 
     if not offres:
-        print("⚠️ Aucune offre après normalisation")
+        print(" Aucune offre après normalisation")
         return []
 
     df_out = pd.DataFrame(offres)
 
     avant = len(df_out)
     df_out.drop_duplicates(subset=["hash_id"], inplace=True)
-    print(f"📊 Dedup : {avant} → {len(df_out)}")
+    print(f" Dedup : {avant} → {len(df_out)}")
 
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     df_out.to_csv(OUTPUT_PATH, index=False, encoding="utf-8")
-    print(f"💾 Sauvegardé : {len(df_out)} offres → {OUTPUT_PATH}")
+    print(f" Sauvegardé : {len(df_out)} offres → {OUTPUT_PATH}")
 
     return df_out.to_dict("records")
 

@@ -13,7 +13,7 @@ SOURCES = {
     "themuse":          f"{DATA_DIR}/offres_themuse.csv",
     "remotive":         f"{DATA_DIR}/offres_remotive.csv",
     "serpapi":          f"{DATA_DIR}/offres_serpapi.csv",
-    "kaggle_linkedin":  f"{DATA_DIR}/offres_kaggle_linkedin.csv",  # ✅ NOUVEAU
+    "kaggle_linkedin":  f"{DATA_DIR}/offres_kaggle_linkedin.csv",  
 }
 
 COLONNES_STANDARD = [
@@ -34,24 +34,24 @@ def charger_source(nom, chemin):
     - Pour les autres : ignore les CSV d'un run précédent (données périmées)
     """
     if not os.path.exists(chemin):
-        print(f"[fusion] ⚠️  manquant        : {nom}")
+        print(f"[fusion]  manquant        : {nom}")
         return None
 
     # Le dataset Kaggle est statique, pas besoin de vérifier la date
     if nom != "kaggle_linkedin":
         mtime = datetime.fromtimestamp(os.path.getmtime(chemin)).date()
         if mtime < date.today():
-            print(f"[fusion] ⚠️  périmé ({mtime})  : {nom} — ignoré")
+            print(f"[fusion]   périmé ({mtime})  : {nom} — ignoré")
             return None
 
     try:
         df = pd.read_csv(chemin, low_memory=False)
     except Exception as e:
-        print(f"[fusion] ❌ erreur lecture    : {nom} — {e}")
+        print(f"[fusion]  erreur lecture    : {nom} — {e}")
         return None
 
     if df.empty:
-        print(f"[fusion] ⚠️  vide             : {nom}")
+        print(f"[fusion]   vide             : {nom}")
         return None
 
     # Force la colonne source
@@ -67,7 +67,7 @@ def charger_source(nom, chemin):
         )
 
     mtime_str = datetime.fromtimestamp(os.path.getmtime(chemin)).date()
-    print(f"[fusion] ✅ chargé ({mtime_str})    : {nom} — {len(df)} lignes")
+    print(f"[fusion]  chargé ({mtime_str})    : {nom} — {len(df)} lignes")
     return df
 
 
@@ -177,7 +177,7 @@ def fusionner_offres():
             dfs.append(df)
 
     if not dfs:
-        raise Exception("❌ Aucune source valide pour aujourd'hui")
+        raise Exception(" Aucune source valide pour aujourd'hui")
 
     df_all = pd.concat(dfs, ignore_index=True)
     print(f"\n[fusion] Total brut (avant dedup) : {len(df_all)}")
